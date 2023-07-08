@@ -1,4 +1,6 @@
-import './assets/main.css'
+import './assets/css/theme.bundle.css'
+import './assets/css/theme.rtl.bundle.css'
+
 
 import { createApp } from 'vue'
 import App from './App.vue'
