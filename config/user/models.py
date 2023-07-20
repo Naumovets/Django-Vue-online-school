@@ -23,6 +23,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     username = None
+    image = models.ImageField(upload_to='users/', verbose_name='Фотография профиля', blank=True, null=True)
     first_name = models.CharField(max_length=60, verbose_name='Имя')
     last_name = models.CharField(max_length=60, verbose_name='Фамилия')
     email = models.EmailField(unique=True, verbose_name='Почта')
@@ -56,3 +57,6 @@ class CustomUser(AbstractUser):
             raise ValidationError("Введите имя")
         if self.last_name == "":
             raise ValidationError("Введите фамилию")
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name

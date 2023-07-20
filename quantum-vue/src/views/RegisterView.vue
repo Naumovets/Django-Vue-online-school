@@ -1,9 +1,18 @@
 <script setup>
-    import { ref, reactive, computed } from 'vue'
-    import { useFetch } from '@vueuse/core'
+    import { ref, reactive } from 'vue'
+    import { isAuthorized } from '../modules/login.js'
+    import { onBeforeMount } from 'vue'
+    import axios from 'axios'
+    import Footer from '../components/footer.vue'
+    import { useRouter } from 'vue-router';
 
-    const name = ref('')
+    const router = useRouter();
+    const first_name = ref('')
+    const last_name = ref('')
     const email = ref('')
+    const tel = ref('')
+    const link = ref('')
+    const info = ref('')
     const password = reactive({
         value: '',
         type: 'password'
@@ -26,11 +35,57 @@
         return password.value === repeatPassword.value
     }
 
-    function send_data(){
-        if (comparePassword() & name.value !== '' & email !== '' & agree !== false){
-
+    function register(){
+        if(!comparePassword()){
+            info.value = 'Пароли должны совпадать!'
+        }
+        else if(first_name.value == ''){
+            info.value = 'Введите имя!'
+        }
+        else if(last_name.value == ''){
+            info.value = 'Введите фамилию!'
+        }
+        else if(email == ''){
+            info.value = 'Введите email!'
+        }
+        else if(!agree){
+            info.value = 'Вы должны принять политику обработки персональных данных!'
+        }
+        else if(tel.value == ''){
+            info.value = 'Введите номер телефона!'
+        }
+        else if(link.value == ''){
+            info.value = 'Введите ссылку на свой вк профиль!'
+        }
+        else{ 
+            let form_data = new FormData();
+            form_data.append('email', email.value);
+            form_data.append('password', password.value)
+            form_data.append('tel', tel.value)
+            form_data.append('first_name', first_name.value)
+            form_data.append('last_name', last_name.value)
+            form_data.append('vk_link', link.value)
+            axios({
+            url: 'http://127.0.0.1:8000/api/v1/user/users/',
+            method: 'post',
+            data: form_data,
+            headers:{'Content-Type':'multipart/form-data'}
+            })
+            .then(function(response){
+            if(response.status == 201){
+                    router.push('/login');
+            }})
+            .catch(function(error){
+                info.value = error.response.data.email[0];
+            })
         }
     }
+
+    onBeforeMount(() => {
+        isAuthorized()
+    });
+
+
 
 </script>
 
@@ -38,7 +93,7 @@
     <!-- MAIN CONTENT -->
     <main class="container">
         <div class="row align-items-center justify-content-center vh-100">
-            <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3 py-6">
+            <div class="col-11 col-md-8 col-lg-6 col-xl-5 col-xxl-4 py-6">
 
                 <!-- Title -->
                 <h1 class="mb-2 text-center">
@@ -51,9 +106,9 @@
                 </p>
 
                 <!-- Form -->
-                <form>
+                <form @submit.prevent="register">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <div class="mb-4">
 
                                 <!-- Label -->
@@ -62,7 +117,46 @@
                                 </label>
 
                                 <!-- Input -->
-                                <input v-model='name' type="text" class="form-control" placeholder="Даниил" required>
+                                <input v-model='first_name' type="text" class="form-control" placeholder="Имя" required>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="mb-4">
+
+                                <!-- Label -->
+                                <label class="form-label">
+                                    Фамилия
+                                </label>
+
+                                <!-- Input -->
+                                <input v-model='last_name' type="text" class="form-control" placeholder="Фамилия" required>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="mb-4">
+
+                                <!-- Label -->
+                                <label class="form-label">
+                                    Телефон
+                                </label>
+
+                                <!-- Input -->
+                                <input v-model='tel' type="phone" class="form-control" placeholder="+79998883322" required>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="mb-4">
+
+                                <!-- Label -->
+                                <label class="form-label">
+                                    Ссылка на ВК
+                                </label>
+
+                                <!-- Input -->
+                                <input v-model='link' type="text" class="form-control" placeholder="https://vk.com/id1" required>
                             </div>
                         </div>
                         
@@ -126,11 +220,17 @@
                         </label>
                     </div>
 
+                    <div v-if="info" class="alert alert-danger" role="alert">
+
+                        {{ info }}
+                    
+                    </div>
+
                     <div class="row align-items-center text-center">
                         <div class="col-12">
 
                             <!-- Button -->
-                            <button type="button" class="btn w-100 btn-primary mt-6 mb-2">Зарегистрироваться</button>
+                            <button type="submit" class="btn w-100 btn-primary mt-6 mb-2">Зарегистрироваться</button>
                         </div>
 
                         <div class="col-12">
@@ -142,5 +242,6 @@
                 </form>
             </div>
         </div> <!-- / .row -->
+        <Footer />
     </main> <!-- / main -->
 </template>

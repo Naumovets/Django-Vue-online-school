@@ -3,12 +3,16 @@
   import axios from 'axios'
   import VueCookies from 'vue-cookies'
   import { useRouter } from 'vue-router';
-  
+  import { isAuthorized } from '../modules/login.js'
+  import Footer from '../components/footer.vue'
+  import { onBeforeMount } from 'vue'
+
   const router = useRouter();
-  const username = ref('')
+  const email = ref('')
   const password = ref('')
   const passwordType = ref('password')
   const rememberMe = ref(false)
+  const info = ref('')
 
   function showPassword(){
     if (passwordType.value === 'password'){
@@ -18,12 +22,12 @@
     }
   }
 
-  const url = 'http://127.0.0.1:8000/api/v1/user/auth/token/login'
 
-  let form_data = new FormData();
   function login(){
-    if(password.value !== '' & username.value !== ''){
-        form_data.append('username', username.value);
+    const url = 'http://127.0.0.1:8000/api/v1/user/auth/token/login'
+    let form_data = new FormData();
+    if(password.value !== '' & email.value !== ''){
+        form_data.append('email', email.value);
         form_data.append('password', password.value)
         axios({
           url: url,
@@ -31,33 +35,33 @@
           data: form_data,
           headers:{'Content-Type':'multipart/form-data'}
         })
-        .then(function (response) {
+        .then(function(response){
           if(response.status == 200){
             if(rememberMe){
               VueCookies.set('Authorization' , 'Token ' + response.data.auth_token, "12m") 
             }else{
               VueCookies.set('Authorization' , 'Token ' + response.data.auth_token, "14d") 
             }
-            router.push('/success');
-          }
-          else{
-            
-          }
-          
-
-        });
+            router.push('/profile');
+          }})
+          .catch(function(error){
+            info.value = error.response.data.non_field_errors[0];
+          })
     }else{
-      alert('Введите логин и пароль')
+      alert('Введите e-mail и пароль')
     }
-    
   }
 
+  onBeforeMount(()=>{
+    isAuthorized()
+  });
+  
 
 </script>
 
 <template>
       <!-- MAIN CONTENT -->
-      <main class="container">
+    <main class="container">
         <div class="row align-items-center justify-content-center vh-100">
             <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3 py-6">
 
@@ -68,22 +72,21 @@
 
                 <!-- Subtitle -->
                 <p class="text-secondary text-center">
-                    Введите имя пользователя и пароль
+                    Введите e-mail и пароль
                 </p>
-
                 <!-- Form -->
-                <form @submit.prevent="login" id="form">
+                <form @submit.prevent="login">
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-4">
 
                                 <!-- Label -->
                                 <label class="form-label">
-                                    Имя пользователя
+                                    e-mail
                                 </label>
 
                                 <!-- Input -->
-                                <input v-model='username' type="text" class="form-control" placeholder="username" required>
+                                <input v-model='email' type="email" class="form-control" placeholder="username@mail.ru" required>
                             </div>
                         </div>
 
@@ -127,6 +130,12 @@
                         </label>
                     </div>
 
+                    <div v-if="info" class="alert alert-danger" role="alert">
+
+                      {{ info }}
+                  
+                    </div>
+
                     <div class="row align-items-center text-center">
                         <div class="col-12">
 
@@ -144,5 +153,6 @@
                 </form>
             </div>
         </div> <!-- / .row -->
+        <Footer />
     </main> <!-- / main -->
 </template>

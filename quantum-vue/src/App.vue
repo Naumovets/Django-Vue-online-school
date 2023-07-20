@@ -1,15 +1,12 @@
 <script setup>
-import { RouterLink, RouterView, useRouter } from 'vue-router'
-
-
-
+import {RouterView} from 'vue-router'
+import './assets/js/theme.bundle.js'
 </script>
 
 <template>
-  <div class="d-flex align-items-center bg-light-green">
-    <RouterView />
-  </div>
+  <RouterView />
 </template>
 
 <style scoped>
 </style>
+

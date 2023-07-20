@@ -18,6 +18,5 @@ def check_token(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def profile_view(request):
-
     user = CustomUserSerializer(request.user)
-    return Response({'data': user.data})
+    return Response(user.data)
