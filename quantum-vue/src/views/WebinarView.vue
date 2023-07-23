@@ -19,7 +19,7 @@
     onBeforeMount(() => {
         checklogin()
         axios({
-            url: `http://127.0.0.1:8000/api/v1/order/webinar/${code}`,
+            url: `http://127.0.0.1:8000/api/v1/course/webinar/${code}`,
             method: 'get',
             headers: {'Authorization': VueCookies.get('Authorization')}
         })
@@ -110,13 +110,13 @@
                                 </ol>
                             </div>
                             <div class="col-md-4 col-12 p-5">
-                                <h3>Файлы</h3>
+                                <h3 v-if="webinar.files" >Файлы</h3>
                                 <ol class="list-group list-group-numbered w-100">
                                     <template v-for="file in webinar.files">
                                         <a :href="'http://127.0.0.1:8000'+file.file_of_webinar" class="list-group-item list-group-item-action" target="_blank">{{file.title}}</a>
                                     </template>
                                 </ol>
-                                <h3 class="mt-5">Тест</h3>
+                                <h3 v-if="webinar.tasks" class="mt-5">Тест</h3>
                                 <ol class="list-group w-100">
                                     <template v-for="task in webinar.tasks">
                                         <li class="list-group-item">

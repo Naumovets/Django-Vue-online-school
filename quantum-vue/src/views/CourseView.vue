@@ -19,7 +19,7 @@
     onBeforeMount(() => {
         checklogin()
         axios({
-            url: `http://127.0.0.1:8000/api/v1/order/${slug}`,
+            url: `http://127.0.0.1:8000/api/v1/course/${slug}`,
             method: 'get',
             headers: {'Authorization': VueCookies.get('Authorization')}
         })
@@ -89,7 +89,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item">
+                                    <li v-if="orderItem.course.chat" class="list-group-item">
                                         <div class="d-flex justify-content-between">
                                             <span>Беседа в VK</span>
                                             <div class="col-9 d-flex align-items-center justify-content-end">
@@ -108,6 +108,7 @@
                                         <template v-for="webinar in orderItem.webinars" :key="webinar.id">
                                             <RouterLink :to="'/webinar/' + webinar.code" class="list-group-item list-group-item-action">{{webinar.title}}</RouterLink>
                                         </template>
+                                        <span v-if="!orderItem.webinars">Пока ничего нет</span>
                                     </div>
                             </div>
                         </div>

@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from cart.models import CartItem
 from course.models import Exam, Course, Webinar, Subject
-from order.models import OrderItem, Order
+from order.models import OrderItem, Order, ConfirmedCourse
 
 
 class ExamSerializer(serializers.ModelSerializer):
@@ -137,3 +137,58 @@ class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = '__all__'
+
+
+class ConfirmedCourseSerializer(serializers.ModelSerializer):
+    course = serializers.SerializerMethodField()
+    curator = serializers.SerializerMethodField()
+    webinars = serializers.SerializerMethodField()
+
+    def get_curator(self, obj):
+        curator = obj.curator
+        if curator:
+            return {
+                'first_name': curator.user.first_name,
+                'last_name': curator.user.last_name,
+                'image': curator.user.image.url if curator.user.image else None,
+                'vk_link': curator.user.vk_link
+            }
+        return None
+
+    def get_course(self, obj):
+        course = obj.course
+        if course:
+            return {'id': course.id,
+                    'title': course.title,
+                    'slug': course.slug,
+                    'subject': course.subject.title,
+                    'exam': str(course.subject.exam),
+                    'status': course.get_status_display(),
+                    'chat': course.chat,
+                    'image': course.image.url,
+                    'description': course.description,
+                    'teacher': {'first_name': course.teacher.first_name,
+                                'last_name': course.teacher.last_name,
+                                'image': course.teacher.image.url,
+                                'vk_link': course.teacher.vk_link},
+                    'price': course.price
+                    }
+        return None
+
+    def get_webinars(self, obj):
+        webinars = obj.course.webinars.all()
+        if webinars:
+            return [
+                {
+                    'id': webinar.id,
+                    'title': webinar.title,
+                    'code': webinar.code_of_translation
+                }
+                for webinar in webinars
+            ]
+        else:
+            return None
+
+    class Meta:
+        exclude = 'user',
+        model = ConfirmedCourse
