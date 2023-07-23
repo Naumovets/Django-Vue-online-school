@@ -52,6 +52,65 @@
         })
     }
 
+    // function addOrderItem(error_promocode, promocode){
+    //     if(error_promocode){
+    //         axios({
+    //             url: 'http://127.0.0.1:8000/api/v1/order/add_order_items/',
+    //             headers: { 'Authorization': VueCookies.get('Authorization') },
+    //             method: 'post',
+    //         })
+    //         .then(function (response) {
+    //             getCart()
+    //         })
+    //         .catch(function(error){
+    //             alert('Что-то пошло не так, заявите об этом в поддержку!')
+    //         })
+    //     }else{
+    //         axios({
+    //             url: `http://127.0.0.1:8000/api/v1/order/add_order_items/${promocode}`,
+    //             headers: { 'Authorization': VueCookies.get('Authorization') },
+    //             method: 'post',
+    //         })
+    //         .then(function (response) {
+    //             getCart()
+    //         })
+    //         .catch(function(error){
+    //             alert('Что-то пошло не так, заявите об этом в поддержку!')
+    //         })
+    //     }
+    // }
+
+    function addOrderItems(){
+        if(!data.value.error){
+            // `http://127.0.0.1:8000/api/v1/order/add_order_items/${promocode.value}`
+            axios.post(`http://127.0.0.1:8000/api/v1/order/add_order_items/${promocode.value}`, jsonCartItem.value, {
+                headers: {
+                    'Authorization': VueCookies.get('Authorization'),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(function (response) {
+                getCart()
+            })
+            .catch(function(error){
+                alert('Что-то пошло не так, заявите об этом в поддержку!')
+            })
+        }else{
+            axios.post('http://127.0.0.1:8000/api/v1/order/add_order_items/', jsonCartItem.value, {
+                headers: {
+                    'Authorization': VueCookies.get('Authorization'),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(function (response) {
+                getCart()
+            })
+            .catch(function(error){
+                alert('Что-то пошло не так, заявите об этом в поддержку!')
+            })
+        }
+    }
+
     checklogin();
     getCart()
 
@@ -149,10 +208,9 @@
                             <hr>
                             <span class="mb-2 form-label">Итого:</span>
                             <div class="d-flex align-items-center justify-content-between">
-                                <span>{{data.value.price_with_discount}} ₽</span>
-                                <button type="button" class="btn btn-outline-primary">Оплатить</button>
+                                <span>{{data.value.result_price}} ₽</span>
+                                <button :disabled="courses.length==0" @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

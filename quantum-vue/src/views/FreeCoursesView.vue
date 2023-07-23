@@ -8,7 +8,7 @@
     import Footer from '../components/footer.vue'
     import axios from 'axios'
     import VueCookies from 'vue-cookies'
-import { get } from '@vueuse/core'
+    import { get } from '@vueuse/core'
 
     const isAuthenticated = ref(false)
     const data = ref();
@@ -78,6 +78,20 @@ import { get } from '@vueuse/core'
         getCourses();
     }); 
 
+    function addFreeCourseOrderItem(id){
+        axios({
+            url: `http://127.0.0.1:8000/api/v1/order/add_free_course/${id}`,
+            method: 'post',
+            headers: { 'Authorization': VueCookies.get('Authorization') },
+        })
+        .then(function (response) {
+            getCourses();
+        })
+        .catch(function (error){
+            alert('Произошла ошибка\nВы можете написать нам об ошибке в группе ВК')
+        })
+    }
+
 
 
 
@@ -123,8 +137,8 @@ import { get } from '@vueuse/core'
 
                                     <div class="d-flex align-items-center">
                                         <div class="avatar avatar-circle avatar-xs">
-                                            <img width="100%" :src="'http://127.0.0.1:8000' + card.teacher.image"
-                                                class="avatar-title">
+                                            <img v-if="card.teacher.image" width="100%" :src="'http://127.0.0.1:8000' + card.teacher.image" class="avatar-title">
+                                            <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                         </div>
                                         <p class="mb-0 ms-2">{{ card.teacher.first_name }} {{ card.teacher.last_name }}</p>
                                     </div>
@@ -138,13 +152,7 @@ import { get } from '@vueuse/core'
                                     <p v-if="card.price" class="mb-0 price">{{ card.price }} ₽/мес.</p>
                                     <p v-else class="mb-0 price">Бесплатно</p>
                                     <div>
-                                        <button v-if="card.price && !card.isAdded" @click="addToCart(card.id)" type="button" class="btn btn-success">В корзину</button>
-                                        <button v-else-if="!card.isAdded" type="button" class="btn btn-success">Получить</button>
-                                        <div v-else>
-                                            <button @click="deleteCartItem(card.id)" type="button" class="btn btn-success">Удалить</button>
-                                            <br>
-                                        </div>
-                                        
+                                        <button v-if="!card.isAddedToOrder" @click="addFreeCourseOrderItem(card.id)" type="button" class="btn btn-success">Получить</button>
                                     </div>
 
                                 </div>

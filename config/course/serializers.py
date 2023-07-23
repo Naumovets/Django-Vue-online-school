@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from cart.models import CartItem
 from course.models import Exam, Course, Webinar, Subject
+from order.models import OrderItem, Order
 
 
 class ExamSerializer(serializers.ModelSerializer):
@@ -19,13 +20,19 @@ class CourseSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
     subject = serializers.SerializerMethodField()
     teacher = serializers.SerializerMethodField()
-    isAdded = serializers.SerializerMethodField()
+    isAddedToCart = serializers.SerializerMethodField()
+    isAddedToOrder = serializers.SerializerMethodField()
 
-    def get_isAdded(self, obj):
+    def get_isAddedToCart(self, obj):
         if self.user.cart.all().exists():
             cart = self.user.cart.get()
             if CartItem.objects.filter(cart=cart, course=obj).exists():
                 return True
+        return False
+
+    def get_isAddedToOrder(self, obj):
+        if self.user.order_courses.filter(course=obj).exists():
+            return True
         return False
 
     def get_status(self, obj):
@@ -63,6 +70,58 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class WebinarSerializer(serializers.ModelSerializer):
+    course = serializers.SerializerMethodField()
+    files = serializers.SerializerMethodField()
+    tasks = serializers.SerializerMethodField()
+
+    def get_tasks(self, obj):
+        tasks = obj.tasks.all()
+        if tasks:
+            return [
+                {
+                    'question': task.question,
+                    'question_image': task.question_image.url if task.question_image else None,
+                    'answer': task.answer,
+                    'user_answer': None,
+                    'id': task.id,
+                }
+                for task in tasks
+            ]
+        else:
+            return None
+
+    def get_files(self, obj):
+        files = obj.files.all()
+        if files:
+            return [
+                {
+                    'file_of_webinar': file.file_of_webinar.url,
+                    'title': file.title
+                }
+                for file in files
+            ]
+        else:
+            return None
+
+    def get_course(self, obj):
+        course = obj.course
+        if course:
+            return {'id': course.id,
+                    'title': course.title,
+                    'slug': course.slug,
+                    'subject': course.subject.title,
+                    'exam': str(course.subject.exam),
+                    'status': course.get_status_display(),
+                    'chat': course.chat,
+                    'image': course.image.url,
+                    'description': course.description,
+                    'teacher': {'first_name': course.teacher.first_name,
+                                'last_name': course.teacher.last_name,
+                                'image': course.teacher.image.url,
+                                'vk_link': course.teacher.vk_link},
+                    'price': course.price
+                    }
+        return None
     class Meta:
         model = Webinar
         fields = '__all__'

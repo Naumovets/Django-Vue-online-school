@@ -76,11 +76,11 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item">
+                                    <li v-if="orderItem.curator" class="list-group-item">
                                         <div class="d-flex justify-content-between">
                                             <span>Куратор</span>
                                             <div class="col-9 d-flex align-items-center justify-content-end">
-                                                <a class="me-2" :href="orderItem.course.teacher.vk_link">
+                                                <a class="me-2" :href="orderItem.curator.vk_link">
                                                     {{ orderItem.curator.first_name }} {{ orderItem.curator.last_name }}
                                                 </a>
                                                 <div class="avatar avatar-circle avatar-xs">

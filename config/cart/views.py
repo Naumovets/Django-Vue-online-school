@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from cart.models import CartItem, Cart
 from cart.serializers import CartItemSerializer, CartItemForPriceSerializer
-from cart.services.cartManager import PriceManager
+from cart.services.cart_manager import CartManager
 from course.models import Course
 
 
@@ -68,5 +68,5 @@ class PriceCartItemView(APIView):
         json_parsed = json.loads(request.body)
         data_of_period_of_paying_courses = CartItemForPriceSerializer(data=json_parsed, many=True)
         data_of_period_of_paying_courses.is_valid()
-        total_price = PriceManager.get_total_price(user, coupon_code, data_of_period_of_paying_courses.validated_data)
+        total_price = CartManager.get_total_price(user, coupon_code, data_of_period_of_paying_courses.validated_data)
         return Response(total_price)

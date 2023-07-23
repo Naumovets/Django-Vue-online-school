@@ -1,11 +1,11 @@
 from django.core.exceptions import ObjectDoesNotExist
 
-from cart.models import Coupon, UsedCoupon
+from cart.models import Coupon, UsedCoupon, Cart
 from course.models import Course
 from user.models import CustomUser
 
 
-class PriceManager:
+class CartManager:
 
     @staticmethod
     def get_total_price(user: CustomUser, coupon_code: str = None, data_of_courses: list = None) -> dict:
@@ -50,10 +50,17 @@ class PriceManager:
 
         result = {'price': price,
                   'discount': discount,
-                  'price_with_discount': price_with_discount,
+                  'result_price': price_with_discount,
                   'response': response,
                   'error': error}
 
         return result
+
+    @staticmethod
+    def clear_cart(user: CustomUser):
+        cart_items = Cart.objects.get(user=user).items.all() if Cart.objects.filter(user=user).exists() else None
+        for cart_item in cart_items:
+            cart_item.delete()
+
 
 

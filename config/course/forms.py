@@ -21,5 +21,5 @@ class CuratorForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['curator'].queryset = CustomUser.objects.filter(groups__name='Куратор')
+        self.fields['user'].queryset = CustomUser.objects.filter(groups__name='Куратор')
         

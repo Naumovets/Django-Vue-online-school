@@ -150,8 +150,9 @@ axios({
                                             <p>{{orderItem.end_date}}</p>
                                         </td>
                                         <td>
-                                            <p v-if="!orderItem.price_with_discount">{{orderItem.course.price}}</p>
-                                            <p v-else>{{orderItem.price_with_discount}}₽ <sup><del class="h6">{{orderItem.course.price}}₽</del></sup></p>
+                                            <p v-if="!orderItem.price_with_discount && orderItem.course.price">{{orderItem.course.price}}</p>
+                                            <p v-else-if="orderItem.course.price">{{orderItem.price_with_discount}}₽ <sup><del class="h6">{{orderItem.course.price}}₽</del></sup></p>
+                                            <p v-else>Бесплатно</p>
                                         </td>
                                     </tr>
                                 </tbody>

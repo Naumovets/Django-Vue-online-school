@@ -16,7 +16,8 @@ class Exam(models.Model):
 
 
 class Subject(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.SET_NULL, related_name='subjects', verbose_name='Экзамен', null=True)
+    exam = models.ForeignKey(Exam, on_delete=models.SET_NULL, related_name='subjects', verbose_name='Экзамен',
+                             null=True)
     title = models.CharField(max_length=100, verbose_name='Название')
     slug = models.SlugField(max_length=100)
 
@@ -29,13 +30,13 @@ class Subject(models.Model):
 
 
 class Course(models.Model):
-
     class Status(models.TextChoices):
         MAIN = 'MN', 'Основной'
         SPECIAL = 'SP', 'Спецкурс'
         FREE = 'FR', 'Бесплатный'
 
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, related_name='courses', verbose_name='Предмет', null=True)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, related_name='courses', verbose_name='Предмет',
+                                null=True)
     title = models.CharField(max_length=150, verbose_name='Название')
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.MAIN, verbose_name='Тип курса')
     image = models.ImageField(upload_to='courses/', verbose_name='Картинка', )
@@ -47,7 +48,8 @@ class Course(models.Model):
                                 verbose_name='Преподаватель',
                                 null=True)
     price = models.DecimalField(verbose_name='Цена за месяц', decimal_places=0, max_digits=9, null=True, blank=True)
-    full_price = models.DecimalField(verbose_name='Цена за курс до конца года', decimal_places=2, max_digits=9, null=True, blank=True)
+    full_price = models.DecimalField(verbose_name='Цена за курс до конца года', decimal_places=2, max_digits=9,
+                                     null=True, blank=True)
     slug = models.SlugField(max_length=150)
 
     class Meta:
@@ -94,6 +96,7 @@ class Task(models.Model):
 
 class FileOfWebinar(models.Model):
     webinar = models.ForeignKey(Webinar, on_delete=models.CASCADE, related_name='files', verbose_name='Вебинар')
+    title = models.CharField(max_length=50, verbose_name='Название')
     file_of_webinar = models.FileField(upload_to='files/', verbose_name='Файл')
 
     class Meta:
@@ -105,12 +108,15 @@ class FileOfWebinar(models.Model):
 
 
 class Curator(models.Model):
-    curator = models.ForeignKey(CustomUser,
-                                on_delete=models.SET_NULL,
-                                null=True,
-                                verbose_name='Куратор',
-                                related_name='curators')
+    user = models.ForeignKey(CustomUser,
+                             on_delete=models.SET_NULL,
+                             null=True,
+                             verbose_name='Куратор',
+                             related_name='curators')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='curators', verbose_name='Курс')
+
+    def __str__(self):
+        return str(self.user) + ' ' + str(self.course)
 
     class Meta:
         verbose_name = 'Куратор'
