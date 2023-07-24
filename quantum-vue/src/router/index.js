@@ -17,37 +17,58 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: LoginView
+      component: LoginView,
+      meta: {
+        title: 'Авторизация'
+      }
     },
     {
       path: '/profile',
       name: 'profile',
-      component: ProfileView
+      component: ProfileView,
+      meta: {
+        title: 'Профиль'
+      }
     },
     {
       path: '/free-courses',
       name: 'free-courses',
-      component: FreeCoursesView
+      component: FreeCoursesView,
+      meta: {
+        title: 'Бесплатные курсы'
+      }
     },
     {
       path: '/register',
       name: 'register',
-      component: RegisterView
+      component: RegisterView,
+      meta: {
+        title: 'Регистрация'
+      }
     },
     {
       path: '/logout',
       name: 'logout',
-      component: LogoutView
+      component: LogoutView,
+      meta: {
+        title: 'Выход'
+      }
     },
     {
       path: '/courses',
       name: 'courses',
-      component: CoursesView
+      component: CoursesView,
+      meta: {
+        title: 'Каталог курсов'
+      }
     },
     {
       path: '/cart',
       name: 'cart',
-      component: CartView
+      component: CartView,
+      meta: {
+        title: 'Корзина'
+      }
     },
     {
       path: '/course/:slug',
@@ -62,7 +83,10 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: '404',
-      component: NotFoundView
+      component: NotFoundView,
+      meta: {
+        title: 'Ошибка 404 - страница не найдена'
+      }
     }
   ]
 })

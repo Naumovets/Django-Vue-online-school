@@ -56,6 +56,7 @@
     isAuthorized()
   });
   
+  document.title = 'Авторизация'
 
 </script>
 

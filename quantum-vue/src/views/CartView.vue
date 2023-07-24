@@ -26,6 +26,9 @@
     })
 
 
+    document.title = 'Корзина'
+
+
     function getCart(){
         // запрос корзины
         axios({

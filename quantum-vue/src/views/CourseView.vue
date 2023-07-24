@@ -30,6 +30,8 @@
             router.push('/404');
         })
     });
+
+    document.title = 'Курс'
 </script>
 
 <template>

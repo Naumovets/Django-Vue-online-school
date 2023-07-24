@@ -118,7 +118,7 @@
     }); 
 
 
-
+    document.title = 'Каталог курсов'
 
 </script>
 

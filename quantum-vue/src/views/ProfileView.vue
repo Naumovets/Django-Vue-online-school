@@ -45,6 +45,7 @@ axios({
     orderItems.value = response.data
 });
 
+document.title = 'Профиль'
 
 </script>
 

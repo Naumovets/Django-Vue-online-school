@@ -90,4 +90,3 @@ class ConfirmedCourseView(APIView):
         course = get_object_or_404(ConfirmedCourse, user=user, course__slug=slug)
         course_serialized = ConfirmedCourseSerializer(course)
         return Response(course_serialized.data)
-#

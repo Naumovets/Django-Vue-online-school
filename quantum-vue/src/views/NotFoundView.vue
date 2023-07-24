@@ -3,6 +3,7 @@
 import { checklogin } from '../modules/login.js'
 import Footer from '../components/footer.vue'
 checklogin();
+document.title = 'Ошибка 404 - страница не найдена'
 
 </script>
 

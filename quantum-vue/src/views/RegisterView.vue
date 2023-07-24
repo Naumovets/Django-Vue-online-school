@@ -85,6 +85,7 @@
         isAuthorized()
     });
 
+    document.title = 'Регистрация'
 
 
 </script>

@@ -32,6 +32,8 @@
         })
     });
 
+    document.title = 'Вебинар'
+
 </script>
 
 <template>
