@@ -66,7 +66,7 @@
             form_data.append('last_name', last_name.value)
             form_data.append('vk_link', link.value)
             axios({
-            url: 'http://127.0.0.1:8000/api/v1/user/users/',
+            url: 'http://localhost:7000/api/v1/user/users/',
             method: 'post',
             data: form_data,
             headers:{'Content-Type':'multipart/form-data'}

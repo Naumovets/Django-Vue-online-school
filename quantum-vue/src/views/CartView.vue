@@ -13,7 +13,7 @@
     const courses = ref(null);
     const promocode = ref('');
     const errorCartItem = ref('')
-    const data = ref();
+    const data = ref({response:'', error: ''});
     const jsonCartItem = computed(()=>{
         if(courses.value){
             return courses.value.map(item => ({'id': item.course.id, 'period': item.period }))
@@ -22,9 +22,8 @@
         }
     })
     const url = computed(()=>{
-        return `http://127.0.0.1:8000/api/v1/cart/price_cart_item?coupon_code=${promocode.value}`
+        return `http://localhost:7000/api/v1/cart/price_cart_item?coupon_code=${promocode.value}`
     })
-
 
     document.title = 'Корзина'
 
@@ -32,7 +31,7 @@
     function getCart(){
         // запрос корзины
         axios({
-            url: 'http://127.0.0.1:8000/api/v1/cart/cart',
+            url: 'http://localhost:7000/api/v1/cart/cart',
             headers: { 'Authorization': VueCookies.get('Authorization') },
             method: 'get',
         })
@@ -43,7 +42,7 @@
 
     function deleteCartItem(id){
         axios.delete(
-            `http://127.0.0.1:8000/api/v1/cart/cart/${id}`,
+            `http://localhost:7000/api/v1/cart/cart/${id}`,
             {
                 headers: { 'Authorization': VueCookies.get('Authorization') },
             }
@@ -55,38 +54,10 @@
         })
     }
 
-    // function addOrderItem(error_promocode, promocode){
-    //     if(error_promocode){
-    //         axios({
-    //             url: 'http://127.0.0.1:8000/api/v1/order/add_order_items/',
-    //             headers: { 'Authorization': VueCookies.get('Authorization') },
-    //             method: 'post',
-    //         })
-    //         .then(function (response) {
-    //             getCart()
-    //         })
-    //         .catch(function(error){
-    //             alert('Что-то пошло не так, заявите об этом в поддержку!')
-    //         })
-    //     }else{
-    //         axios({
-    //             url: `http://127.0.0.1:8000/api/v1/order/add_order_items/${promocode}`,
-    //             headers: { 'Authorization': VueCookies.get('Authorization') },
-    //             method: 'post',
-    //         })
-    //         .then(function (response) {
-    //             getCart()
-    //         })
-    //         .catch(function(error){
-    //             alert('Что-то пошло не так, заявите об этом в поддержку!')
-    //         })
-    //     }
-    // }
-
     function addOrderItems(){
         if(!data.value.error){
             // `http://127.0.0.1:8000/api/v1/order/add_order_items/${promocode.value}`
-            axios.post(`http://127.0.0.1:8000/api/v1/order/add_order_items/${promocode.value}`, jsonCartItem.value, {
+            axios.post(`http://localhost:7000/api/v1/order/add_order_items/${promocode.value}`, jsonCartItem.value, {
                 headers: {
                     'Authorization': VueCookies.get('Authorization'),
                     'Content-Type': 'application/json'
@@ -99,25 +70,27 @@
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
             })
         }else{
-            axios.post('http://127.0.0.1:8000/api/v1/order/add_order_items/', jsonCartItem.value, {
+            axios.post('http://localhost:7000/api/v1/order/add_order_items/', jsonCartItem.value, {
                 headers: {
                     'Authorization': VueCookies.get('Authorization'),
                     'Content-Type': 'application/json'
                 }
             })
             .then(function (response) {
-                getCart()
+                getCart();
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
             })
         }
     }
+    
+    onBeforeMount(() => {
+        checklogin();
+        getCart();
+    });
 
-    checklogin();
-    getCart()
-
-    watch([url, jsonCartItem], () => {
+    watch([url,jsonCartItem], () => {
             if (courses.value){
                 // Функция, которая будет выполнена при изменении переменных courses и url
                 const response = useFetch(url, 
@@ -199,21 +172,24 @@
                             <h3>Детали</h3>
                             <label for="validationCustom01" class="form-label">Промокод</label>
                             <input v-model="promocode" type="text" class="form-control" id="validationCustom01" required>
-                            <div v-if="data.value.error" class="mt-2 alert alert-danger" role="alert">
-                                {{data.value.error}}
-                            </div>
-                            <div v-if="data.value.response" class="mt-2 alert alert-success" role="alert">
-                                {{data.value.response}}
-                            </div>
-                            <hr>
-                            <span class="mb-2 form-label">Цена без скидки:</span>
-                            <p class="mb-0">{{ data.value.price }} ₽.</p>
-                            <hr>
-                            <span class="mb-2 form-label">Итого:</span>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <span>{{data.value.result_price}} ₽</span>
-                                <button :disabled="courses.length==0" @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
-                            </div>
+                            <template v-if="data.value !== null && data.value !== undefined && courses !== null && courses !== undefined">
+                                <div v-if="data.value.error !== null && data.value.error !== undefined" class="mt-2 alert alert-danger" role="alert">
+                                    {{data.value.error}}
+                                </div>
+                                <div v-if="data.value.response !== null && data.value.response !== undefined" class="mt-2 alert alert-success" role="alert">
+                                    {{data.value.response}}
+                                </div>
+                                <hr>
+                                <span class="mb-2 form-label">Цена без скидки:</span>
+                                <p class="mb-0">{{ data.value.price }} ₽.</p>
+                                <hr>
+                                <span class="mb-2 form-label">Итого:</span>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span>{{data.value.result_price}} ₽</span>
+                                    <button :disabled="courses.length==0" @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
+                                </div>
+                            </template>
+                            
                         </div>
                     </div>
                 </div>

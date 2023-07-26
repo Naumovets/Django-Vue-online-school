@@ -22,7 +22,7 @@
     function getCourses(){
         // запрос курсов
         axios({
-            url: 'http://127.0.0.1:8000/api/v1/course/free-courses',
+            url: 'http://localhost:7000/api/v1/course/free-courses',
             headers: { 'Authorization': VueCookies.get('Authorization') },
             method: 'get',
         })
@@ -34,7 +34,7 @@
 
     // запрос экзаменов (всех)
     axios({
-        url: 'http://127.0.0.1:8000/api/v1/course/exams',
+        url: 'http://localhost:7000/api/v1/course/exams',
         method: 'get',
     })
     .then(function (response) {
@@ -43,7 +43,7 @@
 
     // запрос предметов (всех)
     axios({
-        url: 'http://127.0.0.1:8000/api/v1/course/subjects',
+        url: 'http://localhost:7000/api/v1/course/subjects',
         method: 'get',
     })
     .then(function (response) {
@@ -80,7 +80,7 @@
 
     function addFreeCourseOrderItem(id){
         axios({
-            url: `http://127.0.0.1:8000/api/v1/order/add_free_course/${id}`,
+            url: `http://localhost:7000/api/v1/order/add_free_course/${id}`,
             method: 'post',
             headers: { 'Authorization': VueCookies.get('Authorization') },
         })
@@ -118,7 +118,7 @@
                             " class="row g-0">
                             <div class="col-lg-3 col-12">
 
-                                <img :src="'http://127.0.0.1:8000' + card.image" class="w-100 img-fluid rounded-start"
+                                <img :src="'http://localhost:7000' + card.image" class="w-100 img-fluid rounded-start"
                                     alt="...">
 
                             </div>
@@ -137,7 +137,7 @@
 
                                     <div class="d-flex align-items-center">
                                         <div class="avatar avatar-circle avatar-xs">
-                                            <img v-if="card.teacher.image" width="100%" :src="'http://127.0.0.1:8000' + card.teacher.image" class="avatar-title">
+                                            <img v-if="card.teacher.image" width="100%" :src="'http://localhost:7000' + card.teacher.image" class="avatar-title">
                                             <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                         </div>
                                         <p class="mb-0 ms-2">{{ card.teacher.first_name }} {{ card.teacher.last_name }}</p>

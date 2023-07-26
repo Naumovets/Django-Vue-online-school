@@ -24,7 +24,7 @@
 
 
   function login(){
-    const url = 'http://127.0.0.1:8000/api/v1/user/auth/token/login'
+    const url = 'http://localhost:7000/api/v1/user/auth/token/login'
     let form_data = new FormData();
     if(password.value !== '' & email.value !== ''){
         form_data.append('email', email.value);

@@ -7,7 +7,7 @@ import axios from 'axios'
 const router = useRouter();
 
 if (VueCookies.get('Authorization')!==null){
-    const url = 'http://127.0.0.1:8000/api/v1/user/auth/token/logout'
+    const url = 'http://localhost:7000/api/v1/user/auth/token/logout'
     
     axios({
         url: url,

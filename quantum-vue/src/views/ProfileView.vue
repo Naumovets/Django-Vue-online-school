@@ -25,7 +25,7 @@ onBeforeMount(() => {
 });
 
 axios({
-    url: 'http://127.0.0.1:8000/api/v1/user/profile/',
+    url: 'http://localhost:7000/api/v1/user/profile/',
     method: 'get',
     headers: {'Authorization': VueCookies.get('Authorization')}
     })
@@ -37,7 +37,7 @@ axios({
     last_name.value = response.data.last_name;
 });
 axios({
-    url: 'http://127.0.0.1:8000/api/v1/course/get-courses',
+    url: 'http://localhost:7000/api/v1/course/get-courses',
     method: 'get',
     headers: {'Authorization': VueCookies.get('Authorization')}
 })

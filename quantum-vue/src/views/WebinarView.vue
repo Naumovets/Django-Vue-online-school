@@ -19,7 +19,7 @@
     onBeforeMount(() => {
         checklogin()
         axios({
-            url: `http://127.0.0.1:8000/api/v1/course/webinar/${code}`,
+            url: `http://localhost:7000/api/v1/course/webinar/${code}`,
             method: 'get',
             headers: {'Authorization': VueCookies.get('Authorization')}
         })
@@ -81,7 +81,7 @@
                                                     {{ webinar.course.teacher.first_name }} {{ webinar.course.teacher.last_name }}
                                                 </a>
                                                 <div class="avatar avatar-circle avatar-xs">
-                                                    <img width="100%" :src="'http://127.0.0.1:8000' + webinar.course.teacher.image" class="avatar-title">
+                                                    <img width="100%" :src="'http://localhost:7000' + webinar.course.teacher.image" class="avatar-title">
                                                 </div>
                                             </div>
                                         </div>
@@ -94,7 +94,7 @@
                                                     {{ curator.first_name }} {{ curator.last_name }}
                                                 </a>
                                                 <div class="avatar avatar-circle avatar-xs">
-                                                    <img width="100%" :src="'http://127.0.0.1:8000' + curator.image" class="avatar-title">
+                                                    <img width="100%" :src="'http://localhost:7000' + curator.image" class="avatar-title">
                                                 </div>
                                             </div>
                                         </div>
@@ -115,14 +115,14 @@
                                 <h3 v-if="webinar.files" >Файлы</h3>
                                 <ol class="list-group list-group-numbered w-100">
                                     <template v-for="file in webinar.files">
-                                        <a :href="'http://127.0.0.1:8000'+file.file_of_webinar" class="list-group-item list-group-item-action" target="_blank">{{file.title}}</a>
+                                        <a :href="'http://localhost:7000'+file.file_of_webinar" class="list-group-item list-group-item-action" target="_blank">{{file.title}}</a>
                                     </template>
                                 </ol>
                                 <h3 v-if="webinar.tasks" class="mt-5">Тест</h3>
                                 <ol class="list-group w-100">
                                     <template v-for="task in webinar.tasks">
                                         <li class="list-group-item">
-                                            <img v-if="task.question_image" class="mw-100 mb-5" :src="'http://127.0.0.1:8000' + task.question_image" alt="">
+                                            <img v-if="task.question_image" class="mw-100 mb-5" :src="'http://localhost:7000' + task.question_image" alt="">
                                             <label v-if="task.question" class="form-label" for="FormControlInput">{{ task.question }}</label>
                                             <input v-model="task.user_answer" type="text" id="FormControlInput" class="mt-2 form-control" placeholder="Ответ..">
                                             <div v-if="task.user_answer == task.answer" class="alert alert-success mt-2" role="alert">
