@@ -20,7 +20,7 @@
     function getCourses(){
         // запрос курсов
         axios({
-            url: 'http://localhost:7000/api/v1/course/courses',
+            url: 'http://45.80.69.193:7000/api/v1/course/courses',
             headers: { 'Authorization': VueCookies.get('Authorization') },
             method: 'get',
         })
@@ -32,7 +32,7 @@
 
     // запрос экзаменов (всех)
     axios({
-        url: 'http://localhost:7000/api/v1/course/exams',
+        url: 'http://45.80.69.193:7000/api/v1/course/exams',
         method: 'get',
     })
     .then(function (response) {
@@ -41,7 +41,7 @@
 
     // запрос предметов (всех)
     axios({
-        url: 'http://localhost:7000/api/v1/course/subjects',
+        url: 'http://45.80.69.193:7000/api/v1/course/subjects',
         method: 'get',
     })
     .then(function (response) {
@@ -73,7 +73,7 @@
 
     function deleteCartItem(id){
         axios.delete(
-            `http://localhost:7000/api/v1/cart/cart/${id}`,
+            `http://45.80.69.193:7000/api/v1/cart/cart/${id}`,
             {
                 headers: { 'Authorization': VueCookies.get('Authorization') },
             }
@@ -88,7 +88,7 @@
         const form_data = new FormData()
         form_data.append('id', id)
         axios({
-            url: 'http://localhost:7000/api/v1/cart/cart',
+            url: 'http://45.80.69.193:7000/api/v1/cart/cart',
             method: 'post',
             data: form_data,
             headers: { 'Authorization': VueCookies.get('Authorization') },
@@ -100,7 +100,7 @@
 
     function addFreeCourseOrderItem(id){
         axios({
-            url: `http://localhost:7000/api/v1/order/add_free_course/${id}`,
+            url: `http://45.80.69.193:7000/api/v1/order/add_free_course/${id}`,
             method: 'post',
             headers: { 'Authorization': VueCookies.get('Authorization') },
         })
@@ -133,61 +133,64 @@
                 <router-link class="h4" to="/cart">Перейти в корзину</router-link>
             </div>
             
-            <div v-if="exams !== undefined && subjects !== undefined && data !== undefined" class="row">
+            <div class="row">
                 <div class="col-12 order-lg-1 order-2 col-lg-9">
-                    <div class="card shadow-none border-0" v-for="card in data" :key="card.id">
-                        <div v-if="((card.status == 'Основной' && main)
-                                || (card.status == 'Бесплатный' && free)
-                                || (card.status == 'Спецкурс' && special))
-                                && IsActiveExam(card.subject.exam)
-                                && IsActiveSubject(card.subject.title, card.subject.exam)
-                            " class="row g-0">
-                            <div class="col-lg-3 col-12">
+                    <template v-if="data !== undefined">
+                        <div class="card shadow-none border-0" v-for="card in data" :key="card.id">
+                            <div v-if="((card.status == 'Основной' && main)
+                                    || (card.status == 'Бесплатный' && free)
+                                    || (card.status == 'Спецкурс' && special))
+                                    && IsActiveExam(card.subject.exam)
+                                    && IsActiveSubject(card.subject.title, card.subject.exam)
+                                " class="row g-0">
+                                <div class="col-lg-3 col-12">
 
-                                <img :src="'http://localhost:7000' + card.image" class="w-100 img-fluid rounded-start"
-                                    alt="...">
+                                    <img :src="'http://45.80.69.193:7000' + card.image" class="w-100 img-fluid rounded-start"
+                                        alt="...">
 
-                            </div>
+                                </div>
 
-                            <div class="col-md-6">
+                                <div class="col-md-6">
 
-                                <div class="card-body pt-2 h-100 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <span class="badge text-bg-primary">{{ card.subject.exam }}</span>
-                                        <span class="badge text-bg-info ms-2">{{ card.subject.title }}</span>
-                                        <span class="badge text-bg-success">{{ card.status }}</span>
-                                    </div>
-                                    <h3 class="card-title">
-                                        {{ card.title }}
-                                    </h3>
-
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-circle avatar-xs">
-                                            <img v-if="card.teacher.image" width="100%" :src="'http://localhost:7000' + card.teacher.image" class="avatar-title">
-                                            <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
+                                    <div class="card-body pt-2 h-100 d-flex flex-column justify-content-between">
+                                        <div>
+                                            <span class="badge text-bg-primary">{{ card.subject.exam }}</span>
+                                            <span class="badge text-bg-info ms-2">{{ card.subject.title }}</span>
+                                            <span class="badge text-bg-success">{{ card.status }}</span>
                                         </div>
-                                        <p class="mb-0 ms-2">{{ card.teacher.first_name }} {{ card.teacher.last_name }}</p>
+                                        <h3 class="card-title">
+                                            {{ card.title }}
+                                        </h3>
+
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar avatar-circle avatar-xs">
+                                                <img v-if="card.teacher.image" width="100%" :src="'http://45.80.69.193:7000' + card.teacher.image" class="avatar-title">
+                                                <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
+                                            </div>
+                                            <p class="mb-0 ms-2">{{ card.teacher.first_name }} {{ card.teacher.last_name }}</p>
+                                        </div>
+
                                     </div>
 
                                 </div>
 
-                            </div>
+                                <div class="col-md-3">
+                                    <div class="card-body h-100 d-flex flex-column justify-content-around">
+                                        <p v-if="card.price" class="mb-0 price">{{ card.price }} ₽/мес.</p>
+                                        <p v-else class="mb-0 price">Бесплатно</p>
+                                        <div>
+                                            <button v-if="card.price && !card.isAddedToCart" @click="addToCart(card.id)" type="button" class="btn btn-success">В корзину</button>
+                                            <button v-else-if="card.isAddedToCart" @click="deleteCartItem(card.id)" type="button" class="btn btn-success">Удалить</button>
+                                            <button v-else-if="!card.isAddedToOrder" @click="addFreeCourseOrderItem(card.id)" type="button" class="btn btn-success">Получить</button>
+                                        </div>
 
-                            <div class="col-md-3">
-                                <div class="card-body h-100 d-flex flex-column justify-content-around">
-                                    <p v-if="card.price" class="mb-0 price">{{ card.price }} ₽/мес.</p>
-                                    <p v-else class="mb-0 price">Бесплатно</p>
-                                    <div>
-                                        <button v-if="card.price && !card.isAddedToCart" @click="addToCart(card.id)" type="button" class="btn btn-success">В корзину</button>
-                                        <button v-else-if="card.isAddedToCart" @click="deleteCartItem(card.id)" type="button" class="btn btn-success">Удалить</button>
-                                        <button v-else-if="!card.isAddedToOrder" @click="addFreeCourseOrderItem(card.id)" type="button" class="btn btn-success">Получить</button>
                                     </div>
 
                                 </div>
-
                             </div>
                         </div>
-                    </div>
+                    </template>
+
                 </div>
 
                 <div class="col-12 order-lg-2 order-1 col-lg-3">

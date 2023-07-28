@@ -22,7 +22,7 @@
         }
     })
     const url = computed(()=>{
-        return `http://localhost:7000/api/v1/cart/price_cart_item?coupon_code=${promocode.value}`
+        return `http://45.80.69.193:7000/api/v1/cart/price_cart_item?coupon_code=${promocode.value}`
     })
 
     document.title = 'Корзина'
@@ -31,7 +31,7 @@
     function getCart(){
         // запрос корзины
         axios({
-            url: 'http://localhost:7000/api/v1/cart/cart',
+            url: 'http://45.80.69.193:7000/api/v1/cart/cart',
             headers: { 'Authorization': VueCookies.get('Authorization') },
             method: 'get',
         })
@@ -42,7 +42,7 @@
 
     function deleteCartItem(id){
         axios.delete(
-            `http://localhost:7000/api/v1/cart/cart/${id}`,
+            `http://45.80.69.193:7000/api/v1/cart/cart/${id}`,
             {
                 headers: { 'Authorization': VueCookies.get('Authorization') },
             }
@@ -57,7 +57,7 @@
     function addOrderItems(){
         if(!data.value.error){
             // `http://127.0.0.1:8000/api/v1/order/add_order_items/${promocode.value}`
-            axios.post(`http://localhost:7000/api/v1/order/add_order_items/${promocode.value}`, jsonCartItem.value, {
+            axios.post(`http://45.80.69.193:7000/api/v1/order/add_order_items/${promocode.value}`, jsonCartItem.value, {
                 headers: {
                     'Authorization': VueCookies.get('Authorization'),
                     'Content-Type': 'application/json'
@@ -70,7 +70,7 @@
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
             })
         }else{
-            axios.post('http://localhost:7000/api/v1/order/add_order_items/', jsonCartItem.value, {
+            axios.post('http://45.80.69.193:7000/api/v1/order/add_order_items/', jsonCartItem.value, {
                 headers: {
                     'Authorization': VueCookies.get('Authorization'),
                     'Content-Type': 'application/json'

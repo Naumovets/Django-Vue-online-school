@@ -23,6 +23,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/',
+      name: 'main',
+      component: ProfileView,
+      meta: {
+        title: 'Профиль'
+      }
+    },
+    {
       path: '/profile',
       name: 'profile',
       component: ProfileView,

@@ -25,7 +25,7 @@ onBeforeMount(() => {
 });
 
 axios({
-    url: 'http://localhost:7000/api/v1/user/profile/',
+    url: 'http://45.80.69.193:7000/api/v1/user/profile/',
     method: 'get',
     headers: {'Authorization': VueCookies.get('Authorization')}
     })
@@ -37,7 +37,7 @@ axios({
     last_name.value = response.data.last_name;
 });
 axios({
-    url: 'http://localhost:7000/api/v1/course/get-courses',
+    url: 'http://45.80.69.193:7000/api/v1/course/get-courses',
     method: 'get',
     headers: {'Authorization': VueCookies.get('Authorization')}
 })
@@ -142,7 +142,7 @@ document.title = 'Профиль'
                                     </tr>
                                 </thead>
 
-                                <tbody>
+                                <tbody v-if="ordderItems !== undefined && orderItems !== null ">
                                     <tr v-for="orderItem in orderItems">
                                         <td class="fw-bold">
                                             <h4><RouterLink :to="'course/'+orderItem.course.slug">{{orderItem.course.title}}</RouterLink></h4>

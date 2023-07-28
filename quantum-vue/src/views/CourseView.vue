@@ -19,7 +19,7 @@
     onBeforeMount(() => {
         checklogin()
         axios({
-            url: `http://localhost:7000/api/v1/course/${slug}`,
+            url: `http://45.80.69.193:7000/api/v1/course/${slug}`,
             method: 'get',
             headers: {'Authorization': VueCookies.get('Authorization')}
         })
@@ -38,7 +38,7 @@
     <Sidebar />
     <main>
         <Header />
-        <div v-if="orderItem" class="container-fluid">
+        <div v-if="orderItem !== null && orderItem !== undefined" class="container-fluid">
             <div class="row mt-5">
                 <div class="col-12 col-lg-12">
                     <div class="card shadow-none border-0">
@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="col-md-8 col-12 p-5">
-                                <img :src="'http://localhost:7000' + orderItem.course.image" class="w-100 img-fluid rounded-start" alt="...">
+                                <img :src="'http://45.80.69.193:7000' + orderItem.course.image" class="w-100 img-fluid rounded-start" alt="...">
                                 <ol class="list-group mt-5">
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
@@ -73,7 +73,7 @@
                                                     {{ orderItem.course.teacher.first_name }} {{ orderItem.course.teacher.last_name }}
                                                 </a>
                                                 <div class="avatar avatar-circle avatar-xs">
-                                                    <img width="100%" :src="'http://localhost:7000' + orderItem.course.teacher.image" class="avatar-title">
+                                                    <img width="100%" :src="'http://45.80.69.193:7000' + orderItem.course.teacher.image" class="avatar-title">
                                                 </div>
                                             </div>
                                         </div>
@@ -86,7 +86,7 @@
                                                     {{ orderItem.curator.first_name }} {{ orderItem.curator.last_name }}
                                                 </a>
                                                 <div class="avatar avatar-circle avatar-xs">
-                                                    <img width="100%" :src="'http://localhost:7000' + orderItem.curator.image" class="avatar-title">
+                                                    <img width="100%" :src="'http://45.80.69.193:7000' + orderItem.curator.image" class="avatar-title">
                                                 </div>
                                             </div>
                                         </div>

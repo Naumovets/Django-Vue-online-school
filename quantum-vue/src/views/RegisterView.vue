@@ -45,7 +45,7 @@
         else if(last_name.value == ''){
             info.value = 'Введите фамилию!'
         }
-        else if(email == ''){
+        else if(email.value == ''){
             info.value = 'Введите email!'
         }
         else if(!agree){
@@ -66,7 +66,7 @@
             form_data.append('last_name', last_name.value)
             form_data.append('vk_link', link.value)
             axios({
-            url: 'http://localhost:7000/api/v1/user/users/',
+            url: 'http://45.80.69.193:7000/api/v1/user/users/',
             method: 'post',
             data: form_data,
             headers:{'Content-Type':'multipart/form-data'}
