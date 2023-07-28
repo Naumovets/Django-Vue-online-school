@@ -19,7 +19,7 @@
     onBeforeMount(() => {
         checklogin()
         axios({
-            url: `http://45.80.69.193:7000/api/v1/course/${slug}`,
+            url: `https://admin.lk-quantum.ru/api/v1/course/${slug}`,
             method: 'get',
             headers: {'Authorization': VueCookies.get('Authorization')}
         })
@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="col-md-8 col-12 p-5">
-                                <img :src="'http://45.80.69.193:7000' + orderItem.course.image" class="w-100 img-fluid rounded-start" alt="...">
+                                <img :src="'https://admin.lk-quantum.ru' + orderItem.course.image" class="w-100 img-fluid rounded-start" alt="...">
                                 <ol class="list-group mt-5">
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
@@ -73,7 +73,7 @@
                                                     {{ orderItem.course.teacher.first_name }} {{ orderItem.course.teacher.last_name }}
                                                 </a>
                                                 <div class="d-md-block d-none avatar avatar-circle avatar-xs">
-                                                    <img v-if="orderItem.course.teacher.image !== null" width="100%" :src="'http://45.80.69.193:7000' + orderItem.course.teacher.image" class="avatar-title">
+                                                    <img v-if="orderItem.course.teacher.image !== null" width="100%" :src="'https://admin.lk-quantum.ru' + orderItem.course.teacher.image" class="avatar-title">
                                                     <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                                 </div>
                                             </div>
@@ -87,7 +87,7 @@
                                                     {{ orderItem.curator.first_name }} {{ orderItem.curator.last_name }}
                                                 </a>
                                                 <div class="d-md-block d-none avatar avatar-circle avatar-xs">
-                                                    <img v-if="orderItem.curator.image !== null" width="100%" :src="'http://45.80.69.193:7000' + orderItem.curator.image" class="avatar-title">
+                                                    <img v-if="orderItem.curator.image !== null" width="100%" :src="'https://admin.lk-quantum.ru' + orderItem.curator.image" class="avatar-title">
                                                     <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                                 </div>
                                             </div>

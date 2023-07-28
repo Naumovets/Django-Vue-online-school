@@ -19,7 +19,7 @@
     onBeforeMount(() => {
         checklogin()
         axios({
-            url: `http://45.80.69.193:7000/api/v1/course/webinar/${code}`,
+            url: `https://admin.lk-quantum.ru/api/v1/course/webinar/${code}`,
             method: 'get',
             headers: {'Authorization': VueCookies.get('Authorization')}
         })
@@ -81,7 +81,7 @@
                                                     {{ webinar.course.teacher.first_name }} {{ webinar.course.teacher.last_name }}
                                                 </a>
                                                 <div class="d-md-block d-none avatar avatar-circle avatar-xs">
-                                                    <img v-if="webinar.course.teacher.image !== null" width="100%" :src="'http://45.80.69.193:7000' + webinar.course.teacher.image" class="avatar-title">
+                                                    <img v-if="webinar.course.teacher.image !== null" width="100%" :src="'https://admin.lk-quantum.ru' + webinar.course.teacher.image" class="avatar-title">
                                                     <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                                 </div>
                                             </div>
@@ -95,7 +95,7 @@
                                                     {{ curator.first_name }} {{ curator.last_name }}
                                                 </a>
                                                 <div class="d-md-block d-none avatar avatar-circle avatar-xs">
-                                                    <img v-if="curator.image !== null" width="100%" :src="'http://45.80.69.193:7000' + curator.image" class="avatar-title">
+                                                    <img v-if="curator.image !== null" width="100%" :src="'https://admin.lk-quantum.ru' + curator.image" class="avatar-title">
                                                     <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                                 </div>
                                             </div>
@@ -117,14 +117,14 @@
                                 <h3 v-if="webinar.files" >Файлы</h3>
                                 <ol class="list-group list-group-numbered w-100">
                                     <template v-for="file in webinar.files">
-                                        <a :href="'http://45.80.69.193:7000'+file.file_of_webinar" class="list-group-item list-group-item-action" target="_blank">{{file.title}}</a>
+                                        <a :href="'https://admin.lk-quantum.ru'+file.file_of_webinar" class="list-group-item list-group-item-action" target="_blank">{{file.title}}</a>
                                     </template>
                                 </ol>
                                 <h3 v-if="webinar.tasks" class="mt-5">Тест</h3>
                                 <ol class="list-group w-100">
                                     <template v-for="task in webinar.tasks">
                                         <li class="list-group-item">
-                                            <img v-if="task.question_image" class="mw-100 mb-5" :src="'http://45.80.69.193:7000' + task.question_image" alt="">
+                                            <img v-if="task.question_image" class="mw-100 mb-5" :src="'https://admin.lk-quantum.ru' + task.question_image" alt="">
                                             <label v-if="task.question" class="form-label" for="FormControlInput">{{ task.question }}</label>
                                             <input v-model="task.user_answer" type="text" id="FormControlInput" class="mt-2 form-control" placeholder="Ответ..">
                                             <div v-if="task.user_answer == task.answer" class="alert alert-success mt-2" role="alert">

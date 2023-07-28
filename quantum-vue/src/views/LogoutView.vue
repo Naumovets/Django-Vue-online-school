@@ -7,7 +7,7 @@ import axios from 'axios'
 const router = useRouter();
 
 if (VueCookies.get('Authorization')!==null){
-    const url = 'http://45.80.69.193:7000/api/v1/user/auth/token/logout'
+    const url = 'https://admin.lk-quantum.ru/api/v1/user/auth/token/logout'
     
     axios({
         url: url,

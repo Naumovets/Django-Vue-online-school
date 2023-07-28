@@ -20,7 +20,7 @@
     function getCourses(){
         // запрос курсов
         axios({
-            url: 'http://45.80.69.193:7000/api/v1/course/courses',
+            url: 'https://admin.lk-quantum.ru/api/v1/course/courses',
             headers: { 'Authorization': VueCookies.get('Authorization') },
             method: 'get',
         })
@@ -32,7 +32,7 @@
 
     // запрос экзаменов (всех)
     axios({
-        url: 'http://45.80.69.193:7000/api/v1/course/exams',
+        url: 'https://admin.lk-quantum.ru/api/v1/course/exams',
         method: 'get',
     })
     .then(function (response) {
@@ -41,7 +41,7 @@
 
     // запрос предметов (всех)
     axios({
-        url: 'http://45.80.69.193:7000/api/v1/course/subjects',
+        url: 'https://admin.lk-quantum.ru/api/v1/course/subjects',
         method: 'get',
     })
     .then(function (response) {
@@ -73,7 +73,7 @@
 
     function deleteCartItem(id){
         axios.delete(
-            `http://45.80.69.193:7000/api/v1/cart/cart/${id}`,
+            `https://admin.lk-quantum.ru/api/v1/cart/cart/${id}`,
             {
                 headers: { 'Authorization': VueCookies.get('Authorization') },
             }
@@ -88,7 +88,7 @@
         const form_data = new FormData()
         form_data.append('id', id)
         axios({
-            url: 'http://45.80.69.193:7000/api/v1/cart/cart',
+            url: 'https://admin.lk-quantum.ru/api/v1/cart/cart',
             method: 'post',
             data: form_data,
             headers: { 'Authorization': VueCookies.get('Authorization') },
@@ -100,7 +100,7 @@
 
     function addFreeCourseOrderItem(id){
         axios({
-            url: `http://45.80.69.193:7000/api/v1/order/add_free_course/${id}`,
+            url: `https://admin.lk-quantum.ru/api/v1/order/add_free_course/${id}`,
             method: 'post',
             headers: { 'Authorization': VueCookies.get('Authorization') },
         })
@@ -145,7 +145,7 @@
                                 " class="row g-0">
                                 <div class="col-lg-3 col-12">
 
-                                    <img :src="'http://45.80.69.193:7000' + card.image" class="w-100 img-fluid rounded-start"
+                                    <img :src="'https://admin.lk-quantum.ru' + card.image" class="w-100 img-fluid rounded-start"
                                         alt="...">
 
                                 </div>
@@ -164,7 +164,7 @@
 
                                         <div class="d-flex align-items-center">
                                             <div class="d-md-block d-none avatar avatar-circle avatar-xs">
-                                                <img v-if="card.teacher.image" width="100%" :src="'http://45.80.69.193:7000' + card.teacher.image" class="avatar-title">
+                                                <img v-if="card.teacher.image" width="100%" :src="'https://admin.lk-quantum.ru' + card.teacher.image" class="avatar-title">
                                                 <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                             </div>
                                             <p class="mb-0 ms-2">{{ card.teacher.first_name }} {{ card.teacher.last_name }}</p>
