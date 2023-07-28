@@ -117,7 +117,7 @@ class WebinarSerializer(serializers.ModelSerializer):
                     'description': course.description,
                     'teacher': {'first_name': course.teacher.first_name,
                                 'last_name': course.teacher.last_name,
-                                'image': course.teacher.image.url,
+                                'image': course.teacher.image.url if course.teacher.image else None,
                                 'vk_link': course.teacher.vk_link},
                     'price': course.price
                     }
@@ -169,7 +169,7 @@ class ConfirmedCourseSerializer(serializers.ModelSerializer):
                     'description': course.description,
                     'teacher': {'first_name': course.teacher.first_name,
                                 'last_name': course.teacher.last_name,
-                                'image': course.teacher.image.url,
+                                'image': course.teacher.image.url if course.teacher.image else None,
                                 'vk_link': course.teacher.vk_link},
                     'price': course.price
                     }

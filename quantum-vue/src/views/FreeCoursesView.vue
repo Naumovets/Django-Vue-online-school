@@ -137,7 +137,7 @@
                                         </h3>
 
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar avatar-circle avatar-xs">
+                                            <div class="d-md-block d-none avatar avatar-circle avatar-xs">
                                                 <img v-if="card.teacher.image" width="100%" :src="'http://45.80.69.193:7000' + card.teacher.image" class="avatar-title">
                                                 <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                             </div>

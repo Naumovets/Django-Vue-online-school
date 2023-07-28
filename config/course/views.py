@@ -63,7 +63,7 @@ class WebinarView(APIView):
         return Response({'webinar': webinar_serialized.data,
                          'curator': {'first_name': curator.user.first_name,
                                      'last_name': curator.user.last_name,
-                                     'image': curator.user.image.url,
+                                     'image': curator.user.image.url if curator.user.image else None,
                                      'vk_link': curator.user.vk_link}})
 
 

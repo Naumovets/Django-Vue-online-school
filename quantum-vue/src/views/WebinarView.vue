@@ -61,7 +61,7 @@
                                 <iframe class="w-100 h-100 webinar-chat" :src="'https://www.youtube.com/live\_chat?v='+ webinar.code_of_translation + '&amp;embed\_domain=lk-quantum.ru'" ></iframe>
                             </div>
 
-                            <div class="col-8 p-5">
+                            <div class="col-md-8 col-12 p-5">
                                 <ol class="list-group mt-5">
                                     <li class="list-group-item">
                                         <div class="d-flex justify-content-between">
@@ -80,8 +80,9 @@
                                                 <a class="me-2" :href="webinar.course.teacher.vk_link">
                                                     {{ webinar.course.teacher.first_name }} {{ webinar.course.teacher.last_name }}
                                                 </a>
-                                                <div class="avatar avatar-circle avatar-xs">
-                                                    <img width="100%" :src="'http://45.80.69.193:7000' + webinar.course.teacher.image" class="avatar-title">
+                                                <div class="d-md-block d-none avatar avatar-circle avatar-xs">
+                                                    <img v-if="webinar.course.teacher.image !== null" width="100%" :src="'http://45.80.69.193:7000' + webinar.course.teacher.image" class="avatar-title">
+                                                    <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                                 </div>
                                             </div>
                                         </div>
@@ -93,8 +94,9 @@
                                                 <a class="me-2" :href="curator.vk_link">
                                                     {{ curator.first_name }} {{ curator.last_name }}
                                                 </a>
-                                                <div class="avatar avatar-circle avatar-xs">
-                                                    <img width="100%" :src="'http://45.80.69.193:7000' + curator.image" class="avatar-title">
+                                                <div class="d-md-block d-none avatar avatar-circle avatar-xs">
+                                                    <img v-if="curator.image !== null" width="100%" :src="'http://45.80.69.193:7000' + curator.image" class="avatar-title">
+                                                    <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                                 </div>
                                             </div>
                                         </div>
@@ -134,7 +136,7 @@
                                             <div class="accordion accordion-flush" id="accordionFlushExample">
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header" :id="'flush-heading'+task.id">
-                                                        <button class="accordion-button collapsed bg-white" type="button" data-bs-toggle="collapse" :data-bs-target="'#flush-collapse'+task.id" aria-expanded="false" :aria-controls="'flush-collapse'+task.id">
+                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#flush-collapse'+task.id" aria-expanded="false" :aria-controls="'flush-collapse'+task.id">
                                                             Ответ
                                                         </button>
                                                     </h2>

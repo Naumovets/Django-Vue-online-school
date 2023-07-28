@@ -76,7 +76,7 @@
                     router.push('/login');
             }})
             .catch(function(error){
-                info.value = error.response.data.email[0];
+                info.value = Object.values(error.response.data)[0][0]
             })
         }
     }

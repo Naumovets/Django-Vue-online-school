@@ -72,8 +72,9 @@
                                                 <a class="me-2" :href="orderItem.course.teacher.vk_link">
                                                     {{ orderItem.course.teacher.first_name }} {{ orderItem.course.teacher.last_name }}
                                                 </a>
-                                                <div class="avatar avatar-circle avatar-xs">
-                                                    <img width="100%" :src="'http://45.80.69.193:7000' + orderItem.course.teacher.image" class="avatar-title">
+                                                <div class="d-md-block d-none avatar avatar-circle avatar-xs">
+                                                    <img v-if="orderItem.course.teacher.image !== null" width="100%" :src="'http://45.80.69.193:7000' + orderItem.course.teacher.image" class="avatar-title">
+                                                    <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                                 </div>
                                             </div>
                                         </div>
@@ -85,8 +86,9 @@
                                                 <a class="me-2" :href="orderItem.curator.vk_link">
                                                     {{ orderItem.curator.first_name }} {{ orderItem.curator.last_name }}
                                                 </a>
-                                                <div class="avatar avatar-circle avatar-xs">
-                                                    <img width="100%" :src="'http://45.80.69.193:7000' + orderItem.curator.image" class="avatar-title">
+                                                <div class="d-md-block d-none avatar avatar-circle avatar-xs">
+                                                    <img v-if="orderItem.curator.image !== null" width="100%" :src="'http://45.80.69.193:7000' + orderItem.curator.image" class="avatar-title">
+                                                    <img v-else width="100%" src="../assets/images/profiles/student.png" class="avatar-title">
                                                 </div>
                                             </div>
                                         </div>

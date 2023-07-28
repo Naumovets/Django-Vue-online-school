@@ -142,7 +142,7 @@ document.title = 'Профиль'
                                     </tr>
                                 </thead>
 
-                                <tbody v-if="ordderItems !== undefined && orderItems !== null ">
+                                <tbody v-if="orderItems !== undefined && orderItems !== null ">
                                     <tr v-for="orderItem in orderItems">
                                         <td class="fw-bold">
                                             <h4><RouterLink :to="'course/'+orderItem.course.slug">{{orderItem.course.title}}</RouterLink></h4>
