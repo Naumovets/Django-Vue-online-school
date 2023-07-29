@@ -9,7 +9,6 @@
     import { ref, computed } from 'vue'
     import { useFetch } from '@vueuse/core'
     import { watch } from 'vue'
-    import 'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js'
 
     const courses = ref(null);
     const promocode = ref('');
@@ -187,9 +186,10 @@
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
                                     <button :disabled="courses.length==0" @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
+                                    <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
                                     <form name="t-payform" onsubmit="pay(this); return false;">
-                                        <input class="t-payform-row" type="hidden" name="terminalkey" value="TinkoffBankTest">
                                         <input class="t-payform-row" type="hidden" name="frame" value="true">
+                                        <input class="t-payform-row" type="hidden" name="terminalkey" value="TinkoffBankTest">
                                         <input class="t-payform-row" type="hidden" name="language" value="ru"> 
                                         <input class="t-payform-row" type="text" placeholder="Сумма заказа" name="amount" required>
                                         <input class="t-payform-row" type="text" placeholder="Номер заказа" name="order">
