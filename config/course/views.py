@@ -1,3 +1,4 @@
+from django.http import Http404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.generics import get_object_or_404
@@ -78,7 +79,7 @@ class ConfirmedCoursesView(APIView):
             courses_serialized = ConfirmedCourseSerializer(courses, many=True)
             return Response(courses_serialized.data)
         else:
-            return Response({'response': 'Курсов нет'})
+            return Http404
 
 
 @authentication_classes([TokenAuthentication])

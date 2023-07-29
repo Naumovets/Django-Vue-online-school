@@ -43,7 +43,10 @@ axios({
 })
 .then(function(response){
     orderItems.value = response.data
-});
+})
+.catch(function(response){
+    orderItems.value = null
+})
 
 document.title = 'Профиль'
 
@@ -78,7 +81,8 @@ document.title = 'Профиль'
                         <div class="col-12 col-md-auto ms-auto text-center mt-8 mt-md-0">
                             <div class="hstack d-inline-flex gap-6">
                                 <div>
-                                    <h4 v-if="orderItems" class="h2 mb-0">{{orderItems.length}}</h4>
+                                    <h4 v-if="orderItems !== undefined && orderItems !== null" class="h2 mb-0">{{orderItems.length}}</h4>
+                                    <h4 v-else class="h2 mb-0">0</h4>
                                     <p class="text-secondary mb-0">Курсов</p>
                                 </div>
                             </div>

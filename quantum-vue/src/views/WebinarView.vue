@@ -7,7 +7,7 @@
     import { ref } from 'vue'
     import VueCookies from 'vue-cookies'
     import axios from 'axios'
-    import { useRoute, useRouter, RouterLink } from 'vue-router';
+    import { useRoute, useRouter } from 'vue-router';
 
     const router = useRouter();
     const route = useRoute();
