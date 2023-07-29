@@ -74,7 +74,6 @@
                 form_data.append('order', orderId.value)
                 pay(form_data);
                 getCart();
-                return false;
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -98,7 +97,6 @@
                 form_data.append('order', orderId.value)
                 pay(form_data);
                 getCart();
-                return false;
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
