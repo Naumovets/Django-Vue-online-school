@@ -63,7 +63,18 @@
                 }
             })
             .then(function (response) {
-                getCart()
+                console.log(response.data);
+                const orderId = response.data.id
+                const price = response.data.price
+                let form_data = new FormData();
+                form_data.append('amount', price.value);
+                form_data.append('language', 'ru');
+                form_data.append('terminalkey', '1690624343703DEMO');
+                form_data.append('frame', false);
+                form_data.append('order', orderId.value)
+                pay(form_data);
+                getCart();
+                return false;
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -76,7 +87,18 @@
                 }
             })
             .then(function (response) {
+                console.log(response.data);
+                const orderId = response.data.id
+                const price = response.data.price
+                let form_data = new FormData();
+                form_data.append('amount', price.value);
+                form_data.append('language', 'ru');
+                form_data.append('terminalkey', '1690624343703DEMO');
+                form_data.append('frame', false);
+                form_data.append('order', orderId.value)
+                pay(form_data);
                 getCart();
+                return false;
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -187,18 +209,6 @@
                                     <span>{{data.value.result_price}} ₽</span>
                                     <button :disabled="courses.length==0" @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
                                     <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
-                                    <form name="t-payform" onsubmit="pay(this); return false;">
-                                        <input class="t-payform-row" type="hidden" name="frame" value="true">
-                                        <input class="t-payform-row" type="hidden" name="terminalkey" value="TinkoffBankTest">
-                                        <input class="t-payform-row" type="hidden" name="language" value="ru"> 
-                                        <input class="t-payform-row" type="text" placeholder="Сумма заказа" name="amount" required>
-                                        <input class="t-payform-row" type="text" placeholder="Номер заказа" name="order">
-                                        <input class="t-payform-row" type="text" placeholder="Описание заказа" name="description">
-                                        <input class="t-payform-row" type="text" placeholder="ФИО плательщика" name="name">
-                                        <input class="t-payform-row" type="text" placeholder="E-mail" name="email">
-                                        <input class="t-payform-row" type="text" placeholder="Контактный телефон" name="phone">
-                                        <input class="t-payform-row" type="submit" value="Оплатить">
-                                    </form>
                                 </div>
                             </template>
                         </div>
