@@ -14,6 +14,8 @@
     const promocode = ref('');
     const errorCartItem = ref('')
     const data = ref({response:'', error: ''});
+    const tinkoff = ref();
+
     const jsonCartItem = computed(()=>{
         if(courses.value){
             return courses.value.map(item => ({'id': item.course.id, 'period': item.period }))
@@ -75,9 +77,7 @@
                 //     <input class="t-payform-row" type="text" placeholder="Контактный телефон" name="phone">
                 //     <input class="t-payform-row" type="submit" value="Оплатить">
                 // </form>
-                const price = response.data.price;
-                const orderId = response.data.id;
-                const phone = response.data.phone;
+                tinkoff.value = response.data
                 document.getElementById("tinkoff").submit();
             })
             .catch(function(error){
@@ -91,9 +91,7 @@
                 }
             })
             .then(function (response) {
-                const price = response.data.price;
-                const orderId = response.data.id;
-                const phone = response.data.phone;
+                tinkoff.value = response.data
                 document.getElementById("tinkoff").submit();
             })
             .catch(function(error){
@@ -208,15 +206,15 @@
                                 <span class="mb-2 form-label">Итого:</span>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
-                                    <form id="tinkoff" name="t-payform" onsubmit="pay(this)">
+                                    <form v-if="tinkoff !== null && tinkoff !== undefined" id="tinkoff" name="t-payform" onsubmit="pay(this)">
                                         <input class="t-payform-row" type="hidden" name="terminalkey" value="1690624343703DEMO">
                                         <input class="t-payform-row" type="hidden" name="frame" value="false">
                                         <input class="t-payform-row" type="hidden" name="language" value="ru">
-                                        <input class="t-payform-row" type="hidden" name="amount" :value="price.value">
-                                        <input class="t-payform-row" type="hidden" name="order" :value="orderId.value">
-                                        <input class="t-payform-row" type="hidden" name="phone" :value="phone.value">
-                                        <button :disabled="courses.length==0" @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
+                                        <input class="t-payform-row" type="hidden" name="amount" :value="tinkoff.value.price">
+                                        <input class="t-payform-row" type="hidden" name="order" :value="tinkoff.value.orderId">
+                                        <input class="t-payform-row" type="hidden" name="phone" :value="tinkoff.value.phone">
                                     </form>
+                                    <button :disabled="courses.length==0" @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
                                 </div>
                             </template>
                         </div>
