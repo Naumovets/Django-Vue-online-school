@@ -64,6 +64,7 @@ class addOrderItems(APIView):
                                                   coupon_code=coupon_code,
                                                   data_of_courses=data_of_courses.validated_data)
         result_price = total_price['result_price']
+        description = ''
         if Cart.objects.get(user=user).items.all().exists():
             order = Order.objects.create(user=user,
                                          coupon=coupon,
@@ -74,9 +75,13 @@ class addOrderItems(APIView):
                 OrderItem.objects.create(order=order,
                                          course=course,
                                          period=OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH)
+                description += course.title+'\n'
 
-            CartManager.clear_cart(user=user)
-            return Response({'id': order.id, 'price': result_price, 'phone': format_number(user.tel, PhoneNumberFormat.E164)})
+            # CartManager.clear_cart(user=user)
+            return Response({'id': order.id,
+                             'price': result_price,
+                             'phone': format_number(user.tel, PhoneNumberFormat.E164),
+                             'description': description})
         else:
             return Http404()
 

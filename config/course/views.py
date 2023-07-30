@@ -79,7 +79,7 @@ class ConfirmedCoursesView(APIView):
             courses_serialized = ConfirmedCourseSerializer(courses, many=True)
             return Response(courses_serialized.data)
         else:
-            return Http404
+            return Http404()
 
 
 @authentication_classes([TokenAuthentication])

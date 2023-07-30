@@ -134,7 +134,7 @@
             </div>
             
             <div class="row">
-                <div class="col-12 order-lg-1 order-2 col-lg-9">
+                <div class="col-12 order-lg-1 order-2 col-xl-9">
                     <template v-if="data !== undefined">
                         <div class="card shadow-none border-0" v-for="card in data" :key="card.id">
                             <div v-if="((card.status == 'Основной' && main)
@@ -174,14 +174,15 @@
 
                                 </div>
 
-                                <div class="col-md-3">
-                                    <div class="card-body h-100 d-flex flex-column justify-content-around">
+                                <div class="col-8 col-sm-6 col-md-5 col-lg-3">
+                                    <div class="card-body h-100 d-flex flex-row flex-lg-column justify-content-around align-items-center">
                                         <p v-if="card.status !== 'Бесплатный'" class="mb-0 price">{{ card.price }} ₽/мес.</p>
                                         <p v-else class="mb-0 price">Бесплатно</p>
                                         <div>
                                             <button v-if="card.status !== 'Бесплатный' && card.price && !card.isAddedToCart" @click="addToCart(card.id)" type="button" class="btn btn-success">В корзину</button>
                                             <button v-else-if="card.isAddedToCart" @click="deleteCartItem(card.id)" type="button" class="btn btn-success">Удалить</button>
-                                            <button v-else-if="!card.isAddedToOrder" @click="addFreeCourseOrderItem(card.id)" type="button" class="btn btn-success">Получить</button>
+                                            <button v-else-if="!card.isAddedToOrder" @click="addFreeCourseOrderItem(card.id)" type="button" class="btn btn-success">Добавить</button>
+                                            <button v-else type="button" class="btn btn-success" disabled>Добавлен</button>
                                         </div>
 
                                     </div>
@@ -193,7 +194,7 @@
 
                 </div>
 
-                <div class="col-12 order-lg-2 order-1 col-lg-3">
+                <div class="col-12 order-lg-2 order-1 col-xl-3">
                     <div class="card border-0">
                         <div class="card-body mt-5 pt-0">
                             <h3>Фильтр</h3>

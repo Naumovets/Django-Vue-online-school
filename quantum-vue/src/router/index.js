@@ -9,6 +9,7 @@ import CartView from '../views/CartView.vue'
 import FreeCoursesView from '../views/FreeCoursesView.vue'
 import CourseView from '../views/CourseView.vue'
 import WebinarView from '../views/WebinarView.vue'
+import MyCoursesView from '../views/MyCoursesView.vue'
 
 
 const router = createRouter({
@@ -87,6 +88,11 @@ const router = createRouter({
       path: '/webinar/:code',
       name: 'webinar',
       component: WebinarView
+    },
+    {
+      path: '/my-courses',
+      name: 'my-courses',
+      component: MyCoursesView
     },
     {
       path: '/:pathMatch(.*)*',

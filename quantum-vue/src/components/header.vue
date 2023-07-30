@@ -1,76 +1,3 @@
-<script setup>
-
-         // Theme switcher
-        
-            let themeSwitcher = document.getElementById('themeSwitcher');
-        
-            const getPreferredTheme = () => {
-                if (localStorage.getItem('theme') != null) {
-                    return localStorage.getItem('theme');
-                }
-        
-                return document.documentElement.dataset.theme;
-            };
-        
-            const setTheme = function (theme) {
-                if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                } else {
-                    document.documentElement.dataset.theme = theme;
-                }
-        
-                localStorage.setItem('theme', theme);
-            };
-        
-            const showActiveTheme = theme => {
-                const activeBtn = document.querySelector(`[data-theme-value="${theme}"]`);
-        
-                document.querySelectorAll('[data-theme-value]').forEach(element => {
-                    element.classList.remove('active');
-                });
-        
-                activeBtn && activeBtn.classList.add('active');
-        
-             // Set button if demo mode is enabled
-                document.querySelectorAll('[data-theme-control="theme"]').forEach(element => {
-                    if (element.value == theme) {
-                        element.checked = true;
-                    }
-                });
-            };
-        
-            function reloadPage() {
-                window.location = window.location.pathname;
-            }
-        
-        
-            setTheme(getPreferredTheme());
-        
-            if(typeof themeSwitcher != 'undefined') {
-                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                    if(localStorage.getItem('theme') != null) {
-                        if (localStorage.getItem('theme') == 'auto') {
-                            reloadPage();
-                        }
-                    }
-                });
-        
-                window.addEventListener('load', () => {
-                    showActiveTheme(getPreferredTheme());
-                    
-                    document.querySelectorAll('[data-theme-value]').forEach(element => {
-                        element.addEventListener('click', () => {
-                            const theme = element.getAttribute('data-theme-value');
-        
-                            localStorage.setItem('theme', theme);
-                            reloadPage();
-                        })
-                    })
-                });
-            }
-
-</script>
-
 <template>
     <header class="container-fluid d-flex justify-content-center justify-content-lg-end py-6 mb-4 navbar navbar-expand navbar-light">
       <ul class="navbar-nav">
@@ -80,9 +7,8 @@
         <li class="nav-item text-center p-0">
             <RouterLink class="nav-link m-0 px-0" to="/free-courses">Открытые вебинары</RouterLink>
         </li>
-        <div class="dropdown mx-4" id="themeSwitcher">
+        <!-- <div class="dropdown mx-4" id="themeSwitcher">
             <a href="javascript: void(0);" class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,0">                
-                <!-- <img src="../assets/images/theme.svg" alt=""> -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="18" width="18">
                     <g>
                         <path class="theme" d="M12,4.64A7.36,7.36,0,1,0,19.36,12,7.37,7.37,0,0,0,12,4.64Zm0,12.72A5.36,5.36,0,1,1,17.36,12,5.37,5.37,0,0,1,12,17.36Z" style="fill: currentColor"></path>
@@ -118,7 +44,7 @@
                     </button>
                 </li>
             </ul>
-        </div>
+        </div> -->
         <div class="vr bg-gray-700 mx-2 mx-lg-3"></div>
 
         <div class="dropdown">

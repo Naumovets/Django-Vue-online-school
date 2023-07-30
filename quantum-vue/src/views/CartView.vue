@@ -14,7 +14,6 @@
     const promocode = ref('');
     const errorCartItem = ref('')
     const data = ref({response:'', error: ''});
-    const tinkoff = ref();
 
     const jsonCartItem = computed(()=>{
         if(courses.value){
@@ -57,6 +56,7 @@
     }
 
     function addOrderItems(){
+        // order.value = 1000;
         if(!data.value.error){
             axios.post(`https://admin.lk-quantum.ru/api/v1/order/add_order_items/${promocode.value}`, jsonCartItem.value, {
                 headers: {
@@ -65,19 +65,10 @@
                 }
             })
             .then(function (response) {
-                // <form name="t-payform" onsubmit="pay(this); return false;">
-                //     <input class="t-payform-row" type="hidden" name="terminalkey" value="1690624343703DEMO">
-                //     <input class="t-payform-row" type="hidden" name="frame" value="false">
-                //     <input class="t-payform-row" type="hidden" name="language" value="ru"> 
-                //     <input class="t-payform-row" type="hidden" value="2000" name="amount" required>
-                //     <input class="t-payform-row" type="text" placeholder="Номер заказа" name="order">
-                //     <input class="t-payform-row" type="text" placeholder="Описание заказа" name="description">
-                //     <input class="t-payform-row" type="text" placeholder="ФИО плательщика" name="name">
-                //     <input class="t-payform-row" type="text" placeholder="E-mail" name="email">
-                //     <input class="t-payform-row" type="text" placeholder="Контактный телефон" name="phone">
-                //     <input class="t-payform-row" type="submit" value="Оплатить">
-                // </form>
-                tinkoff.value = response.data
+                const form = document.getElementById('t-payform'); // Получаем ссылку на форму по ее id
+                form.elements['order'].value = response.data.id;
+                form.elements['amount'].value = response.data.price;
+                pay(form);
                 getCart();
             })
             .catch(function(error){
@@ -92,7 +83,10 @@
                 }
             })
             .then(function (response) {
-                tinkoff.value = response.data
+                const form = document.getElementById('t-payform'); // Получаем ссылку на форму по ее id
+                form.elements['order'].value = response.data.id;
+                form.elements['amount'].value = response.data.price;
+                pay(form);
                 getCart();
             })
             .catch(function(error){
@@ -100,6 +94,7 @@
                 getCart();
             })
         }
+
     }
     
     onBeforeMount(() => {
@@ -128,6 +123,7 @@
     script.src = 'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js';
     script.async = true;
     document.body.appendChild(script);
+
 </script>
 
 <template>
@@ -206,17 +202,17 @@
                                 <p class="mb-0">{{ data.value.price }} ₽.</p>
                                 <hr>
                                 <span class="mb-2 form-label">Итого:</span>
-                                <div class="d-flex align-items-center justify-content-between">
+                                <div id="myFormContainer" class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
-                                    <form v-if="tinkoff !== undefined && tinkoff !== null && tinkoff.value !== null && tinkoff.value !== undefined" id="tinkoff" name="t-payform" onsubmit="pay(this)">
-                                        <input class="t-payform-row" type="hidden" name="terminalkey" value="1690624343703DEMO">
-                                        <input class="t-payform-row" type="hidden" name="frame" value="false">
-                                        <input class="t-payform-row" type="hidden" name="language" value="ru">
-                                        <input class="t-payform-row" type="hidden" name="amount" :value="tinkoff.value.price">
-                                        <input class="t-payform-row" type="hidden" name="order" :value="tinkoff.value.orderId">
-                                        <input class="t-payform-row" type="hidden" name="phone" :value="tinkoff.value.phone">
+                                    <form id="t-payform" name="t-payform">
+                                        <input type="hidden" name="terminalkey" value="1690624343703DEMO">
+                                        <input type="hidden" name="frame" value="true">
+                                        <input type="hidden" name="language" value="ru">
+                                        <input type="hidden" name="order"> 
+                                        <input type="hidden" name="amount" required>
+                                        <input type="hidden" value="Оплата курсов квантум" name="description">
+                                        <button :disabled="courses.length==0"  @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
                                     </form>
-                                    <button :disabled="courses.length==0" @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
                                 </div>
                             </template>
                         </div>
