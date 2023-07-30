@@ -9,7 +9,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from cart.models import Coupon, UsedCoupon
+from cart.models import Coupon, UsedCoupon, Cart
 from cart.serializers import CartItemForPriceSerializer
 from cart.services.cart_manager import CartManager
 from course.models import Course, Curator
@@ -63,19 +63,21 @@ class addOrderItems(APIView):
                                                   coupon_code=coupon_code,
                                                   data_of_courses=data_of_courses.validated_data)
         result_price = total_price['result_price']
-        order = Order.objects.create(user=user,
-                                     coupon=coupon,
-                                     result_price=result_price)
+        if Cart.objects.get(user=user).items.all().exists():
+            order = Order.objects.create(user=user,
+                                         coupon=coupon,
+                                         result_price=result_price)
 
-        for data in data_of_courses.validated_data:
-            course = Course.objects.get(id=data['id'])
-            OrderItem.objects.create(order=order,
-                                     course=course,
-                                     period=OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH)
+            for data in data_of_courses.validated_data:
+                course = Course.objects.get(id=data['id'])
+                OrderItem.objects.create(order=order,
+                                         course=course,
+                                         period=OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH)
 
-        CartManager.clear_cart(user=user)
-
-        return Response({'id': order.id, 'price': order.result_price, 'phone': user.tel})
+            CartManager.clear_cart(user=user)
+            return Response({'id': order.id, 'price': result_price, 'phone': user.tel})
+        else:
+            return Http404
 
 
 class ConfirmOrder(APIView):
