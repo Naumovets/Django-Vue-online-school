@@ -5,7 +5,7 @@
           <RouterLink class="nav-link" to="/courses">Магазин</RouterLink>
         </li>
         <li class="nav-item text-center p-0">
-            <RouterLink class="nav-link m-0 px-0" to="/free-courses">Открытые вебинары</RouterLink>
+            <RouterLink class="nav-link m-0 px-0" to="/free-courses">Бесплатные курсы</RouterLink>
         </li>
         <!-- <div class="dropdown mx-4" id="themeSwitcher">
             <a href="javascript: void(0);" class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,0">                
