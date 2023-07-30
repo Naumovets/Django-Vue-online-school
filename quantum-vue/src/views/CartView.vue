@@ -224,7 +224,7 @@
                                 <span class="mb-2 form-label">Итого:</span>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
-                                    <form onsubmit="addOrderItems">
+                                    <form onsubmit='addOrderItems()'>
                                         <button :disabled="courses.length==0" type="submit" class="btn btn-outline-primary">Оплатить</button>
                                     </form>
 
