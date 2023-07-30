@@ -148,7 +148,7 @@
 
                                 </div>
 
-                                <div class="col-8 col-sm-6 col-md-5 col-lg-3">
+                                <div class="col-10 col-md-5 col-lg-3">
                                     <div class="card-body h-100 d-flex flex-row flex-lg-column justify-content-around align-items-center">
                                         <p class="mb-0 price">Бесплатно</p>
                                         <div>
