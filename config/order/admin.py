@@ -46,5 +46,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(ConfirmedCourse)
 class ConfirmedCourseAdmin(admin.ModelAdmin):
-    list_display = 'user', 'course', 'price_with_discount', 'create_date', 'update_date', 'end_date', 'curator'
+    list_display = 'user', 'course', 'get_course_price', 'price_with_discount', 'create_date', 'update_date', 'end_date', 'curator'
     form = ConfirmedCourseForm
+
+    def get_course_price(self, obj):
+        return obj.course.price

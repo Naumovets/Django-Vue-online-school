@@ -17,7 +17,7 @@ class ConfirmedCourse(models.Model):
                              verbose_name='Пользователь',
                              related_name='order_courses')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс', related_name='order_courses')
-    price_with_discount = models.DecimalField(verbose_name='Куплен по цене',
+    price_with_discount = models.DecimalField(verbose_name='Цена по скидке\n(если есть)',
                                               decimal_places=0,
                                               max_digits=9,
                                               null=True,
