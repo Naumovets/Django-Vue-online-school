@@ -105,6 +105,11 @@
             }
         });
 
+    // Добавляем скрипт Tinkoff
+    const script = document.createElement('script');
+    script.src = 'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js';
+    script.async = true;
+    document.body.appendChild(script);
 </script>
 
 <template>
