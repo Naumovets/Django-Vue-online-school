@@ -155,8 +155,8 @@ document.title = 'Профиль'
                                             <p>{{orderItem.end_date}}</p>
                                         </td>
                                         <td>
-                                            <p v-if="!orderItem.price_with_discount && orderItem.course.status !== 'Бесплатный'">{{orderItem.course.price}}</p>
-                                            <p v-else-if="orderItem.course.status !== 'Бесплатный'">{{orderItem.price_with_discount}}₽ <sup><del class="h6">{{orderItem.course.price}}₽</del></sup></p>
+                                            <p v-if="!orderItem.price_with_discount && orderItem.course.status !== 'Бесплатный'">{{orderItem.course.price}} ₽</p>
+                                            <p v-else-if="orderItem.course.status !== 'Бесплатный'">{{orderItem.price_with_discount}} ₽ <sup><del class="h6">{{orderItem.course.price}}₽</del></sup></p>
                                             <p v-else>Бесплатно</p>
                                         </td>
                                     </tr>

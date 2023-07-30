@@ -217,7 +217,7 @@
 
                         <!-- Label -->
                         <label class="form-check-label" for="agree">
-                            Я согласен с <a href="javascript: void(0);">политикой обработки персональных данных</a>
+                            Я согласен с <a href="https://admin.lk-quantum.ru/media/politics.docx" target="_blank">политикой обработки персональных данных</a>
                         </label>
                     </div>
 

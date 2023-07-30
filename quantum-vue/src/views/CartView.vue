@@ -57,26 +57,15 @@
 
     function addOrderItems(){
         // order.value = 1000;
+        let add_order_items_url;
+
         if(!data.value.error){
-            axios.post(`https://admin.lk-quantum.ru/api/v1/order/add_order_items/${promocode.value}`, jsonCartItem.value, {
-                headers: {
-                    'Authorization': VueCookies.get('Authorization'),
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(function (response) {
-                const form = document.getElementById('t-payform'); // Получаем ссылку на форму по ее id
-                form.elements['order'].value = response.data.id;
-                form.elements['amount'].value = response.data.price;
-                pay(form);
-                getCart();
-            })
-            .catch(function(error){
-                alert('Что-то пошло не так, заявите об этом в поддержку!')
-                getCart();
-            })
+            add_order_items_url = `https://admin.lk-quantum.ru/api/v1/order/add_order_items/${promocode.value}` 
         }else{
-            axios.post('https://admin.lk-quantum.ru/api/v1/order/add_order_items/', jsonCartItem.value, {
+            add_order_items_url = `https://admin.lk-quantum.ru/api/v1/order/add_order_items/`
+        }
+        
+        axios.post(add_order_items_url, jsonCartItem.value, {
                 headers: {
                     'Authorization': VueCookies.get('Authorization'),
                     'Content-Type': 'application/json'
@@ -86,6 +75,7 @@
                 const form = document.getElementById('t-payform'); // Получаем ссылку на форму по ее id
                 form.elements['order'].value = response.data.id;
                 form.elements['amount'].value = response.data.price;
+                form.elements['description'].value = response.data.description;
                 pay(form);
                 getCart();
             })
@@ -93,7 +83,6 @@
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
                 getCart();
             })
-        }
 
     }
     
