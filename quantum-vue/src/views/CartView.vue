@@ -78,14 +78,7 @@
                 const price = response.data.price;
                 const orderId = response.data.id;
                 const phone = response.data.phone;
-                form_data = new FormData()
-                form_data.append('terminalkey', '1690624343703DEMO');
-                form_data.append('frame', 'false');
-                form_data.append('language', 'ru');
-                form_data.append('amount', price.value);
-                form_data.append('order', orderId.value);
-                form_data.append('phone', phone.value);
-                pay(form_data);
+                document.getElementById("tinkoff").submit();
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -101,14 +94,7 @@
                 const price = response.data.price;
                 const orderId = response.data.id;
                 const phone = response.data.phone;
-                form_data = new FormData()
-                form_data.append('terminalkey', '1690624343703DEMO');
-                form_data.append('frame', 'false');
-                form_data.append('language', 'ru');
-                form_data.append('amount', price.value);
-                form_data.append('order', orderId.value);
-                form_data.append('phone', phone.value);
-                pay(form_data);
+                document.getElementById("tinkoff").submit();
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -222,8 +208,14 @@
                                 <span class="mb-2 form-label">Итого:</span>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
-                                    <form name="t-payform" :on-submit="addOrderItems">
-                                        <button :disabled="courses.length==0" type="submit" class="btn btn-outline-primary">Оплатить</button>
+                                    <form id="tinkoff" name="t-payform" onsubmit="pay(this)">
+                                        <input class="t-payform-row" type="hidden" name="terminalkey" value="1690624343703DEMO">
+                                        <input class="t-payform-row" type="hidden" name="frame" value="false">
+                                        <input class="t-payform-row" type="hidden" name="language" value="ru">
+                                        <input class="t-payform-row" type="hidden" name="amount" :value="price.value">
+                                        <input class="t-payform-row" type="hidden" name="order" :value="orderId.value">
+                                        <input class="t-payform-row" type="hidden" name="phone" :value="phone.value">
+                                        <button :disabled="courses.length==0" @click="addOrderItems" type="button" class="btn btn-outline-primary">Оплатить</button>
                                     </form>
                                 </div>
                             </template>
