@@ -77,7 +77,7 @@ class addOrderItems(APIView):
             CartManager.clear_cart(user=user)
             return Response({'id': order.id, 'price': result_price, 'phone': user.tel})
         else:
-            return Http404
+            return Http404()
 
 
 class ConfirmOrder(APIView):
