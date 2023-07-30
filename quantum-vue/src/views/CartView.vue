@@ -222,7 +222,7 @@
                                 <span class="mb-2 form-label">Итого:</span>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
-                                    <form name="t-payform" onsubmit="form_data=addOrderItems(); pay(form_data); return false;">
+                                    <form name="t-payform" :on-submit="pay(addOrderItems())">
                                         <button :disabled="courses.length==0" type="submit" class="btn btn-outline-primary">Оплатить</button>
                                     </form>
                                 </div>
