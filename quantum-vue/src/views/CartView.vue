@@ -80,8 +80,17 @@
             })
             .then(function (response) {
                 console.log(response.data);
-                const orderId = response.data.id
-                const price = response.data.price
+                const orderId = response.data.id;
+                const price = response.data.price;
+                const phone = response.data.phone;
+                let form_data = new FormData();
+                form_data.append('amount', price.value);
+                form_data.append('language', 'ru');
+                form_data.append('terminalkey', '1690624343703DEMO');
+                form_data.append('frame', false);
+                form_data.append('order', orderId.value);
+                form_data.append('phone', phone.value)
+                pay(form_data);
                 getCart();
             })
             .catch(function(error){

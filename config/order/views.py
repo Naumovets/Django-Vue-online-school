@@ -75,7 +75,7 @@ class addOrderItems(APIView):
 
         CartManager.clear_cart(user=user)
 
-        return Response({'id': order.id, 'price': order.result_price})
+        return Response({'id': order.id, 'price': order.result_price, 'phone': user.tel})
 
 
 class ConfirmOrder(APIView):
