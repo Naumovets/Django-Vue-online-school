@@ -85,7 +85,6 @@
                 form_data.append('amount', price.value);
                 form_data.append('order', orderId.value);
                 form_data.append('phone', phone.value);
-                form_data.append('phone', phone.value);
                 pay(form_data);
                 getCart();
             })
@@ -109,7 +108,6 @@
                 form_data.append('language', 'ru');
                 form_data.append('amount', price.value);
                 form_data.append('order', orderId.value);
-                form_data.append('phone', phone.value);
                 form_data.append('phone', phone.value);
                 pay(form_data);
                 getCart();
