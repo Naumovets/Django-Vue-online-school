@@ -64,7 +64,7 @@
         }else{
             add_order_items_url = `https://admin.lk-quantum.ru/api/v1/order/add_order_items/`
         }
-        
+
         axios.post(add_order_items_url, jsonCartItem.value, {
                 headers: {
                     'Authorization': VueCookies.get('Authorization'),
@@ -153,7 +153,7 @@
                                         <td>
                                             <select v-model="course.period" class="form-select form-select-sm" aria-label=".form-select-sm example">
 
-                                                <option value="full" selected>Полный курс</option>
+                                                <option value="full" selected>Полный</option>
                                             
                                                 <option value="month">Месяц</option>
                                             
