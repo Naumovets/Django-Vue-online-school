@@ -85,7 +85,7 @@
                 form_data.append('amount', price.value);
                 form_data.append('order', orderId.value);
                 form_data.append('phone', phone.value);
-                return form_data;
+                pay(form_data);
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -108,7 +108,7 @@
                 form_data.append('amount', price.value);
                 form_data.append('order', orderId.value);
                 form_data.append('phone', phone.value);
-                return form_data;
+                pay(form_data);
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -222,7 +222,7 @@
                                 <span class="mb-2 form-label">Итого:</span>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
-                                    <form name="t-payform" :on-submit="pay(addOrderItems())">
+                                    <form name="t-payform" onsubmit="">
                                         <button :disabled="courses.length==0" type="submit" class="btn btn-outline-primary">Оплатить</button>
                                     </form>
                                 </div>

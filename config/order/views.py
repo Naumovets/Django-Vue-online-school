@@ -30,7 +30,7 @@ class addFreeCourseOrderItem(APIView):
                                    id=course_id,
                                    status=Course.Status.FREE)
         if ConfirmedCourse.objects.filter(user=user, course=course).exists():
-            return Http404
+            return Http404()
         ConfirmedCourse.objects.create(user=user,
                                        course=course,
                                        create_date=date.today(),
@@ -54,7 +54,7 @@ class addOrderItems(APIView):
 
         json_parsed_courses = json.loads(request.body)
         if len(json_parsed_courses) < 1:
-            return Http404
+            return Http404()
 
         # { 'array': [{'period': period, 'id': id},...], 'promocode': promocode }
 
