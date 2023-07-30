@@ -206,7 +206,7 @@
                                 <span class="mb-2 form-label">Итого:</span>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
-                                    <form v-if="tinkoff !== null && tinkoff !== undefined" id="tinkoff" name="t-payform" onsubmit="pay(this)">
+                                    <form v-if="tinkoff.value !== null && tinkoff.value !== undefined" id="tinkoff" name="t-payform" onsubmit="pay(this)">
                                         <input class="t-payform-row" type="hidden" name="terminalkey" value="1690624343703DEMO">
                                         <input class="t-payform-row" type="hidden" name="frame" value="false">
                                         <input class="t-payform-row" type="hidden" name="language" value="ru">
