@@ -3,6 +3,7 @@ import json
 
 from django.db.models import Count
 from django.http import Http404
+from phonenumbers import format_number, PhoneNumberFormat
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.generics import get_object_or_404
@@ -75,7 +76,7 @@ class addOrderItems(APIView):
                                          period=OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH)
 
             CartManager.clear_cart(user=user)
-            return Response({'id': order.id, 'price': result_price, 'phone': user.tel})
+            return Response({'id': order.id, 'price': result_price, 'phone': format_number(user.tel, PhoneNumberFormat.E164)})
         else:
             return Http404()
 
