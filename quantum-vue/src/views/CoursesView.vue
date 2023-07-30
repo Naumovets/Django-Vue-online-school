@@ -176,7 +176,7 @@
 
                                 <div class="col-md-3">
                                     <div class="card-body h-100 d-flex flex-column justify-content-around">
-                                        <p v-if="card.price !== 0 && card.price !== null" class="mb-0 price">{{ card.price }} ₽/мес.</p>
+                                        <p v-if="card.status !== 'Бесплатный'" class="mb-0 price">{{ card.price }} ₽/мес.</p>
                                         <p v-else class="mb-0 price">Бесплатно</p>
                                         <div>
                                             <button v-if="card.status !== 'Бесплатный' && card.price && !card.isAddedToCart" @click="addToCart(card.id)" type="button" class="btn btn-success">В корзину</button>
