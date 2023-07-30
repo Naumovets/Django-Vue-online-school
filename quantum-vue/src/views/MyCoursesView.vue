@@ -80,15 +80,10 @@ document.title = 'Мои курсы'
 
                                 <div class="col-8 col-sm-6 col-md-5 col-lg-3">
                                     <div class="card-body h-100 d-flex flex-row flex-lg-column justify-content-around align-items-center">
-                                        <p v-if="!orderItem.price_with_discount && orderItem.course.status !== 'Бесплатный'">{{orderItem.course.price}}₽</p>
-                                        <p v-else-if="orderItem.course.status !== 'Бесплатный'">{{orderItem.price_with_discount}}₽</p>
-                                        <p v-else class="mb-0 price">Бесплатно</p>
                                         <div>
                                             <RouterLink :to="'course/'+orderItem.course.slug" type="button" class="btn btn-success">Перейти</RouterLink>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
