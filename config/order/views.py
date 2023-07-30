@@ -75,9 +75,9 @@ class addOrderItems(APIView):
                 OrderItem.objects.create(order=order,
                                          course=course,
                                          period=OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH)
-                courses_titles.append(course.title)
+                courses_titles.append(course.title + ' ' + course.status + ' ' + str(course.subject.exam))
 
-            description = ', '.join(courses_titles)
+            description = 'Набор курсов: ' + ', '.join(courses_titles)
 
             # CartManager.clear_cart(user=user)
             return Response({'id': order.id,
