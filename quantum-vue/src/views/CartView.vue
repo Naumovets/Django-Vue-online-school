@@ -223,7 +223,7 @@
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
                                     <form name="t-payform" onsubmit="form_data=addOrderItems(); pay(form_data); return false;">
-                                        <button :disabled="courses.length==0" type="button" class="btn btn-outline-primary">Оплатить</button>
+                                        <button :disabled="courses.length==0" type="submit" class="btn btn-outline-primary">Оплатить</button>
                                     </form>
                                 </div>
                             </template>
