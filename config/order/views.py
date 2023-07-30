@@ -75,7 +75,7 @@ class addOrderItems(APIView):
                 OrderItem.objects.create(order=order,
                                          course=course,
                                          period=OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH)
-                courses_titles.append(course.title + ' ' + course.status + ' ' + str(course.subject.exam))
+                courses_titles.append(course.title + ' ' + course.get_status_display() + ' ' + str(course.subject.exam))
 
             description = 'Набор курсов: ' + ', '.join(courses_titles)
 

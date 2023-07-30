@@ -49,5 +49,6 @@ class ConfirmedCourseAdmin(admin.ModelAdmin):
     list_display = 'user', 'course', 'get_course_price', 'price_with_discount', 'create_date', 'update_date', 'end_date', 'curator'
     form = ConfirmedCourseForm
 
+    @admin.display(description='Цена')
     def get_course_price(self, obj):
         return obj.course.price
