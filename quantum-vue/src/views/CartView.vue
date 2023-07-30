@@ -7,7 +7,7 @@
     import axios from 'axios'
     import VueCookies from 'vue-cookies'
     import { ref, computed } from 'vue'
-    import { useFetch } from '@vueuse/core'
+    import { get, useFetch } from '@vueuse/core'
     import { watch } from 'vue'
 
     const courses = ref(null);
@@ -78,9 +78,11 @@
                 //     <input class="t-payform-row" type="submit" value="Оплатить">
                 // </form>
                 tinkoff.value = response.data
+                getCart();
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
+                getCart();
             })
         }else{
             axios.post('https://admin.lk-quantum.ru/api/v1/order/add_order_items/', jsonCartItem.value, {
@@ -91,9 +93,11 @@
             })
             .then(function (response) {
                 tinkoff.value = response.data
+                getCart();
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
+                getCart();
             })
         }
     }

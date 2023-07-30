@@ -179,7 +179,7 @@
                                         <p v-if="card.price" class="mb-0 price">{{ card.price }} ₽/мес.</p>
                                         <p v-else class="mb-0 price">Бесплатно</p>
                                         <div>
-                                            <button v-if="card.price && !card.isAddedToCart" @click="addToCart(card.id)" type="button" class="btn btn-success">В корзину</button>
+                                            <button v-if="card.status !== 'Бесплатный' && card.price && !card.isAddedToCart" @click="addToCart(card.id)" type="button" class="btn btn-success">В корзину</button>
                                             <button v-else-if="card.isAddedToCart" @click="deleteCartItem(card.id)" type="button" class="btn btn-success">Удалить</button>
                                             <button v-else-if="!card.isAddedToOrder" @click="addFreeCourseOrderItem(card.id)" type="button" class="btn btn-success">Получить</button>
                                         </div>
