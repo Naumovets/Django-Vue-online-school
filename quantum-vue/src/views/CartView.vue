@@ -85,8 +85,7 @@
                 form_data.append('amount', price.value);
                 form_data.append('order', orderId.value);
                 form_data.append('phone', phone.value);
-                pay(form_data);
-                getCart();
+                return form_data;
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -109,8 +108,7 @@
                 form_data.append('amount', price.value);
                 form_data.append('order', orderId.value);
                 form_data.append('phone', phone.value);
-                pay(form_data);
-                getCart();
+                return form_data;
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -224,10 +222,9 @@
                                 <span class="mb-2 form-label">Итого:</span>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
-                                    <form onsubmit='addOrderItems()'>
-                                        <button :disabled="courses.length==0" type="submit" class="btn btn-outline-primary">Оплатить</button>
+                                    <form name="t-payform" onsubmit="form_data=addOrderItems(); pay(form_data); return false;">
+                                        <button :disabled="courses.length==0" type="button" class="btn btn-outline-primary">Оплатить</button>
                                     </form>
-
                                 </div>
                             </template>
                         </div>
