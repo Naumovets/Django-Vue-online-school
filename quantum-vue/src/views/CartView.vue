@@ -189,7 +189,7 @@
                                     <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
                                     <form name="t-payform" onsubmit="pay(this); return false;">
                                         <input class="t-payform-row" type="hidden" name="terminalkey" value="1690624343703DEMO">
-                                        <input class="t-payform-row" type="hidden" name="frame" value="true">
+                                        <input class="t-payform-row" type="hidden" name="frame" value="false">
                                         <input class="t-payform-row" type="hidden" name="language" value="ru"> 
                                         <input class="t-payform-row" type="hidden" value="2000" name="amount" required>
                                         <input class="t-payform-row" type="text" placeholder="Номер заказа" name="order">
