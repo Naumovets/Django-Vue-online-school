@@ -31,7 +31,7 @@ class SubjectAdmin(admin.ModelAdmin):
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     form = CourseForm
-    prepopulated_fields = {'slug': ('title',)}
+    prepopulated_fields = {'slug': ('title', 'status', 'subject')}
     list_display = ('subject', 'title', 'status', 'teacher', 'price', 'full_price')
     list_editable = ('price', 'full_price')
     search_fields = ('title', 'status', 'description', 'price', 'full_price')
