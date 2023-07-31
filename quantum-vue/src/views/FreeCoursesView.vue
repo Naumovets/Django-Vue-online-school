@@ -164,7 +164,7 @@
                     </template>
                 </div>
 
-                <div class="col-12 order-lg-2 order-1 col-xl-9">
+                <div class="col-12 order-lg-2 order-1 col-xl-3">
                     <div class="card border-0">
                         <div class="card-body mt-5 pt-0">
                             <h3>Фильтр</h3>
