@@ -77,11 +77,9 @@
                 form.elements['amount'].value = response.data.price;
                 form.elements['description'].value = response.data.description;
                 pay(form);
-                getCart();
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
-                getCart();
             })
 
     }
