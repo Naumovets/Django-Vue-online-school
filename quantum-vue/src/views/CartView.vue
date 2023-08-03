@@ -76,7 +76,6 @@
                 form.elements['order'].value = response.data.id;
                 form.elements['amount'].value = response.data.price;
                 form.elements['description'].value = response.data.description;         	
-                form.elements['email'].value = response.data.email;
 		pay(form);
             })
             .catch(function(error){
