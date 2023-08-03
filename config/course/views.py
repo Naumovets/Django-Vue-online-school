@@ -50,7 +50,6 @@ class SubjectsView(APIView):
 class WebinarView(APIView):
     """ Просмотр вебинара """
     def get(self, request, code):
-        print(code)
         user = request.user
         webinar = get_object_or_404(Webinar,
                                     code_of_translation=code)
@@ -91,3 +90,17 @@ class ConfirmedCourseView(APIView):
         course = get_object_or_404(ConfirmedCourse, user=user, course__slug=slug)
         course_serialized = ConfirmedCourseSerializer(course)
         return Response(course_serialized.data)
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class CalendarWebinar(APIView):
+    def get(self, request):
+        user = request.user
+        confirmed_courses = ConfirmedCourse.objects.filter(user=user)
+        result = []
+        for confirmed_course in confirmed_courses:
+            for webinar in confirmed_course.course.webinars.all():
+                result.append({'title': webinar.title, 'start': webinar.date_start})
+
+        return Response(result)

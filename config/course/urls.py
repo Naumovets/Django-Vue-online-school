@@ -1,7 +1,7 @@
 from django.urls import path
 
 from course.views import ExamsView, CoursesView, SubjectsView, FreeCoursesView, ConfirmedCoursesView, \
-    ConfirmedCourseView, WebinarView
+    ConfirmedCourseView, WebinarView, CalendarWebinar
 
 app_name = 'course'
 
@@ -12,5 +12,6 @@ urlpatterns = [
     path('subjects', SubjectsView.as_view(), name='subjects'),\
     path('get-courses', ConfirmedCoursesView.as_view(), name='get-courses'),
     path('<slug:slug>', ConfirmedCourseView.as_view(), name='course'),
-    path('webinar/<str:code>', WebinarView.as_view(), name='webinar')
+    path('webinar/<str:code>', WebinarView.as_view(), name='webinar'),
+    path('calendar_webinar', CalendarWebinar.as_view(), name='calendar_webinar')
 ]
