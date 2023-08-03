@@ -33,7 +33,11 @@ SECRET_KEY = 'django-insecure-81!3u)o$^&eq(#%k2g0xm5+9zt0oz9&gbtv9^4c*aq1q6e1x8i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ('admin.lk-quantum.ru', '127.0.0.1')
+=======
+ALLOWED_HOSTS = ('admin.lk-quantum.ru',)
+>>>>>>> 9a406b6a94c9db64f292501ec599e9c2d6ffa798
 
 # Application definition
 
