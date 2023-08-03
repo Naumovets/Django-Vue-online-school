@@ -75,8 +75,9 @@
                 const form = document.getElementById('t-payform'); // Получаем ссылку на форму по ее id
                 form.elements['order'].value = response.data.id;
                 form.elements['amount'].value = response.data.price;
-                form.elements['description'].value = response.data.description;
-                pay(form);
+                form.elements['description'].value = response.data.description;         	
+                form.elements['email'].value = response.data.email;
+		pay(form);
             })
             .catch(function(error){
                 alert('Что-то пошло не так, заявите об этом в поддержку!')
@@ -139,6 +140,7 @@
                                         <th class="text-end">Удалить</th>
                                     </tr>
                                 </thead>
+ 
                                 <tbody v-for="course in courses">
                                     <tr>
                                         <td class="fw-bold">
