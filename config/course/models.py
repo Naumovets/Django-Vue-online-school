@@ -57,7 +57,7 @@ class Course(models.Model):
         verbose_name_plural = 'Курсы'
 
     def __str__(self):
-        return str(self.subject) + ' ' + self.title + ' ' + self.get_status_display()
+        return str(self.subject.exam) + ' ' + self.title + ' ' + self.get_status_display()
 
 
 class Webinar(models.Model):

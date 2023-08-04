@@ -101,7 +101,7 @@ class CalendarWebinar(APIView):
         result = []
         for confirmed_course in confirmed_courses:
             for webinar in confirmed_course.course.webinars.all():
-                result.append({'title': webinar.title + ' ('+ str(webinar.course.subject.exam)  + ' ' + webinar.course.title + ' ' + webinar.course.get_status_display() + ')', 
+                result.append({'title': webinar.title + ' ('+ str(webinar.course) + ')',
                 'start': webinar.date_start, 
                 'url': 'webinar/' + webinar.code_of_translation})
 
