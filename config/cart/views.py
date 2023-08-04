@@ -90,6 +90,7 @@ class ExtendCourse(APIView):
             cart = Cart()
             cart.user = user
             cart.save()
+        print(request.POST.get('id'))
         try:
             course = Course.objects.get(id=request.POST.get('id'))
         except ObjectDoesNotExist:
