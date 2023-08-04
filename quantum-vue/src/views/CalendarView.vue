@@ -52,6 +52,9 @@ onMounted(() => {
 });
 
 
+document.title = 'Расписание'
+
+
 onBeforeMount(() => {
     checklogin();
 });
