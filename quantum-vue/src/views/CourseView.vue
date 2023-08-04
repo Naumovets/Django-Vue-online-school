@@ -48,7 +48,7 @@
                                 <div>
                                     <span class="badge text-bg-primary">{{ orderItem.course.exam }}</span>
                                     <span class="badge text-bg-info ms-2">{{ orderItem.course.subject }}</span>
-                                    <span class="badge text-bg-success">{{ orderItem.course.status }}</span>
+                                    <span class="badge text-bg-success ms-2">{{ orderItem.course.status }}</span>
                                 </div>
                             </div>
 

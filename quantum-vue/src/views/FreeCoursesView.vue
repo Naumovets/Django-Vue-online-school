@@ -130,7 +130,7 @@
                                         <div>
                                             <span class="badge text-bg-primary">{{ card.subject.exam }}</span>
                                             <span class="badge text-bg-info ms-2">{{ card.subject.title }}</span>
-                                            <span class="badge text-bg-success">{{ card.status }}</span>
+                                            <span class="badge text-bg-success ms-2">{{ card.status }}</span>
                                         </div>
                                         <h3 class="card-title">
                                             {{ card.title }}

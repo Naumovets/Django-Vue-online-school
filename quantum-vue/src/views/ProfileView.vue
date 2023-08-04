@@ -142,22 +142,27 @@ document.title = 'Профиль'
                                     <tr>
                                         <th class="w-50">Название</th>
                                         <th>Действует до:</th>
-                                        <th class="w-150px text-end">Стоимость</th>
+                                        <th class="text-center w-150px">Стоимость</th>
                                     </tr>
                                 </thead>
 
                                 <tbody v-if="orderItems !== undefined && orderItems !== null ">
                                     <tr v-for="orderItem in orderItems">
                                         <td class="fw-bold">
-                                            <h4><RouterLink :to="'course/'+orderItem.course.slug">{{orderItem.course.title}}</RouterLink></h4>
+                                            <h4 v-if="orderItem.active == true" class="m-0"><RouterLink :to="'course/'+orderItem.course.slug">{{orderItem.course.title}}</RouterLink></h4>
+                                            <h4 v-else class="m-0">{{orderItem.course.title}}</h4>
                                         </td>
-                                        <td>
-                                            <p>{{orderItem.end_date}}</p>
+                                        <td> 
+                                            <p class="m-0" v-if="orderItem.active !== false">{{orderItem.end_date}}</p>
+                                            <p class="m-0" v-else>Недействителен</p>
                                         </td>
-                                        <td>
-                                            <p v-if="!orderItem.price_with_discount && orderItem.course.status !== 'Бесплатный'">{{orderItem.course.price}} ₽</p>
-                                            <p v-else-if="orderItem.course.status !== 'Бесплатный'">{{orderItem.price_with_discount}} ₽ <sup><del class="h6">{{orderItem.course.price}}₽</del></sup></p>
-                                            <p v-else>Бесплатно</p>
+                                        <td class="text-center" v-if="orderItem.active == true">
+                                            <p class="m-0" v-if="!orderItem.price_with_discount && orderItem.course.status !== 'Бесплатный'">{{orderItem.course.price}} ₽</p>
+                                            <p class="m-0" v-else-if="orderItem.course.status !== 'Бесплатный'">{{orderItem.price_with_discount}} ₽ <sup><del class="h6">{{orderItem.course.price}}₽</del></sup></p>
+                                            <p class="m-0" v-else>Бесплатно</p>
+                                        </td>
+                                        <td class="text-center" v-else>
+                                            <button class="m-0 btn btn-primary btn-sm">Продлить</button>
                                         </td>
                                     </tr>
                                 </tbody>
