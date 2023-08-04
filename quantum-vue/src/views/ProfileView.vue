@@ -7,7 +7,7 @@ import Footer from '../components/footer.vue'
 import { checklogin } from '../modules/login.js'
 
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import VueCookies from 'vue-cookies'
 import axios from 'axios'
 
@@ -18,6 +18,7 @@ const last_name = ref('')
 const email = ref('')
 const vk_link = ref('')
 const orderItems = ref(null)
+const router = useRouter();
 
 
 onBeforeMount(() => {
@@ -47,6 +48,23 @@ axios({
 .catch(function(response){
     orderItems.value = null
 })
+
+function extend_course(id){
+    const form_data = new FormData()
+    form_data.append('id', id)
+    axios({
+        url: `https://admin.lk-quantum.ru/api/v1/order/extend_course/`,
+        method: 'post',
+        data: form_data,
+        headers: { 'Authorization': VueCookies.get('Authorization') },
+    })
+    .then(function (response) {
+        router.push('/cart')
+    })
+    .catch(function (error){
+        alert('Произошла ошибка\nВы можете написать нам об ошибке')
+    })
+}
 
 document.title = 'Профиль'
 
@@ -162,7 +180,7 @@ document.title = 'Профиль'
                                             <p class="m-0" v-else>Бесплатно</p>
                                         </td>
                                         <td class="text-center" v-else>
-                                            <button class="m-0 btn btn-primary btn-sm">Продлить</button>
+                                            <button @click="extend_course(orderItem.course.id)" class="m-0 btn btn-primary btn-sm">Продлить</button>
                                         </td>
                                     </tr>
                                 </tbody>

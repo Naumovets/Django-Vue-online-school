@@ -2,6 +2,7 @@ import json
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -65,6 +66,7 @@ class CartView(APIView):
 
         return Response()
 
+
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 class PriceCartItemView(APIView):
@@ -90,11 +92,8 @@ class ExtendCourse(APIView):
             cart = Cart()
             cart.user = user
             cart.save()
-        print(request.POST.get('id'))
-        try:
-            course = Course.objects.get(id=request.POST.get('id'))
-        except ObjectDoesNotExist:
-            return Http404()
+
+        course = get_object_or_404(Course, id=request.POST.get('id'))
 
         if CartItem.objects.filter(course=course, cart=cart).exists():
             return Response()
