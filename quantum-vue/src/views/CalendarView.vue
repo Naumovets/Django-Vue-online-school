@@ -4,38 +4,51 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
 import { checklogin } from '../modules/login'
 import { onBeforeMount } from 'vue'
 import Sidebar from '../components/sidebar.vue'
 import Header from '../components/header.vue'
 import Footer from '../components/footer.vue'
 import ruLocale from '@fullcalendar/core/locales/ru';
+import axios from 'axios';
+import VueCookies from 'vue-cookies';
+
 
 const calendarRef = ref(null);
 
 onMounted(() => {
-    const calendarEl = calendarRef.value;
+	
+    const data = ref();
+    axios({
+            url: 'https://admin.lk-quantum.ru/api/v1/course/calendar_webinar',
+            headers: { 'Authorization': VueCookies.get('Authorization') },
+            method: 'get',
+        })
+    .then(function (response) {
+        data.value = response.data;
+	const calendarEl = calendarRef.value;
+	// Установка часового пояса Москвы
 
-    const calendar = new Calendar(calendarEl, {
-        plugins: [dayGridPlugin, timeGridPlugin],
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-            left: 'dayGridMonth,timeGridWeek,timeGridDay',
-            center: 'title',
-            right: 'prev,today,next',
-        },
-        events: [
-            // You can add your events here
-            { title: 'My Event', start: '2023-08-03T10:00:00' }
-        ],
-        locales: ruLocale,
-        locale: 'ru',
-        firstDay: 1,
-    });
+	// Получение текущего времени в часовом поясе Москвы
 
-    calendar.setOption('locale', 'ru');
+    	const calendar = new Calendar(calendarEl, {
+        	plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
+        	initialView: 'listWeek',
+       		headerToolbar: {
+            		left: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+            		center: 'title',
+            		right: 'prev,today,next',
+        	},
+        	events: data.value,
+        	locales: ruLocale,
+        	locale: 'ru',
+        	firstDay: 1,
+	});
 
-    calendar.render();
+    	calendar.render();	
+    })
+
 });
 
 

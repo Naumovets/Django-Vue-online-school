@@ -64,7 +64,7 @@ class WebinarView(APIView):
                          'curator': {'first_name': curator.user.first_name,
                                      'last_name': curator.user.last_name,
                                      'image': curator.user.image.url if curator.user.image else None,
-                                     'vk_link': curator.user.vk_link}})
+                                     'vk_link': curator.user.vk_link} if curator else None})
 
 
 @authentication_classes([TokenAuthentication])
@@ -101,6 +101,6 @@ class CalendarWebinar(APIView):
         result = []
         for confirmed_course in confirmed_courses:
             for webinar in confirmed_course.course.webinars.all():
-                result.append({'title': webinar.title, 'start': webinar.date_start})
+                result.append({'title': webinar.title, 'start': webinar.date_start, 'slug': webinar.code_of_translation})
 
         return Response(result)

@@ -87,7 +87,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item">
+                                    <li v-if="curator !== undefined && curator !== null && curator.value !== null && curator.value !== undefined" class="list-group-item">
                                         <div class="d-flex justify-content-between">
                                             <span>Куратор</span>
                                             <div class="col-9 d-flex align-items-center justify-content-end">
@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item">
+                                    <li v-if="webinar.course.chat !== null && webinar.course.chat !== undefined" class="list-group-item">
                                         <div class="d-flex justify-content-between">
                                             <span>Беседа в VK</span>
                                             <div class="col-9 d-flex align-items-center justify-content-end">
