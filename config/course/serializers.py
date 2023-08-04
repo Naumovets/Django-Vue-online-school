@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import serializers
 
 from cart.models import CartItem
@@ -143,6 +145,13 @@ class ConfirmedCourseSerializer(serializers.ModelSerializer):
     course = serializers.SerializerMethodField()
     curator = serializers.SerializerMethodField()
     webinars = serializers.SerializerMethodField()
+    active = serializers.SerializerMethodField()
+
+    def get_active(self, obj):
+        end_date = obj.end_date
+        if end_date:
+            return end_date >= datetime.now()
+        return False
 
     def get_curator(self, obj):
         curator = obj.curator
