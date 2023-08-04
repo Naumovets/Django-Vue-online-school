@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.http import Http404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
@@ -57,7 +59,8 @@ class WebinarView(APIView):
 
         curator = get_object_or_404(ConfirmedCourse,
                                     user=user,
-                                    course__slug=course_slug).curator
+                                    course__slug=course_slug,
+                                    end_date__gte=datetime.now()).curator
 
         webinar_serialized = WebinarSerializer(webinar)
         return Response({'webinar': webinar_serialized.data,
@@ -87,7 +90,7 @@ class ConfirmedCourseView(APIView):
     """ Просмотр оплаченного курса """
     def get(self, request, slug):
         user = request.user
-        course = get_object_or_404(ConfirmedCourse, user=user, course__slug=slug)
+        course = get_object_or_404(ConfirmedCourse, user=user, course__slug=slug, end_date__gte=datetime.now())
         course_serialized = ConfirmedCourseSerializer(course)
         return Response(course_serialized.data)
 
@@ -97,12 +100,13 @@ class ConfirmedCourseView(APIView):
 class CalendarWebinar(APIView):
     def get(self, request):
         user = request.user
-        confirmed_courses = ConfirmedCourse.objects.filter(user=user)
+        confirmed_courses = ConfirmedCourse.objects.filter(user=user, end_date__gte=datetime.now())
         result = []
         for confirmed_course in confirmed_courses:
             for webinar in confirmed_course.course.webinars.all():
-                result.append({'title': webinar.title + ' ('+ str(webinar.course) + ')',
-                'start': webinar.date_start, 
-                'url': 'webinar/' + webinar.code_of_translation})
+                result.append({
+                    'title': webinar.title + ' ('+ str(webinar.course) + ')',
+                    'start': webinar.date_start,
+                    'url': 'webinar/' + webinar.code_of_translation})
 
         return Response(result)
