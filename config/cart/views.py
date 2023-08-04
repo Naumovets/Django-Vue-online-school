@@ -1,6 +1,10 @@
 import json
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -10,6 +14,8 @@ from cart.services.cart_manager import CartManager
 from course.models import Course
 
 
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class CartView(APIView):
 
     def get(self, request):
@@ -59,7 +65,8 @@ class CartView(APIView):
 
         return Response()
 
-
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class PriceCartItemView(APIView):
 
     def post(self, request):
@@ -70,3 +77,26 @@ class PriceCartItemView(APIView):
         data_of_period_of_paying_courses.is_valid()
         total_price = CartManager.get_total_price(user, coupon_code, data_of_period_of_paying_courses.validated_data)
         return Response(total_price)
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class ExtendCourse(APIView):
+    def post(self, request):
+        user = request.user
+        try:
+            cart = Cart.objects.get(user=user)
+        except ObjectDoesNotExist:
+            cart = Cart()
+            cart.user = user
+            cart.save()
+        try:
+            course = Course.objects.get(id=request.POST.get('id'))
+        except ObjectDoesNotExist:
+            return Http404()
+
+        if CartItem.objects.filter(course=course, cart=cart).exists():
+            return Response()
+
+        CartItem.objects.create(cart=cart, course=course)
+        return Response()

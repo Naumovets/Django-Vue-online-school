@@ -115,7 +115,10 @@ class ConfirmOrder(APIView):
                 if order_item.period == OrderItem.Period.FULL:
                     end_date = date(date.today().year + 1, date.today().month, date.today().day)
                 else:
-                    end_date = confirmed_course.end_date + timedelta(30)
+                    if confirmed_course.end_date >= date.today():
+                        end_date = confirmed_course.end_date + timedelta(30)
+                    else:
+                        end_date = date.today() + timedelta(days=30)
 
                 confirmed_course.coupon = order.coupon if order.coupon else None
                 confirmed_course.price_with_discount = price_with_discount
