@@ -1,8 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Calendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import { checklogin } from '../modules/login'
@@ -13,6 +11,7 @@ import Footer from '../components/footer.vue'
 import ruLocale from '@fullcalendar/core/locales/ru';
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
+import { useRouter } from 'vue-router';
 
 
 const calendarRef = ref(null);
@@ -27,31 +26,30 @@ onMounted(() => {
         })
     .then(function (response) {
         data.value = response.data;
-	const calendarEl = calendarRef.value;
-	// Установка часового пояса Москвы
-
-	// Получение текущего времени в часовом поясе Москвы
+		const calendarEl = calendarRef.value;
 
     	const calendar = new Calendar(calendarEl, {
-        	plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
-        	initialView: 'listWeek',
-       		headerToolbar: {
-            		left: 'listMonth,listWeek,listDay',
-            		center: 'title',
-            		right: 'prev,today,next',
-        	},
-        	events: data.value,
-        	locales: ruLocale,
-        	locale: 'ru',
-        	firstDay: 1,
-		views: {
-      			listDay: { buttonText: 'На день' },
-      			listWeek: { buttonText: 'На неделю' },
-      			listMonth: { buttonText: 'На месяц' },
+    		plugins: [listPlugin, interactionPlugin],
+    		initialView: 'listWeek',
+    		headerToolbar: {
+    	    		left: 'listMonth,listWeek,listDay',
+    	    		center: 'title',
+    	    		right: 'prev,today,next',
     		},
-	});
-
-    	calendar.render();	
+    		events: data.value,
+    		locales: ruLocale,
+    		locale: 'ru',
+    		firstDay: 1,
+			views: {
+    			listDay: { buttonText: 'На день' },
+    			listWeek: { buttonText: 'На неделю' },
+    			listMonth: { buttonText: 'На месяц' },
+    		},
+			eventClick: function(info) {
+				window.open(`/webinar/${info.event.url}`, '_blank');
+  			}
+		});
+		calendar.render();	
     })
 
 });
