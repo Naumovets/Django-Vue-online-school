@@ -50,7 +50,7 @@
                                 <div>
                                     <span class="badge text-bg-primary">{{ webinar.course.exam }}</span>
                                     <span class="badge text-bg-info ms-2">{{ webinar.course.subject }}</span>
-                                    <span class="badge text-bg-success">{{ webinar.course.status }}</span>
+                                    <span class="badge text-bg-success ms-2">{{ webinar.course.status }}</span>
                                 </div>
                             </div>
 
@@ -87,7 +87,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li v-if="curator !== undefined && curator !== null && curator.value !== null && curator.value !== undefined" class="list-group-item">
+                                    <li v-if="curator !== undefined && curator !== null" class="list-group-item">
                                         <div class="d-flex justify-content-between">
                                             <span>Куратор</span>
                                             <div class="col-9 d-flex align-items-center justify-content-end">
