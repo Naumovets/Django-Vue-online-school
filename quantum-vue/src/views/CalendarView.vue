@@ -45,9 +45,6 @@ onMounted(() => {
     			listWeek: { buttonText: 'На неделю' },
     			listMonth: { buttonText: 'На месяц' },
     		},
-			eventClick: function(info) {
-				window.open(`/webinar/${info.event.url}`, '_blank');
-  			}
 		});
 		calendar.render();	
     })
