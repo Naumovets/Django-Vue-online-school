@@ -36,7 +36,7 @@ onMounted(() => {
         	plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
         	initialView: 'listWeek',
        		headerToolbar: {
-            		left: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+            		left: 'listMonth,listWeek,listDay',
             		center: 'title',
             		right: 'prev,today,next',
         	},
@@ -44,6 +44,11 @@ onMounted(() => {
         	locales: ruLocale,
         	locale: 'ru',
         	firstDay: 1,
+		views: {
+      			listDay: { buttonText: 'На день' },
+      			listWeek: { buttonText: 'На неделю' },
+      			listMonth: { buttonText: 'На месяц' },
+    		},
 	});
 
     	calendar.render();	
