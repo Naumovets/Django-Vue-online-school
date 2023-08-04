@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from django.http import Http404
 from rest_framework.authentication import TokenAuthentication
@@ -60,7 +60,7 @@ class WebinarView(APIView):
         curator = get_object_or_404(ConfirmedCourse,
                                     user=user,
                                     course__slug=course_slug,
-                                    end_date__gte=datetime.now()).curator
+                                    end_date__gte=date.today()).curator
 
         webinar_serialized = WebinarSerializer(webinar)
         return Response({'webinar': webinar_serialized.data,
@@ -90,7 +90,7 @@ class ConfirmedCourseView(APIView):
     """ Просмотр оплаченного курса """
     def get(self, request, slug):
         user = request.user
-        course = get_object_or_404(ConfirmedCourse, user=user, course__slug=slug, end_date__gte=datetime.now())
+        course = get_object_or_404(ConfirmedCourse, user=user, course__slug=slug, end_date__gte=date.today())
         course_serialized = ConfirmedCourseSerializer(course)
         return Response(course_serialized.data)
 
@@ -100,7 +100,7 @@ class ConfirmedCourseView(APIView):
 class CalendarWebinar(APIView):
     def get(self, request):
         user = request.user
-        confirmed_courses = ConfirmedCourse.objects.filter(user=user, end_date__gte=datetime.now())
+        confirmed_courses = ConfirmedCourse.objects.filter(user=user, end_date__gte=date.today())
         result = []
         for confirmed_course in confirmed_courses:
             for webinar in confirmed_course.course.webinars.all():

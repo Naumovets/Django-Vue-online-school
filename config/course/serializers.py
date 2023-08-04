@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from rest_framework import serializers
 
@@ -150,7 +150,7 @@ class ConfirmedCourseSerializer(serializers.ModelSerializer):
     def get_active(self, obj):
         end_date = obj.end_date
         if end_date:
-            return end_date >= datetime.now()
+            return end_date >= date.today()
         return False
 
     def get_curator(self, obj):
