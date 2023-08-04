@@ -92,7 +92,7 @@ document.title = 'Профиль'
 
                             <div class="d-flex">
 
-                                <RouterLink to="calendar" class="btn btn-primary btn-sm">Перейти в календарь</RouterLink>
+                                <RouterLink to="calendar" class="btn btn-primary btn-sm">Посмотреть расписание</RouterLink>
                             </div>
                         </div>
 

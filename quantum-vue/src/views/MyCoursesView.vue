@@ -6,6 +6,7 @@
     import Sidebar from '../components/sidebar.vue'
     import Header from '../components/header.vue'
     import Footer from '../components/footer.vue'
+    import { useRouter } from 'vue-router'
     import axios from 'axios'
     import VueCookies from 'vue-cookies'
 
@@ -27,6 +28,25 @@
 onBeforeMount(() => {
     checklogin();
 });
+
+const router = useRouter();
+
+function extend_course(id){
+    const form_data = new FormData()
+    form_data.append('id', id)
+    axios({
+        url: `https://admin.lk-quantum.ru/api/v1/order/extend_course/`,
+        method: 'post',
+        data: form_data,
+        headers: { 'Authorization': VueCookies.get('Authorization') },
+    })
+    .then(function (response) {
+        router.push('/cart')
+    })
+    .catch(function (error){
+        alert('Произошла ошибка\nВы можете написать нам об ошибке')
+    })
+}
 
 document.title = 'Мои курсы'
 
@@ -60,10 +80,10 @@ document.title = 'Мои курсы'
                                         <div>
                                             <span class="badge text-bg-primary">{{ orderItem.course.exam }}</span>
                                             <span class="badge text-bg-info ms-2">{{ orderItem.course.subject}}</span>
-                                            <span class="badge text-bg-success">{{ orderItem.course.status }}</span>
+                                            <span class="badge text-bg-success ms-2">{{ orderItem.course.status }}</span>
                                         </div>
                                         <h3 class="card-title">
-                                            {{ orderItem.course.title }}
+                                            {{ orderItem.course.title }} <span v-if="orderItem.active == false">(неактивен)</span>
                                         </h3>
 
                                         <div class="d-flex align-items-center">
@@ -81,7 +101,8 @@ document.title = 'Мои курсы'
                                 <div class="col-8 col-sm-6 col-md-5 col-lg-3">
                                     <div class="card-body h-100 d-flex flex-row flex-lg-column justify-content-around align-items-center">
                                         <div>
-                                            <RouterLink :to="'course/'+orderItem.course.slug" type="button" class="btn btn-success">Перейти</RouterLink>
+                                            <RouterLink v-if="orderItem.active == true" :to="'course/'+orderItem.course.slug" type="button" class="btn btn-success">Перейти</RouterLink>
+                                            <button v-else @click="extend_course(orderItem.course.id)" class="btn btn-success">Продлить</button>
                                         </div>
                                     </div>
                                 </div>
