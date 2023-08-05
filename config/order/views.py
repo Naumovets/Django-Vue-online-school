@@ -73,11 +73,17 @@ class addOrderItems(APIView):
                                          result_price=result_price)
 
             courses_titles = []
+            many = data_of_courses.validated_data > 1
             for data in data_of_courses.validated_data:
                 course = Course.objects.get(id=data['id'])
+
+                period = OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH,
+                result_price = OrderManager.get_result_price(course=course, coupon=coupon, period=period, many=many)
+
                 OrderItem.objects.create(order=order,
                                          course=course,
-                                         period=OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH)
+                                         period=period,
+                                         result_price=result_price)
                 courses_titles.append(course.title + ' ' + course.get_status_display() + ' ' + str(course.subject.exam))
 
             description = 'Набор курсов: ' + ', '.join(courses_titles)
