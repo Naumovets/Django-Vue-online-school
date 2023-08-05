@@ -73,7 +73,7 @@ class addOrderItems(APIView):
                                          result_price=result_price)
 
             courses_titles = []
-            many = data_of_courses.validated_data > 1
+            many = len(data_of_courses.validated_data) > 1
             for data in data_of_courses.validated_data:
                 course = Course.objects.get(id=data['id'])
 
