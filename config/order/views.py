@@ -77,8 +77,7 @@ class addOrderItems(APIView):
                 course = Course.objects.get(id=data['id'])
                 OrderItem.objects.create(order=order,
                                          course=course,
-                                         period=OrderItem.Period.FULL if data[
-                                                                             'period'] == 'full' else OrderItem.Period.MONTH)
+                                         period=OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH)
                 courses_titles.append(course.title + ' ' + course.get_status_display() + ' ' + str(course.subject.exam))
 
             description = 'Набор курсов: ' + ', '.join(courses_titles)
@@ -97,32 +96,32 @@ class UpdateOrderStatus(APIView):
         tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response)
         tinkoff_response.is_valid()
 
-        terminal_key = tinkoff_response.validated_data.TerminalKey
-        order_id = tinkoff_response.validated_data.OrderId
-        success = tinkoff_response.validated_data.Success
-        status = tinkoff_response.validated_data.Status
+        terminal_key = tinkoff_response.validated_data['TerminalKey']
+        order_id = tinkoff_response.validated_data['OrderId']
+        success = tinkoff_response.validated_data['Success']
+        status = tinkoff_response.validated_data['Status']
 
         # Идентификатор платежа в системе банка
-        payment_id = tinkoff_response.validated_data.PaymentId
+        payment_id = tinkoff_response.validated_data['PaymentId']
 
         # Код ошибки (если ошибки не произошло, передается значение «0»)
-        error_code = tinkoff_response.validated_data.ErrorCode
-        amount = tinkoff_response.validated_data.Amount
+        error_code = tinkoff_response.validated_data['ErrorCode']
+        amount = tinkoff_response.validated_data['Amount']
 
         # Идентификатор автоплатежа
-        rebill_id = tinkoff_response.validated_data.RebillId
+        rebill_id = tinkoff_response.validated_data['RebillId']
 
         # Идентификатор сохраненной карты в системе банка
-        card_id = tinkoff_response.validated_data.CardId
+        card_id = tinkoff_response.validated_data['CardId']
 
         # Замаскированный номер карты/Замаскированный номер телефона
-        pan = tinkoff_response.validated_data.Pan
+        pan = tinkoff_response.validated_data['Pan']
 
         # Срок действия карты (в формате MMYY, где YY — две последние цифры года)
-        exp_date = tinkoff_response.validated_data.ExpDate
+        exp_date = tinkoff_response.validated_data['ExpDate']
 
         # См. Подпись запроса (https://www.tinkoff.ru/kassa/develop/api/request-sign/)
-        token = tinkoff_response.validated_data.Token
+        token = tinkoff_response.validated_data['Token']
 
         order = get_object_or_404(Order, id=order_id)
         order.terninal_key = terminal_key
