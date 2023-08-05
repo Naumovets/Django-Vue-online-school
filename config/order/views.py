@@ -94,36 +94,35 @@ class UpdateOrderStatus(APIView):
 
     def post(self, request):
         json_tinkoff_response = json.loads(request.body)
-        print(json_tinkoff_response)
-        tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response).validated_data
+        tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response)
         tinkoff_response.is_valid()
 
-        terminal_key = tinkoff_response.TerminalKey
-        order_id = tinkoff_response.OrderId
-        success = tinkoff_response.Success
-        status = tinkoff_response.Status
+        terminal_key = tinkoff_response.validated_data.TerminalKey
+        order_id = tinkoff_response.validated_data.OrderId
+        success = tinkoff_response.validated_data.Success
+        status = tinkoff_response.validated_data.Status
 
         # Идентификатор платежа в системе банка
-        payment_id = tinkoff_response.PaymentId
+        payment_id = tinkoff_response.validated_data.PaymentId
 
         # Код ошибки (если ошибки не произошло, передается значение «0»)
-        error_code = tinkoff_response.ErrorCode
-        amount = tinkoff_response.Amount
+        error_code = tinkoff_response.validated_data.ErrorCode
+        amount = tinkoff_response.validated_data.Amount
 
         # Идентификатор автоплатежа
-        rebill_id = tinkoff_response.RebillId
+        rebill_id = tinkoff_response.validated_data.RebillId
 
         # Идентификатор сохраненной карты в системе банка
-        card_id = tinkoff_response.CardId
+        card_id = tinkoff_response.validated_data.CardId
 
         # Замаскированный номер карты/Замаскированный номер телефона
-        pan = tinkoff_response.Pan
+        pan = tinkoff_response.validated_data.Pan
 
         # Срок действия карты (в формате MMYY, где YY — две последние цифры года)
-        exp_date = tinkoff_response.ExpDate
+        exp_date = tinkoff_response.validated_data.ExpDate
 
         # См. Подпись запроса (https://www.tinkoff.ru/kassa/develop/api/request-sign/)
-        token = tinkoff_response.Token
+        token = tinkoff_response.validated_data.Token
 
         order = get_object_or_404(Order, id=order_id)
         order.terninal_key = terminal_key
