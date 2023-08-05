@@ -17,6 +17,7 @@ from order.models import ConfirmedCourse
 class ExamsView(APIView):
 
     def get(self, request):
+        """ Получение списка экзаменов """
         exam = Exam.objects.all()
         serialized_exams = ExamSerializer(exam, many=True)
 
@@ -26,6 +27,7 @@ class ExamsView(APIView):
 class CoursesView(APIView):
 
     def get(self, request):
+        """ Получение списка курсов всех типов """
         courses = Course.objects.all()
         serialized_courses = CourseSerializer(user=request.user, instance=courses, many=True)
         return Response(serialized_courses.data)
@@ -34,6 +36,7 @@ class CoursesView(APIView):
 class FreeCoursesView(APIView):
 
     def get(self, request):
+        """ Получение списка всех бесплатных курсов """
         courses = Course.objects.filter(status=Course.Status.FREE)
         serialized_courses = CourseSerializer(user=request.user, instance=courses, many=True)
         return Response(serialized_courses.data)
@@ -42,6 +45,7 @@ class FreeCoursesView(APIView):
 class SubjectsView(APIView):
 
     def get(self, request):
+        """ Получение списка всех предметов """
         subjects = Subject.objects.all()
         serialized_subjects = SubjectSerializer(subjects, many=True)
         return Response(serialized_subjects.data)
@@ -50,8 +54,8 @@ class SubjectsView(APIView):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 class WebinarView(APIView):
-    """ Просмотр вебинара """
     def get(self, request, code):
+        """ Получение вебинара из действующего курса"""
         user = request.user
         webinar = get_object_or_404(Webinar,
                                     code_of_translation=code)
@@ -73,8 +77,8 @@ class WebinarView(APIView):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 class ConfirmedCoursesView(APIView):
-    """ Просмотр всех купленных курсов """
     def get(self, request):
+        """ Получение списка всех действующих (confirmed) курсов """
         user = request.user
         if ConfirmedCourse.objects.filter(user=user).exists():
             courses = ConfirmedCourse.objects.filter(user=user)
@@ -87,8 +91,8 @@ class ConfirmedCoursesView(APIView):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 class ConfirmedCourseView(APIView):
-    """ Просмотр оплаченного курса """
     def get(self, request, slug):
+        """ Получение действующего (confirmed) курса """
         user = request.user
         course = get_object_or_404(ConfirmedCourse, user=user, course__slug=slug, end_date__gte=date.today())
         course_serialized = ConfirmedCourseSerializer(course)
@@ -99,13 +103,14 @@ class ConfirmedCourseView(APIView):
 @permission_classes([IsAuthenticated])
 class CalendarWebinar(APIView):
     def get(self, request):
+        """ Получение списка вебинаров действующих (confirmed) курсов """
         user = request.user
         confirmed_courses = ConfirmedCourse.objects.filter(user=user, end_date__gte=date.today())
         result = []
         for confirmed_course in confirmed_courses:
             for webinar in confirmed_course.course.webinars.all():
                 result.append({
-                    'title': webinar.title + ' ('+ str(webinar.course) + ')',
+                    'title': webinar.title + ' (' + str(webinar.course) + ')',
                     'start': webinar.date_start,
                     'url': 'webinar/' + webinar.code_of_translation})
 

@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-81!3u)o$^&eq(#%k2g0xm5+9zt0oz9&gbtv9^4c*aq1q6e1x8i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ('admin.lk-quantum.ru',)
+ALLOWED_HOSTS = ('admin.lk-quantum.ru', '127.0.0.1')
 
 # Application definition
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'djoser',
     'corsheaders',
     'phonenumber_field',
+    'drf_yasg',
 
     'user.apps.UserConfig',
     'course.apps.CourseConfig',
@@ -72,6 +73,7 @@ ROOT_URLCONF = 'config.urls'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
     ),
     # 'DEFAULT_PERMISSION_CLASSES': (
     #     'rest_framework.permissions.IsAuthenticated',
@@ -117,7 +119,7 @@ DATABASES = {
     # }
 }
 
-CSRF_TRUSTED_ORIGINS = ['https://*.lk-quantum.ru',]
+CSRF_TRUSTED_ORIGINS = ['https://*.lk-quantum.ru', ]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -173,3 +175,5 @@ DJOSER = {
 }
 
 AUTH_USER_MODEL = 'user.CustomUser'
+
+TERMINAL_KEY = "1690624343703DEMO"

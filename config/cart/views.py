@@ -20,12 +20,14 @@ from course.models import Course
 class CartView(APIView):
 
     def get(self, request):
+        """ Получение списка курсов в корзине """
         user = request.user
         cart_items = CartItem.objects.filter(cart__user=user)
         cart_items_serialized = CartItemSerializer(cart_items, many=True)
         return Response(cart_items_serialized.data)
 
     def post(self, request):
+        """ Добавление курса в корзину """
         user = request.user
         try:
             cart = Cart.objects.get(user=user)
@@ -45,6 +47,7 @@ class CartView(APIView):
         return Response()
 
     def delete(self, request, id):
+        """ Удаление курса из корзины """
         user = request.user
         try:
             cart = Cart.objects.get(user=user)
@@ -72,6 +75,8 @@ class CartView(APIView):
 class PriceCartItemView(APIView):
 
     def post(self, request):
+        """ Получение актуальной цены с учетом периода на которую оплачивается курс
+        и с учетом / без учета промокода  """
         coupon_code = request.GET.get('coupon_code', None)
         user = request.user
         json_parsed = json.loads(request.body)
@@ -85,7 +90,9 @@ class PriceCartItemView(APIView):
 @permission_classes([IsAuthenticated])
 class ExtendCourse(APIView):
     def post(self, request):
+        """ Добавление курса в корзину если его там нет """
         user = request.user
+
         try:
             cart = Cart.objects.get(user=user)
         except ObjectDoesNotExist:

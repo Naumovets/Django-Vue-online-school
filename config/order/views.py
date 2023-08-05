@@ -3,7 +3,6 @@ import json
 
 from django.db.models import Count
 from django.http import Http404
-from phonenumbers import format_number, PhoneNumberFormat
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.generics import get_object_or_404
@@ -13,10 +12,12 @@ from rest_framework.views import APIView
 from cart.models import Coupon, UsedCoupon, Cart
 from cart.serializers import CartItemForPriceSerializer
 from cart.services.cart_manager import CartManager
+from config.settings import TERMINAL_KEY
 from course.models import Course, Curator
 from order.models import Order, OrderItem, ConfirmedCourse
 from datetime import date, timedelta
 
+from order.serializers import TinkoffResponseSerializer
 from order.services.order_manager import OrderManager
 
 
@@ -25,6 +26,7 @@ from order.services.order_manager import OrderManager
 class addFreeCourseOrderItem(APIView):
 
     def post(self, request, course_id):
+        """ Добавление бесплатных курсов в модель оплаченных (confirmed) """
         user = request.user
         course = get_object_or_404(Course,
                                    id=course_id,
@@ -44,6 +46,7 @@ class addFreeCourseOrderItem(APIView):
 class addOrderItems(APIView):
 
     def post(self, request, coupon_code=None):
+        """ Создание заказа с курсами """
         user = request.user
         if Coupon.objects.filter(code=coupon_code).exists():
             coupon = Coupon.objects.get(code=coupon_code)
@@ -74,12 +77,12 @@ class addOrderItems(APIView):
                 course = Course.objects.get(id=data['id'])
                 OrderItem.objects.create(order=order,
                                          course=course,
-                                         period=OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH)
+                                         period=OrderItem.Period.FULL if data[
+                                                                             'period'] == 'full' else OrderItem.Period.MONTH)
                 courses_titles.append(course.title + ' ' + course.get_status_display() + ' ' + str(course.subject.exam))
 
             description = 'Набор курсов: ' + ', '.join(courses_titles)
-
-            # CartManager.clear_cart(user=user)
+            CartManager.clear_cart(user=user)
             return Response({'id': order.id,
                              'price': result_price,
                              'description': description})
@@ -87,64 +90,114 @@ class addOrderItems(APIView):
             return Http404()
 
 
-class ConfirmOrder(APIView):
-    def post(self, request, order_id):
-        """ Метод обновляет статус оплаты заказа и добавляет/обновляет оплаченные курсы пользователю """
+class UpdateOrderStatus(APIView):
+
+    def post(self, request):
+        json_tinkoff_response = json.loads(request.body)
+        tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response)
+        tinkoff_response.is_valid()
+
+        terminal_key = tinkoff_response.TerminalKey
+        order_id = tinkoff_response.OrderId
+        success = tinkoff_response.Success
+        status = tinkoff_response.Status
+
+        # Идентификатор платежа в системе банка
+        payment_id = tinkoff_response.PaymentId
+
+        # Код ошибки (если ошибки не произошло, передается значение «0»)
+        error_code = tinkoff_response.ErrorCode
+        amount = tinkoff_response.Amount
+
+        # Идентификатор автоплатежа
+        rebill_id = tinkoff_response.RebillId
+
+        # Идентификатор сохраненной карты в системе банка
+        card_id = tinkoff_response.CardId
+
+        # Замаскированный номер карты/Замаскированный номер телефона
+        pan = tinkoff_response.Pan
+
+        # Срок действия карты (в формате MMYY, где YY — две последние цифры года)
+        exp_date = tinkoff_response.ExpDate
+
+        # См. Подпись запроса (https://www.tinkoff.ru/kassa/develop/api/request-sign/)
+        token = tinkoff_response.Token
 
         order = get_object_or_404(Order, id=order_id)
-        order.paid = True
-        order.save()
+        order.terninal_key = terminal_key
+        order.paid = success
+        order.status = status
+        order.payment_id = payment_id
+        order.error_code = error_code
+        order.amount = amount
+        order.rebill_id = rebill_id
+        order.card_id = card_id
+        order.pan = pan
+        order.exp_date = exp_date
+        order.token = token
+        order.save(update_fields=['paid', 'status', 'payment_id', 'error_code', 'amount', 'rebill_id', 'card_id', 'pan',
+                                  'exp_date', 'token'])
 
-        user = order.user
-        if order.coupon:
-            if not UsedCoupon.objects.filter(user=user, coupon=order.coupon).exists():
-                UsedCoupon.objects.create(user=user,
-                                          coupon=order.coupon)
-        order_items = order.items.all()
-        many = len(order_items) > 1
-        for order_item in order_items:
-            price_with_discount = OrderManager.get_price_with_discount(course=order_item.course,
-                                                                       coupon=order.coupon,
-                                                                       many=many)
-            # Дата окончания действия курса = сегодня + месяц или год в зависимости от периода действия в заказе
+        if order.paid:
 
-            if ConfirmedCourse.objects.filter(user=user, course=order_item.course).exists():
+            user = order.user
 
-                confirmed_course = ConfirmedCourse.objects.get(user=user, course=order_item.course)
+            # Добавление купона в список использованных
+            if order.coupon:
+                if not UsedCoupon.objects.filter(user=user, coupon=order.coupon).exists():
+                    UsedCoupon.objects.create(user=user,
+                                              coupon=order.coupon)
 
-                if order_item.period == OrderItem.Period.FULL:
-                    end_date = date(date.today().year + 1, date.today().month, date.today().day)
-                else:
-                    if confirmed_course.end_date >= date.today():
-                        end_date = confirmed_course.end_date + timedelta(30)
+            # Получение всех курсов в заказе
+            order_items = order.items.all()
+            many = len(order_items) > 1
+
+            for order_item in order_items:
+                result_price = OrderManager.get_result_price(course=order_item.course,
+                                                             coupon=order.coupon,
+                                                             period=order_item.period,
+                                                             many=many)
+
+                # Дата окончания действия курса = сегодня + месяц или год в зависимости от периода действия в заказе
+                if ConfirmedCourse.objects.filter(user=user, course=order_item.course).exists():
+
+                    confirmed_course = ConfirmedCourse.objects.get(user=user, course=order_item.course)
+
+                    if order_item.period == OrderItem.Period.FULL:
+                        end_date = date(date.today().year + 1, date.today().month, date.today().day)
                     else:
-                        end_date = date.today() + timedelta(days=30)
+                        if confirmed_course.end_date >= date.today():
+                            end_date = confirmed_course.end_date + timedelta(30)
+                        else:
+                            end_date = date.today() + timedelta(days=30)
 
-                confirmed_course.coupon = order.coupon if order.coupon else None
-                confirmed_course.price_with_discount = price_with_discount
-                confirmed_course.update_date = date.today()
-                confirmed_course.end_date = end_date
-                confirmed_course.save()
-            else:
-                if order_item.period == OrderItem.Period.FULL:
-                    end_date = date(date.today().year + 1, date.today().month, date.today().day)
+                    confirmed_course.coupon = order.coupon if order.coupon else None
+                    confirmed_course.result_price = result_price
+                    confirmed_course.update_date = date.today()
+                    confirmed_course.end_date = end_date
+                    confirmed_course.save()
                 else:
-                    if date.today().month in [7, 8]:
-                        end_date = date(date.today().year, 10, 1)
+                    if order_item.period == OrderItem.Period.FULL:
+                        end_date = date(date.today().year + 1, date.today().month, date.today().day)
                     else:
-                        end_date = date.today() + timedelta(days=30)
+                        if date.today().month in [7, 8]:
+                            end_date = date(date.today().year, 10, 1)
+                        else:
+                            end_date = date.today() + timedelta(days=30)
 
-                curator = Curator.objects\
-                    .filter(course=order_item.course)\
-                    .annotate(count_students=Count('curator_orders'))\
-                    .order_by('curator_orders')\
-                    .first()
-                ConfirmedCourse.objects.create(user=user,
-                                               course=order_item.course,
-                                               coupon=order.coupon,
-                                               price_with_discount=price_with_discount,
-                                               create_date=date.today(),
-                                               update_date=date.today(),
-                                               end_date=end_date,
-                                               curator=curator)
-        return Response()
+                    curator = Curator.objects \
+                        .filter(course=order_item.course) \
+                        .annotate(count_students=Count('curator_orders')) \
+                        .order_by('curator_orders') \
+                        .first()
+                    ConfirmedCourse.objects.create(user=user,
+                                                   course=order_item.course,
+                                                   coupon=order.coupon,
+                                                   result_price=result_price,
+                                                   create_date=date.today(),
+                                                   update_date=date.today(),
+                                                   end_date=end_date,
+                                                   curator=curator)
+
+        return Response('OK')
