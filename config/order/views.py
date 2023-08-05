@@ -95,7 +95,7 @@ class UpdateOrderStatus(APIView):
     def post(self, request):
         json_tinkoff_response = json.loads(request.body)
         print(json_tinkoff_response)
-        tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response)
+        tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response).validated_data
         tinkoff_response.is_valid()
 
         terminal_key = tinkoff_response.TerminalKey
