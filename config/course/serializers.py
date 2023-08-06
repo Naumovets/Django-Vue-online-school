@@ -91,23 +91,33 @@ class WebinarSerializer(serializers.ModelSerializer):
                     'is_multi_answer': False if task.answer else True,
                     'checkbox_answer_1': {'answer': task.checkbox_answer_1,
                                           'right': task.checkbox_right_answer_1,
-                                          'user_answer': False
+                                          'user_answer': False,
+                                          'is_valid': False,
+                                          'is_invalid': False
                                           },
                     'checkbox_answer_2': {'answer': task.checkbox_answer_2,
                                           'right': task.checkbox_right_answer_2,
-                                          'user_answer': False
+                                          'user_answer': False,
+                                          'is_valid': False,
+                                          'is_invalid': False
                                           },
                     'checkbox_answer_3': {'answer': task.checkbox_answer_3,
                                           'right': task.checkbox_right_answer_3,
-                                          'user_answer': False
+                                          'user_answer': False,
+                                          'is_valid': False,
+                                          'is_invalid': False
                                           },
                     'checkbox_answer_4': {'answer': task.checkbox_answer_4,
                                           'right': task.checkbox_right_answer_4,
-                                          'user_answer': False
+                                          'user_answer': False,
+                                          'is_valid': False,
+                                          'is_invalid': False
                                           },
                     'checkbox_answer_5': {'answer': task.checkbox_answer_5,
                                           'right': task.checkbox_right_answer_5,
-                                          'user_answer': False
+                                          'user_answer': False,
+                                          'is_valid': False,
+                                          'is_invalid': False
                                           },
                 }
                 for task in tasks
