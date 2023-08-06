@@ -60,7 +60,6 @@ class Order(models.Model):
     pan = models.TextField(verbose_name='Замаскированный номер карты/Замаскированный номер телефона', blank=True,
                            null=True)
     card_id = models.IntegerField(verbose_name='Идентификатор сохраненной карты в системе банка', blank=True, null=True)
-    rebill_id = models.IntegerField(verbose_name='Идентификатор автоплатежа', blank=True, null=True)
     amount = models.DecimalField(decimal_places=0, max_digits=10, verbose_name='Оплачено в коп.', blank=True, null=True)
     error_code = models.CharField(max_length=20, verbose_name='Код ошибки (0=Успех)', blank=True, null=True)
     payment_id = models.IntegerField(verbose_name='Идентификатор платежа в системе банка', null=True, blank=True)

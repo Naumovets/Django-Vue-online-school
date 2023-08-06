@@ -95,6 +95,18 @@ class UpdateOrderStatus(APIView):
     def post(self, request):
         json_tinkoff_response = json.loads(request.body)
 
+        # {'TerminalKey': '1690624343703DEMO',
+        # 'OrderId': '36',
+        # 'Success': True,
+        # 'Status': 'AUTHORIZED',
+        # 'PaymentId': 3083534082,
+        # 'ErrorCode': '0',
+        # 'Amount': 2410200,
+        # 'CardId': 333725847,
+        # 'Pan': '430000******0777',
+        # 'ExpDate': '1122',
+        # 'Token': '291e7b03999e9d3586ef25c6ae360cabca3f065ab3216da46719f68b031b0662'}
+
         terminal_key = json_tinkoff_response['TerminalKey']
         order_id = json_tinkoff_response['OrderId']
         success = json_tinkoff_response['Success']
@@ -106,9 +118,6 @@ class UpdateOrderStatus(APIView):
         # Код ошибки (если ошибки не произошло, передается значение «0»)
         error_code = json_tinkoff_response['ErrorCode']
         amount = json_tinkoff_response['Amount']
-
-        # Идентификатор автоплатежа
-        rebill_id = json_tinkoff_response['RebillId']
 
         # Идентификатор сохраненной карты в системе банка
         card_id = json_tinkoff_response['CardId']
@@ -129,12 +138,11 @@ class UpdateOrderStatus(APIView):
         order.payment_id = payment_id
         order.error_code = error_code
         order.amount = amount
-        order.rebill_id = rebill_id
         order.card_id = card_id
         order.pan = pan
         order.exp_date = exp_date
         order.token = token
-        order.save(update_fields=['paid', 'status', 'payment_id', 'error_code', 'amount', 'rebill_id', 'card_id', 'pan',
+        order.save(update_fields=['paid', 'status', 'payment_id', 'error_code', 'amount', 'card_id', 'pan',
                                   'exp_date', 'token'])
 
         if order.paid:
