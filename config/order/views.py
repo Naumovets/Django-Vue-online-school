@@ -186,6 +186,7 @@ class UpdateOrderStatus(APIView):
                             end_date = date(date.today().year, 10, 1)
                         else:
                             end_date = date.today() + timedelta(days=30)
+                    print(end_date)
 
                     curator = Curator.objects \
                         .filter(course=order_item.course) \
