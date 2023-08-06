@@ -1,8 +1,7 @@
-import calendar
 import json
 
 from django.db.models import Count
-from django.http import Http404
+from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.generics import get_object_or_404
@@ -12,7 +11,6 @@ from rest_framework.views import APIView
 from cart.models import Coupon, UsedCoupon, Cart
 from cart.serializers import CartItemForPriceSerializer
 from cart.services.cart_manager import CartManager
-from config.settings import TERMINAL_KEY
 from course.models import Course, Curator
 from order.models import Order, OrderItem, ConfirmedCourse
 from datetime import date, timedelta
@@ -32,7 +30,7 @@ class addFreeCourseOrderItem(APIView):
                                    id=course_id,
                                    status=Course.Status.FREE)
         if ConfirmedCourse.objects.filter(user=user, course=course).exists():
-            return Http404()
+            return Response(status=status.HTTP_404_NOT_FOUND)
         ConfirmedCourse.objects.create(user=user,
                                        course=course,
                                        create_date=date.today(),
@@ -57,7 +55,7 @@ class addOrderItems(APIView):
 
         json_parsed_courses = json.loads(request.body)
         if len(json_parsed_courses) < 1:
-            return Http404()
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         # { 'array': [{'period': period, 'id': id},...], 'promocode': promocode }
 
@@ -93,7 +91,7 @@ class addOrderItems(APIView):
                              'price': result_price,
                              'description': description})
         else:
-            return Http404()
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class UpdateOrderStatus(APIView):
@@ -102,6 +100,8 @@ class UpdateOrderStatus(APIView):
         json_tinkoff_response = json.loads(request.body)
         tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response)
         tinkoff_response.is_valid()
+
+        print(tinkoff_response.validated_data)
 
         terminal_key = tinkoff_response.validated_data['TerminalKey']
         order_id = tinkoff_response.validated_data['OrderId']

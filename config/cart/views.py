@@ -1,7 +1,6 @@
 import json
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
