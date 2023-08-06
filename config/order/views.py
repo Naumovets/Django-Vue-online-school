@@ -76,7 +76,6 @@ class addOrderItems(APIView):
                 course = Course.objects.get(id=data['id'])
 
                 period = OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH
-                print(period)
                 result_price = OrderManager.get_result_price(course=course, coupon=coupon, period=period, many=many)
 
                 OrderItem.objects.create(order=order,
@@ -88,7 +87,7 @@ class addOrderItems(APIView):
             description = 'Набор курсов: ' + ', '.join(courses_titles)
             CartManager.clear_cart(user=user)
             return Response({'id': order.id,
-                             'price': result_price,
+                             'price': total_price,
                              'description': description})
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
