@@ -155,6 +155,7 @@ class UpdateOrderStatus(APIView):
             many = len(order_items) > 1
 
             for order_item in order_items:
+                print('Аиск!')
                 result_price = OrderManager.get_result_price(course=order_item.course,
                                                              coupon=order.coupon,
                                                              period=order_item.period,
@@ -186,7 +187,6 @@ class UpdateOrderStatus(APIView):
                             end_date = date(date.today().year, 10, 1)
                         else:
                             end_date = date.today() + timedelta(days=30)
-                    print(end_date)
 
                     curator = Curator.objects \
                         .filter(course=order_item.course) \
