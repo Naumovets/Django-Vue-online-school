@@ -77,7 +77,8 @@ class addOrderItems(APIView):
             for data in data_of_courses.validated_data:
                 course = Course.objects.get(id=data['id'])
 
-                period = OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH,
+                period = OrderItem.Period.FULL if data['period'] == 'full' else OrderItem.Period.MONTH
+                print(period)
                 result_price = OrderManager.get_result_price(course=course, coupon=coupon, period=period, many=many)
 
                 OrderItem.objects.create(order=order,
