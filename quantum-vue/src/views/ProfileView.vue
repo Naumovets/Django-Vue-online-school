@@ -175,8 +175,7 @@ document.title = 'Профиль'
                                             <p class="m-0" v-else>Недействителен</p>
                                         </td>
                                         <td class="text-center" v-if="orderItem.active == true">
-                                            <p class="m-0" v-if="!orderItem.price_with_discount && orderItem.course.status !== 'Бесплатный'">{{orderItem.course.price}} ₽</p>
-                                            <p class="m-0" v-else-if="orderItem.course.status !== 'Бесплатный'">{{orderItem.price_with_discount}} ₽ <sup><del class="h6">{{orderItem.course.price}}₽</del></sup></p>
+                                            <p class="m-0" v-if="orderItem.course.status !== 'Бесплатный'">{{orderItem.result_price}} ₽</p>
                                             <p class="m-0" v-else>Бесплатно</p>
                                         </td>
                                         <td class="text-center" v-else>

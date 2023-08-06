@@ -66,8 +66,6 @@ class addOrderItems(APIView):
             order = Order.objects.create(user=user,
                                          coupon=coupon,
                                          result_price=total_price['result_price'])
-
-            courses_titles = []
             many = len(data_of_courses.validated_data) > 1
             for data in data_of_courses.validated_data:
                 course = Course.objects.get(id=data['id'])
@@ -79,9 +77,7 @@ class addOrderItems(APIView):
                                          course=course,
                                          period=period,
                                          result_price=result_price)
-                courses_titles.append(course.title + ' ' + course.get_status_display() + ' ' + str(course.subject.exam))
-
-            description = 'Набор курсов: ' + ', '.join(courses_titles)
+            description = 'Оплата курсов в онлайн-школе "Квантум".'
             CartManager.clear_cart(user=user)
             return Response({'id': order.id,
                              'price': total_price['result_price'],
