@@ -54,7 +54,7 @@ class Order(models.Model):
                                        max_digits=9,
                                        null=True,
                                        blank=True)
-    paid = models.BooleanField(default=False, verbose_name='Оплачен')
+    success = models.BooleanField(default=False, verbose_name='Успешно')
     token = models.TextField(verbose_name='Токен (См. Подпись запроса)', blank=True, null=True)
     exp_date = models.TextField(verbose_name='Срок действия карты MMYY', blank=True, null=True)
     pan = models.TextField(verbose_name='Замаскированный номер карты/Замаскированный номер телефона', blank=True,

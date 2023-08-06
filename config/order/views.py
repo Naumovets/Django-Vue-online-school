@@ -129,7 +129,7 @@ class UpdateOrderStatus(APIView):
 
         order = get_object_or_404(Order, id=order_id)
         order.terminal_key = terminal_key
-        order.paid = success
+        order.success = success
         order.status = status
         order.payment_id = payment_id
         order.error_code = error_code

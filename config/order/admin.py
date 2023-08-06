@@ -10,8 +10,8 @@ class OrderItemInline(admin.StackedInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'coupon', 'get_count_courses', 'create_date', 'result_price', 'paid')
-    list_filter = ('id', 'user', 'coupon', 'create_date', 'result_price', 'paid')
+    list_display = ('id', 'user', 'coupon', 'get_count_courses', 'create_date', 'result_price', 'success')
+    list_filter = ('id', 'user', 'coupon', 'create_date', 'result_price', 'success')
     search_fields = ('id', 'create_date', 'result_price', 'paid')
     inlines = [OrderItemInline]
 
