@@ -14,6 +14,7 @@ class FileOfWebinarInline(admin.StackedInline):
     extra = 0
 
 
+
 @admin.register(Exam)
 class ExamAdmin(admin.ModelAdmin):
     list_display = ('title',)
