@@ -110,8 +110,8 @@
                                     <h3>Вебинары</h3>
                                     <div class="list-group w-100">
                                         <template v-if="orderItem.webinars !== undefined && orderItem.webinars !== null">
-                                            <template v-for="webinar in orderItem.webinars.sort((a, b) => a.id - b.id)" :key="webinar.date_start">
-                                                <RouterLink :to="'/webinar/' + webinar.code" class="list-group-item list-group-item-action">{{webinar.title}}</RouterLink>
+                                            <template v-for="webinar in orderItem.webinars.sort((a, b) => new Date(a.date_start) - new Date(b.date_start))" :key="webinar.id">
+                                                <RouterLink :to="'/webinar/' + webinar.id" class="list-group-item list-group-item-action">{{webinar.title}}</RouterLink>
                                             </template>
                                         </template>
                                         <span v-else>Пока ничего нет</span>

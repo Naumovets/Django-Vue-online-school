@@ -11,7 +11,7 @@
 
     const router = useRouter();
     const route = useRoute();
-    const code = route.params.code;
+    const id = route.params.id;
     const webinar = ref()
     const curator = ref()
 
@@ -19,7 +19,7 @@
     onBeforeMount(() => {
         checklogin()
         axios({
-            url: `https://admin.lk-quantum.ru/api/v1/course/webinar/${code}`,
+            url: `https://admin.lk-quantum.ru/api/v1/course/webinar/${id}`,
             method: 'get',
             headers: {'Authorization': VueCookies.get('Authorization')}
         })

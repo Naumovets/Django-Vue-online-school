@@ -86,7 +86,7 @@ const router = createRouter({
       component: CourseView
     },
     {
-      path: '/webinar/:code',
+      path: '/webinar/:id',
       name: 'webinar',
       component: WebinarView
     },

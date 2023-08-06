@@ -11,7 +11,7 @@ urlpatterns = [
     path('free-courses', FreeCoursesView.as_view(), name='free_courses'),
     path('subjects', SubjectsView.as_view(), name='subjects'),\
     path('get-courses', ConfirmedCoursesView.as_view(), name='get-courses'),
-    path('webinar/<str:code>', WebinarView.as_view(), name='webinar'),
+    path('webinar/<int:id>', WebinarView.as_view(), name='webinar'),
     path('calendar_webinar', CalendarWebinar.as_view(), name='calendar_webinar'),
     path('<slug:slug>', ConfirmedCourseView.as_view(), name='course'),
 ]

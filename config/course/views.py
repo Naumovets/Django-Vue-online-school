@@ -53,11 +53,11 @@ class SubjectsView(APIView):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 class WebinarView(APIView):
-    def get(self, request, code):
+    def get(self, request, id):
         """ Получение вебинара из действующего курса"""
         user = request.user
         webinar = get_object_or_404(Webinar,
-                                    code_of_translation=code)
+                                    id=id)
         course_slug = webinar.course.slug
 
         curator = get_object_or_404(ConfirmedCourse,

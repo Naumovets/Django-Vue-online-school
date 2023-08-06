@@ -191,7 +191,7 @@ class ConfirmedCourseSerializer(serializers.ModelSerializer):
                 {
                     'id': webinar.id,
                     'title': webinar.title,
-                    'code': webinar.code_of_translation
+                    'date_start': webinar.date_start
                 }
                 for webinar in webinars
             ]
