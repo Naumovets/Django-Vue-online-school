@@ -140,7 +140,7 @@ class UpdateOrderStatus(APIView):
         order.token = token
         order.save()
 
-        if order.paid:
+        if order.status == 'CONFIRMED':
 
             user = order.user
 
