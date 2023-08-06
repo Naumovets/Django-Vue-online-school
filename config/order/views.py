@@ -64,11 +64,10 @@ class addOrderItems(APIView):
         total_price = CartManager.get_total_price(user=user,
                                                   coupon_code=coupon_code,
                                                   data_of_courses=data_of_courses.validated_data)
-        result_price = total_price['result_price']
         if Cart.objects.get(user=user).items.all().exists():
             order = Order.objects.create(user=user,
                                          coupon=coupon,
-                                         result_price=result_price)
+                                         result_price=total_price['result_price'])
 
             courses_titles = []
             many = len(data_of_courses.validated_data) > 1
@@ -87,7 +86,7 @@ class addOrderItems(APIView):
             description = 'Набор курсов: ' + ', '.join(courses_titles)
             CartManager.clear_cart(user=user)
             return Response({'id': order.id,
-                             'price': total_price,
+                             'price': total_price['result_price'],
                              'description': description})
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -100,7 +99,7 @@ class UpdateOrderStatus(APIView):
         tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response)
         tinkoff_response.is_valid()
 
-        print(tinkoff_response.validated_data)
+        print(tinkoff_response)
 
         terminal_key = tinkoff_response.validated_data['TerminalKey']
         order_id = tinkoff_response.validated_data['OrderId']
