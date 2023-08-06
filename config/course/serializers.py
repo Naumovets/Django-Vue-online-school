@@ -86,6 +86,12 @@ class WebinarSerializer(serializers.ModelSerializer):
                     'answer': task.answer,
                     'user_answer': None,
                     'id': task.id,
+                    'is_multi_answer': False if task.answer else True,
+                    'checkbox_answer_1': {'answer': task.checkbox_answer_1, 'right': task.checkbox_right_answer_1},
+                    'checkbox_answer_2': {'answer': task.checkbox_answer_2, 'right': task.checkbox_right_answer_2},
+                    'checkbox_answer_3': {'answer': task.checkbox_answer_3, 'right': task.checkbox_right_answer_3},
+                    'checkbox_answer_4': {'answer': task.checkbox_answer_4, 'right': task.checkbox_right_answer_4},
+                    'checkbox_answer_5': {'answer': task.checkbox_answer_5, 'right': task.checkbox_right_answer_5},
                 }
                 for task in tasks
             ]
@@ -124,6 +130,7 @@ class WebinarSerializer(serializers.ModelSerializer):
                     'price': course.price
                     }
         return None
+
     class Meta:
         model = Webinar
         fields = '__all__'
