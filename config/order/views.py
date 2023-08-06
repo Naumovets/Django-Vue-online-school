@@ -99,7 +99,8 @@ class UpdateOrderStatus(APIView):
         tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response)
         tinkoff_response.is_valid()
         print(json_tinkoff_response)
-        print(tinkoff_response)
+        print(tinkoff_response.validated_data)
+        print(tinkoff_response.TerminalKey)
 
         terminal_key = tinkoff_response.validated_data['TerminalKey']
         order_id = tinkoff_response.validated_data['OrderId']
