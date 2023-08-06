@@ -111,7 +111,7 @@ document.title = 'Профиль'
 
             <div class="row">
                 <!-- vertical info panel -->
-                <div class="col-xl-4">
+                <div class="col-xl-3">
 
                     <!-- Card -->
                     <div class="card border-0">
@@ -143,7 +143,7 @@ document.title = 'Профиль'
                 </div>
 
                 <!-- courses -->
-                <div class="col">
+                <div class="col-xl-9">
                     <div class="card border-0">
                         <div class="card-header border-0 card-header-space-between">
                     
