@@ -14,8 +14,6 @@ from cart.services.cart_manager import CartManager
 from course.models import Course, Curator
 from order.models import Order, OrderItem, ConfirmedCourse
 from datetime import date, timedelta
-
-from order.serializers import TinkoffResponseSerializer
 from order.services.order_manager import OrderManager
 
 
@@ -96,38 +94,33 @@ class UpdateOrderStatus(APIView):
 
     def post(self, request):
         json_tinkoff_response = json.loads(request.body)
-        tinkoff_response = TinkoffResponseSerializer(data=json_tinkoff_response)
-        tinkoff_response.is_valid()
-        print(json_tinkoff_response)
-        print(tinkoff_response.validated_data)
-        print(tinkoff_response.TerminalKey)
 
-        terminal_key = tinkoff_response.validated_data['TerminalKey']
-        order_id = tinkoff_response.validated_data['OrderId']
-        success = tinkoff_response.validated_data['Success']
-        status = tinkoff_response.validated_data['Status']
+        terminal_key = json_tinkoff_response['TerminalKey']
+        order_id = json_tinkoff_response['OrderId']
+        success = json_tinkoff_response['Success']
+        status = json_tinkoff_response['Status']
 
         # Идентификатор платежа в системе банка
-        payment_id = tinkoff_response.validated_data['PaymentId']
+        payment_id = json_tinkoff_response['PaymentId']
 
         # Код ошибки (если ошибки не произошло, передается значение «0»)
-        error_code = tinkoff_response.validated_data['ErrorCode']
-        amount = tinkoff_response.validated_data['Amount']
+        error_code = json_tinkoff_response['ErrorCode']
+        amount = json_tinkoff_response['Amount']
 
         # Идентификатор автоплатежа
-        rebill_id = tinkoff_response.validated_data['RebillId']
+        rebill_id = json_tinkoff_response['RebillId']
 
         # Идентификатор сохраненной карты в системе банка
-        card_id = tinkoff_response.validated_data['CardId']
+        card_id = json_tinkoff_response['CardId']
 
         # Замаскированный номер карты/Замаскированный номер телефона
-        pan = tinkoff_response.validated_data['Pan']
+        pan = json_tinkoff_response['Pan']
 
         # Срок действия карты (в формате MMYY, где YY — две последние цифры года)
-        exp_date = tinkoff_response.validated_data['ExpDate']
+        exp_date = json_tinkoff_response['ExpDate']
 
         # См. Подпись запроса (https://www.tinkoff.ru/kassa/develop/api/request-sign/)
-        token = tinkoff_response.validated_data['Token']
+        token = json_tinkoff_response['Token']
 
         order = get_object_or_404(Order, id=order_id)
         order.terninal_key = terminal_key
