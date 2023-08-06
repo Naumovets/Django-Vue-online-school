@@ -142,8 +142,7 @@ class UpdateOrderStatus(APIView):
         order.pan = pan
         order.exp_date = exp_date
         order.token = token
-        order.save(update_fields=['paid', 'status', 'payment_id', 'error_code', 'amount', 'card_id', 'pan',
-                                  'exp_date', 'token'])
+        order.save()
 
         if order.paid:
 
