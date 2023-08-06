@@ -132,7 +132,7 @@ class UpdateOrderStatus(APIView):
         token = json_tinkoff_response['Token']
 
         order = get_object_or_404(Order, id=order_id)
-        order.terninal_key = terminal_key
+        order.terminal_key = terminal_key
         order.paid = success
         order.status = status
         order.payment_id = payment_id

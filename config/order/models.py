@@ -62,9 +62,9 @@ class Order(models.Model):
     card_id = models.IntegerField(verbose_name='Идентификатор сохраненной карты в системе банка', blank=True, null=True)
     amount = models.DecimalField(decimal_places=0, max_digits=10, verbose_name='Оплачено в коп.', blank=True, null=True)
     error_code = models.CharField(max_length=20, verbose_name='Код ошибки (0=Успех)', blank=True, null=True)
-    payment_id = models.IntegerField(verbose_name='Идентификатор платежа в системе банка', null=True, blank=True)
+    payment_id = models.BigIntegerField(verbose_name='Идентификатор платежа в системе банка', null=True, blank=True)
     status = models.CharField(max_length=20, verbose_name='Статус', null=True, blank=True)
-    terninal_key = models.TextField(null=True, blank=True)
+    terminal_key = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return str(self.user)
