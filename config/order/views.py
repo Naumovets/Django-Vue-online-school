@@ -155,7 +155,6 @@ class UpdateOrderStatus(APIView):
             many = len(order_items) > 1
 
             for order_item in order_items:
-                print('Аиск!')
                 result_price = OrderManager.get_result_price(course=order_item.course,
                                                              coupon=order.coupon,
                                                              period=order_item.period,
