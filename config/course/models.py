@@ -89,11 +89,11 @@ class Task(models.Model):
                                        null=True)
     answer = models.TextField(verbose_name='Ответ полем ввода', null=True, blank=True)
 
-    checkbox_answer_1 = models.TextField(verbose_name='Множественный ответ 1', null=True, blank=True)
-    checkbox_answer_2 = models.TextField(verbose_name='Множественный ответ 2', null=True, blank=True)
-    checkbox_answer_3 = models.TextField(verbose_name='Множественный ответ 3', null=True, blank=True)
-    checkbox_answer_4 = models.TextField(verbose_name='Множественный ответ 4', null=True, blank=True)
-    checkbox_answer_5 = models.TextField(verbose_name='Множественный ответ 5', null=True, blank=True)
+    checkbox_answer_1 = models.CharField(max_length=50, verbose_name='Множественный ответ 1', null=True, blank=True)
+    checkbox_answer_2 = models.CharField(max_length=50, verbose_name='Множественный ответ 2', null=True, blank=True)
+    checkbox_answer_3 = models.CharField(max_length=50, verbose_name='Множественный ответ 3', null=True, blank=True)
+    checkbox_answer_4 = models.CharField(max_length=50, verbose_name='Множественный ответ 4', null=True, blank=True)
+    checkbox_answer_5 = models.CharField(max_length=50, verbose_name='Множественный ответ 5', null=True, blank=True)
 
     checkbox_right_answer_1 = models.BooleanField(verbose_name='Является ли ответ 1 верным?', default=False)
     checkbox_right_answer_2 = models.BooleanField(verbose_name='Является ли ответ 2 верным?', default=False)
