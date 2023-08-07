@@ -108,15 +108,14 @@
             </div>
             
             <div class="row">
-                <div class="col-12 order-lg-1 order-2 col-xl-9">
-                    <template v-if="data !== undefined">
-                        <div class="card shadow-none border-0" v-for="card in data" :key="card.id">
-                            <div v-if="((card.status == 'Основной' && main)
-                                    || (card.status == 'Бесплатный' && free)
-                                    || (card.status == 'Спецкурс' && special))
+                <div class="col-12 order-lg-1 order-2 col-xl-9" v-if="data !== undefined">
+                    <template v-for="card in data" :key="card.id">
+                        <div  v-if="card.status == 'Бесплатный' 
+                                    && free
                                     && IsActiveExam(card.subject.exam)
-                                    && IsActiveSubject(card.subject.title, card.subject.exam)
-                                " class="row g-0">
+                                    && IsActiveSubject(card.subject.title, card.subject.exam)"
+                            class="card shadow-none border-0">
+                            <div class="row g-0">
                                 <div class="col-lg-3 col-12">
 
                                     <img :src="'https://admin.lk-quantum.ru' + card.image" class="w-100 img-fluid rounded-start"
@@ -150,9 +149,12 @@
 
                                 <div class="col-10 col-md-5 col-lg-3">
                                     <div class="card-body h-100 d-flex flex-row flex-lg-column justify-content-around align-items-center">
-                                        <p class="mb-0 price">Бесплатно</p>
+                                        <p v-if="card.status !== 'Бесплатный'" class="mb-0 price">{{ card.price }} ₽/мес.</p>
+                                        <p v-else class="mb-0 price">Бесплатно</p>
                                         <div>
-                                            <button v-if="!card.isAddedToOrder" @click="addFreeCourseOrderItem(card.id)" type="button" class="btn btn-success">Добавить</button>
+                                            <button v-if="card.status !== 'Бесплатный' && card.price && !card.isAddedToCart" @click="addToCart(card.id)" type="button" class="btn btn-success">В корзину</button>
+                                            <button v-else-if="card.isAddedToCart" @click="deleteCartItem(card.id)" type="button" class="btn btn-success">Удалить</button>
+                                            <button v-else-if="!card.isAddedToOrder" @click="addFreeCourseOrderItem(card.id)" type="button" class="btn btn-success">Добавить</button>
                                             <button v-else type="button" class="btn btn-success" disabled>Добавлен</button>
                                         </div>
 
@@ -162,6 +164,7 @@
                             </div>
                         </div>
                     </template>
+
                 </div>
 
                 <div class="col-12 order-lg-2 order-1 col-xl-3">
@@ -170,16 +173,16 @@
                             <h3>Фильтр</h3>
                             <h5 class="mb-2">Экзамены</h5>
                             <div v-for="exam in exams" class="form-check mb-3">
-                                <input v-model="exam.active" type="checkbox" id="formCheck2" class="form-check-input"
+                                <input v-model="exam.active" type="checkbox" :id="'formCheck_exam'+exam.title" class="form-check-input"
                                     checked>
-                                <label class="form-check-label" for="formCheck2">{{ exam.title }}</label>
+                                <label class="form-check-label" :for="'formCheck_exam'+exam.title">{{ exam.title }}</label>
                             </div>
                             <hr>
                             <h5 class="mb-2">Предметы</h5>
                             <template v-for="subject in subjects">
                                 <div v-if="IsActiveExam(subject.exam)" class="form-check mb-3">
-                                    <input v-model="subject.active" type="checkbox" id="formCheck2" class="form-check-input" checked>
-                                    <label class="form-check-label" for="formCheck2">{{subject.title}}({{subject.exam}})</label>
+                                    <input v-model="subject.active" type="checkbox" :id="'formCheck_subject' + subject.title + subject.exam" class="form-check-input" checked>
+                                    <label class="form-check-label" :for="'formCheck_subject' + subject.title + subject.exam">{{subject.title}}({{subject.exam}})</label>
                                 </div>
                             </template>
                             

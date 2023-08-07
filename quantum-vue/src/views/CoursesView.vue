@@ -36,7 +36,8 @@
         method: 'get',
     })
     .then(function (response) {
-        exams.value = response.data.map(item => ({ 'title': item.title, 'active': true }));
+        exams.value = response.data.map(item => ({ 'title': item.title, 'active': true}));
+        console.log(exams.value)
     })
 
     // запрос предметов (всех)
@@ -45,7 +46,8 @@
         method: 'get',
     })
     .then(function (response) {
-        subjects.value = response.data.map(item => ({ 'title': item.title, 'exam': item.exam, 'active': true }));
+        subjects.value = response.data.map(item => ({ 'title': item.title, 'exam': item.exam, 'active': true}));
+        console.log(subjects.value)
     })
 
 
@@ -62,7 +64,7 @@
 
     // Проверка активных курсов (для вывода курсов)
     function IsActiveSubject(subject, exam){
-        let card_exam = JSON.stringify({'title': subject, 'exam': exam, 'active': true});
+        let card_exam = JSON.stringify({'title': subject, 'exam': exam, 'active': true,});
         for (let i = 0; i < toRaw(subjects.value).length; i++){
             if( JSON.stringify(toRaw(subjects.value)[i] ) === card_exam ){
                 return true;
@@ -134,15 +136,15 @@
             </div>
             
             <div class="row">
-                <div class="col-12 order-lg-1 order-2 col-xl-9">
-                    <template v-if="data !== undefined">
-                        <div class="card shadow-none border-0" v-for="card in data" :key="card.id">
-                            <div v-if="((card.status == 'Основной' && main)
+                <div class="col-12 order-lg-1 order-2 col-xl-9" v-if="data !== undefined">
+                    <template v-for="card in data" :key="card.id">
+                        <div  v-if="((card.status == 'Основной' && main)
                                     || (card.status == 'Бесплатный' && free)
                                     || (card.status == 'Спецкурс' && special))
                                     && IsActiveExam(card.subject.exam)
-                                    && IsActiveSubject(card.subject.title, card.subject.exam)
-                                " class="row g-0">
+                                    && IsActiveSubject(card.subject.title, card.subject.exam)"
+                            class="card shadow-none border-0">
+                            <div class="row g-0">
                                 <div class="col-lg-3 col-12">
 
                                     <img :src="'https://admin.lk-quantum.ru' + card.image" class="w-100 img-fluid rounded-start"
@@ -200,32 +202,32 @@
                             <h3>Фильтр</h3>
                             <h5 class="mb-2">Экзамены</h5>
                             <div v-for="exam in exams" class="form-check mb-3">
-                                <input v-model="exam.active" type="checkbox" id="formCheck2" class="form-check-input"
+                                <input v-model="exam.active" type="checkbox" :id="'formCheck_exam'+exam.title" class="form-check-input"
                                     checked>
-                                <label class="form-check-label" for="formCheck2">{{ exam.title }}</label>
+                                <label class="form-check-label" :for="'formCheck_exam'+exam.title">{{ exam.title }}</label>
                             </div>
                             <hr>
                             <h5 class="mb-2">Предметы</h5>
                             <template v-for="subject in subjects">
                                 <div v-if="IsActiveExam(subject.exam)" class="form-check mb-3">
-                                    <input v-model="subject.active" type="checkbox" id="formCheck2" class="form-check-input" checked>
-                                    <label class="form-check-label" for="formCheck2">{{subject.title}}({{subject.exam}})</label>
+                                    <input v-model="subject.active" type="checkbox" :id="'formCheck_subject' + subject.title + subject.exam" class="form-check-input" checked>
+                                    <label class="form-check-label" :for="'formCheck_subject' + subject.title + subject.exam">{{subject.title}}({{subject.exam}})</label>
                                 </div>
                             </template>
                             
                             <hr>
                             <h5 class="mb-2">Тип</h5>
                             <div class="form-check mb-3">
-                                <input v-model="main" type="checkbox" id="formCheck2" class="form-check-input" checked>
-                                <label class="form-check-label" for="formCheck2">Основной</label>
+                                <input v-model="main" type="checkbox" id="formCheck_main" class="form-check-input" checked>
+                                <label class="form-check-label" for="formCheck_main">Основной</label>
                             </div>
                             <div class="form-check mb-3">
-                                <input v-model="special" type="checkbox" id="formCheck2" class="form-check-input" checked>
-                                <label class="form-check-label" for="formCheck2">Спецкурс</label>
+                                <input v-model="special" type="checkbox" id="formCheck_special" class="form-check-input" checked>
+                                <label class="form-check-label" for="formCheck_special">Спецкурс</label>
                             </div>
                             <div class="form-check mb-3">
-                                <input v-model="free" type="checkbox" id="formCheck2" class="form-check-input" checked>
-                                <label class="form-check-label" for="formCheck2">Бесплатный</label>
+                                <input v-model="free" type="checkbox" id="formCheck_free" class="form-check-input" checked>
+                                <label class="form-check-label" for="formCheck_free">Бесплатный</label>
                             </div>
                         </div>
 
