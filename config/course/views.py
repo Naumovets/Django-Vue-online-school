@@ -90,10 +90,10 @@ class ConfirmedCoursesView(APIView):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 class ConfirmedCourseView(APIView):
-    def get(self, request, slug):
+    def get(self, request, id):
         """ Получение действующего (confirmed) курса """
         user = request.user
-        course = get_object_or_404(ConfirmedCourse, user=user, course__slug=slug, end_date__gte=date.today())
+        course = get_object_or_404(ConfirmedCourse, user=user, course__id=id, end_date__gte=date.today())
         course_serialized = ConfirmedCourseSerializer(course)
         return Response(course_serialized.data)
 

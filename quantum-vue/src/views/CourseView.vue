@@ -11,7 +11,7 @@
 
     const router = useRouter();
     const route = useRoute();
-    const slug = route.params.slug;
+    const id = route.params.id;
     const orderItem = ref()
     const error = ref()
 
@@ -19,7 +19,7 @@
     onBeforeMount(() => {
         checklogin()
         axios({
-            url: `https://admin.lk-quantum.ru/api/v1/course/${slug}`,
+            url: `https://admin.lk-quantum.ru/api/v1/course/${id}`,
             method: 'get',
             headers: {'Authorization': VueCookies.get('Authorization')}
         })

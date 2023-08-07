@@ -167,7 +167,7 @@ document.title = 'Профиль'
                                 <tbody v-if="orderItems !== undefined && orderItems !== null ">
                                     <tr v-for="orderItem in orderItems">
                                         <td class="fw-bold">
-                                            <h4 v-if="orderItem.active == true" class="m-0"><RouterLink :to="'course/'+orderItem.course.slug">{{ orderItem.course.exam }} {{orderItem.course.title}} ({{ orderItem.course.status }})</RouterLink></h4>
+                                            <h4 v-if="orderItem.active == true" class="m-0"><RouterLink :to="'course/'+orderItem.course.id">{{ orderItem.course.exam }} {{orderItem.course.title}} ({{ orderItem.course.status }})</RouterLink></h4>
                                             <h4 v-else class="m-0">{{ orderItem.course.exam }} {{orderItem.course.title}} {{ orderItem.course.status }}</h4>
                                         </td>
                                         <td> 

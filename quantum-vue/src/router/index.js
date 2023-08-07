@@ -81,7 +81,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/course/:slug',
+      path: '/course/:id',
       name: 'course',
       component: CourseView
     },
