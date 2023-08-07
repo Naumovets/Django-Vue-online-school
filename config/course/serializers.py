@@ -90,6 +90,7 @@ class WebinarSerializer(serializers.ModelSerializer):
                     'id': task.id,
                     'is_multi_answer': False if task.answer else True,
                     'right_answered': 0,
+                    'count_right': 0,
                     'error_answered': 0,
                     'checkbox_answer_1': {'answer': task.checkbox_answer_1,
                                           'right': task.checkbox_right_answer_1,
