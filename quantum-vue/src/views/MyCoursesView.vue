@@ -101,7 +101,7 @@ document.title = 'Мои курсы'
                                 <div class="col-8 col-sm-6 col-md-5 col-lg-3">
                                     <div class="card-body h-100 d-flex flex-row flex-lg-column justify-content-around align-items-center">
                                         <div>
-                                            <RouterLink v-if="orderItem.active == true" :to="'course/'+orderItem.course.slug" type="button" class="btn btn-success">Перейти</RouterLink>
+                                            <RouterLink v-if="orderItem.active == true" :to="'course/'+orderItem.course.id" type="button" class="btn btn-success">Перейти</RouterLink>
                                             <button v-else @click="extend_course(orderItem.course.id)" class="btn btn-success">Продлить</button>
                                         </div>
                                     </div>
