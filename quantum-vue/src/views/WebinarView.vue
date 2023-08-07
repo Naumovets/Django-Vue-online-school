@@ -246,7 +246,7 @@
                                                         <input v-model="task.user_answer" type="text" id="FormControlInput" class="form-control" placeholder="Ответ..">
                                                     </div>
                                                     <div class="col-md-4 col mt-5 mt-md-0 align-items-center">
-                                                        <button v-if="(task.solution !== '' && task.solution !== null) || task.solution_image !== null || task.answer" type="button" class="btn text-bg-info-soft" data-bs-toggle="modal" :data-bs-target="'.modal'+task.id">Посмотреть решение</button>
+                                                        <button v-if="(task.solution !== '' && task.solution !== null) || task.solution_image !== null || task.answer" type="button" class="btn text-bg-info-soft" data-bs-toggle="modal" :data-bs-target="'.modal'+task.id">Решение</button>
                                                     </div>
                                                 </div>
                                                 
@@ -326,7 +326,7 @@
                                                 <p v-if="task.count_right !== 0">Верно решенных: {{task.right_answered}} / {{ task.count_right }}</p>
                                                 <p v-if="task.error_answered !== 0">Ошибок допущенно: {{task.error_answered}}</p>
                                                 <button type="button" @click="assertAnswer(task)" class="mb-5 me-2 btn text-bg-primary-soft">Ответить</button>
-                                                <button v-if="(task.solution !== '' && task.solution !== null) || task.solution_image !== null" type="button" class="mb-5 btn text-bg-info-soft" data-bs-toggle="modal" :data-bs-target="'.modal'+task.id">Посмотреть решение</button>
+                                                <button v-if="(task.solution !== '' && task.solution !== null) || task.solution_image !== null" type="button" class="mb-5 btn text-bg-info-soft" data-bs-toggle="modal" :data-bs-target="'.modal'+task.id">Решение</button>
 
                                                 <div class="modal fade" :class="'modal' + task.id" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg" role="document">
