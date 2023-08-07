@@ -86,7 +86,7 @@ class WebinarSerializer(serializers.ModelSerializer):
                     'answer': task.answer,
                     'user_answer': None,
                     'solution': task.solution,
-                    'solution_image': task.question_image.url if task.solution_image else None,
+                    'solution_image': task.solution_image.url if task.solution_image else None,
                     'id': task.id,
                     'is_multi_answer': False if task.answer else True,
                     'right_answered': 0,

@@ -111,6 +111,6 @@ class CalendarWebinar(APIView):
                 result.append({
                     'title': webinar.title + ' (' + str(webinar.course) + ')',
                     'start': webinar.date_start,
-                    'url': 'webinar/' + webinar.id})
+                    'url': 'webinar/' + str(webinar.id)})
 
         return Response(result)
