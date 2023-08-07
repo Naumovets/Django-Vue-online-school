@@ -193,7 +193,7 @@
                                 <div id="myFormContainer" class="d-flex align-items-center justify-content-between">
                                     <span>{{data.value.result_price}} ₽</span>
                                     <form id="t-payform" name="t-payform">
-                                        <input type="hidden" name="terminalkey" value="1690624343703DEMO">
+                                        <input type="hidden" name="terminalkey" value="1690624343703">
                                         <input type="hidden" name="frame" value="false">
                                         <input type="hidden" name="language" value="ru">
                                         <input type="hidden" name="order"> 

@@ -237,8 +237,10 @@
                                 <ol class="list-group-flush list-group w-100">
                                     <template v-for="task in webinar.tasks">
                                         <li class="list-group-item mt-5">
-                                            <img v-if="task.question_image" class="mw-100 mb-5" :src="'https://admin.lk-quantum.ru' + task.question_image" alt="">
-                                            <p class="fs-3" v-if="task.question">{{ task.question }}</p>
+                                            <div class="col-md-8 col-12 pe-5">
+                                                <img v-if="task.question_image" class="mw-100 mb-5" :src="'https://admin.lk-quantum.ru' + task.question_image" alt="">
+                                                <p class="fs-3" v-if="task.question">{{ task.question }}</p>
+                                            </div>
 
                                             <template v-if="task.is_multi_answer === false">
                                                 <div class="row mt-2">
