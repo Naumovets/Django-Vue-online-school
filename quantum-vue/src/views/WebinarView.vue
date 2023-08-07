@@ -262,13 +262,17 @@
                                                     <div class="modal-dialog modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h3 class="modal-title h4" id="myLargeModalLabel">Решение "{{task.question}}"</h3>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
+                                                                <strong>Условие</strong>
+                                                                <p v-if="task.question !== '' && task.question !== null" id="myLargeModalLabel">{{task.question}}</p>
+                                                                <img v-if="task.question_image !== null" :src="'https://admin.lk-quantum.ru' + task.question_image" class="w-100 img-fluid rounded-start" alt="...">
+                                                                <hr>
+                                                                <strong>Решение</strong>
                                                                 <img v-if="task.solution_image !== null" :src="'https://admin.lk-quantum.ru' + task.solution_image" class="w-100 img-fluid rounded-start" alt="...">
                                                                 <p class="mt-5" v-if="task.solution !== null && task.solution !== ''">
-                                                                    Решение: {{ task.solution }}
+                                                                    {{ task.solution }}
                                                                 </p>
                                                                 <p class="mt-5" v-if="task.answer !== null && task.answer !== '' ">
                                                                     Ответ: {{ task.answer }}
@@ -332,13 +336,17 @@
                                                     <div class="modal-dialog modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h3 class="modal-title h4" id="myLargeModalLabel">Решение "{{task.question}}"</h3>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
+                                                                <strong>Условие</strong>
+                                                                <p v-if="task.question !== '' && task.question !== null" id="myLargeModalLabel">{{task.question}}</p>
+                                                                <img v-if="task.question_image !== null" :src="'https://admin.lk-quantum.ru' + task.question_image" class="w-100 img-fluid rounded-start" alt="...">
+                                                                <hr>
+                                                                <strong>Решение</strong>
                                                                 <img v-if="task.solution_image !== null" :src="'https://admin.lk-quantum.ru' + task.solution_image" class="w-100 img-fluid rounded-start" alt="...">
                                                                 <p class="mt-5" v-if="task.solution !== null && task.solution !== ''">
-                                                                    Решение: {{ task.solution }}
+                                                                    {{ task.solution }}
                                                                 </p>
                                                             </div>
                                                         </div>
