@@ -68,6 +68,7 @@ class Webinar(models.Model):
                                null=True)
     title = models.CharField(max_length=200, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
+    link_to_room = models.URLField(verbose_name='Ссылка на комнату вебинара', blank=True, null=True)
     code_of_translation = models.CharField(max_length=100, verbose_name='Код трансляции')
     date_start = models.DateTimeField(verbose_name='Дата начала')
     created = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)

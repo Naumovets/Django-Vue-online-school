@@ -41,8 +41,8 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Webinar)
 class WebinarAdmin(admin.ModelAdmin):
-    list_display = ('id', 'course', 'title', 'date_start', 'code_of_translation')
-    list_editable = ('title', 'date_start', 'code_of_translation')
+    list_display = ('id', 'course', 'title', 'date_start', 'code_of_translation', 'link_to_room')
+    list_editable = ('title', 'date_start', 'code_of_translation', 'link_to_room')
     ordering = ('id', 'title', 'course', 'date_start')
     search_fields = ('title', 'date_start', 'code_of_translation')
     inlines = [FileOfWebinarInline, TaskInline]
